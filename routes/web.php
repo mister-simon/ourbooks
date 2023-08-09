@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Shelf;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,4 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::view('/', 'welcome')->name('home');
+Route::get('/shelf/{shelf}', function (Shelf $shelf) {
+    return view('pages.[Shelf].index', ['shelf' => $shelf]);
+})
+    ->middleware('signed')
+    ->name('shelf');

@@ -1,8 +1,12 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
+const defaultTheme = require('tailwindcss/defaultTheme');
+const defaultColors = require('tailwindcss/colors');
 
 module.exports = {
     theme: {
         extend: {
+            colors: {
+                primary: defaultColors.amber
+            },
             fontFamily: {
                 sans: ['Inter var', ...defaultTheme.fontFamily.sans],
             },
