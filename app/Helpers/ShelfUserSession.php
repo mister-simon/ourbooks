@@ -15,4 +15,14 @@ final class ShelfUserSession
     {
         return session("shelf.{$shelf->id}", null);
     }
+
+    public static function all()
+    {
+        $list = session('shelf', []);
+
+        $shelfIds = array_keys($list);
+
+        return Shelf::whereIn('id', $shelfIds)
+            ->get();
+    }
 }

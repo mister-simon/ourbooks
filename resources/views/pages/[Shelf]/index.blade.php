@@ -9,7 +9,7 @@ state([
 ]);
 
 rules([
-    'user' => 'string|min:1',
+    'user' => 'required|string|min:1',
 ]);
 
 $name = computed(fn() => ShelfUserSession::get($this->shelf));
@@ -25,41 +25,45 @@ $addUser = function () {
 
 ?>
 <x-layouts.app :title="'OurBooks - ' . $shelf->title">
-    <div class="relative flex min-h-screen bg-gray-100 bg-center sm:items-center sm:justify-center">
-        <main class="pb-8">
-            @volt('shelf.index')
-                <div>
-                    <h1 class="mb-8 text-2xl"> {{ $shelf->title }}</h1>
+    <x-main>
+        @persist('shelf-list')
+            <livewire:shelf-list />
+        @endpersist
 
-                    <p>Hello, <em>{{ $this->name }}</em>. Maybe add some friends below?</p>
+        @volt('shelf.index')
+            <div>
+                <x-title>{{ $shelf->title }}</x-title>
 
-                    <div class="my-4 rounded-xl border border-primary-300 bg-slate-200 px-4 py-3">
-                        <form wire:submit="addUser">
-                            <div>
-                                <input type="text" wire:model="user" id="user" placeholder="Tone" />
-                                <x-button type="submit">Add</x-button>
-                                @error('user')
-                                    <p>{{ $message }}</p>
-                                @enderror
+                <p>Hello, <em>{{ $this->name }}</em>. Maybe add some friends below?</p>
 
-                            </div>
-                        </form>
-                    </div>
+                <x-well>
+                    <form wire:submit="addUser">
+                        <div>
+                            <input type="text" wire:model="user" id="user" placeholder="Tone" />
+
+                            <x-button type="submit">Add</x-button>
+
+                            @error('user')
+                                <p>{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </form>
 
                     @unless ($shelf->users->containsOneItem())
-                        <div class="my-4 rounded-xl border border-primary-300 bg-slate-200 px-4 py-3">
+                        <div class="mt-4">
                             <p class="text-sm">Not {{ $this->name }}?</p>
 
-                            @foreach ($shelf->users as $user)
-                                @continue($user === $this->name)
-                                <x-button wire:click="setUser('{{ $user }}')">{{ $user }}</x-button>
-                            @endforeach
+                            <div class="flex gap-2 pt-2">
+                                @foreach ($shelf->users as $user)
+                                    @continue($user === $this->name)
+                                    <x-button wire:click="setUser('{{ $user }}')">{{ $user }}</x-button>
+                                @endforeach
+                            </div>
                         </div>
                     @endunless
+                </x-well>
 
-                </div>
-            @endvolt
-
-        </main>
-    </div>
+            </div>
+        @endvolt
+    </x-main>
 </x-layouts.app>
