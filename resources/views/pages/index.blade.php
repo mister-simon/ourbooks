@@ -29,34 +29,36 @@ $create = function () {
 $shelves = computed(fn() => ShelfUserSession::all());
 
 ?>
-<x-layouts.app title="Welcome!">
+<x-layouts.app title="OurBooks - Home">
     <x-main>
-        <h1 class="mb-8 text-2xl">OurBooks</h1>
-
         @persist('shelf-list')
             <livewire:shelf-list />
         @endpersist
 
-        @volt('shelf')
-            <form wire:submit="create">
-                <div class="mb-4">
-                    <label for="title" class="block">Shelf Title</label>
-                    <input type="text" wire:model="title" id="title" placeholder="Simon + Toni's Books" />
-                    @error('title')
-                        <p>{{ $message }}</p>
-                    @enderror
-                </div>
+        <x-well>
+            <h1 class="mb-8 text-2xl">OurBooks</h1>
 
-                <div class="mb-4">
-                    <label for="user" class="block">Your Name</label>
-                    <input type="text" wire:model="user" id="user" placeholder="Tone" />
-                    @error('user')
-                        <p>{{ $message }}</p>
-                    @enderror
-                </div>
+            @volt('shelf.create')
+                <form wire:submit="create">
+                    <div class="mb-4">
+                        <label for="title" class="block">Shelf Title</label>
+                        <input type="text" wire:model="title" id="title" placeholder="Simon + Toni's Books" />
+                        @error('title')
+                            <p>{{ $message }}</p>
+                        @enderror
+                    </div>
 
-                <x-button type="submit">Build a New Shelf</x-button>
-            </form>
-        @endvolt
+                    <div class="mb-4">
+                        <label for="user" class="block">Your Name</label>
+                        <input type="text" wire:model="user" id="user" placeholder="Tone" />
+                        @error('user')
+                            <p>{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <x-button type="submit">Build a New Shelf</x-button>
+                </form>
+            @endvolt
+        </x-well>
     </x-main>
 </x-layouts.app>

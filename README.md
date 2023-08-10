@@ -17,3 +17,6 @@ Not sure about the name yet.
 - [ ] Password protect shelves?
 - [ ] `ourtome.cloud`, `shelves.cloud` ? Some other domain name?
 - [ ] Improve user handling to allow for users to be renamed / improve session locking
+
+- [ ] Add read / rating system
+- [ ] Computed "Anyone read?"

@@ -26,22 +26,22 @@ $addUser = function () {
 ?>
 <x-layouts.app :title="'OurBooks - ' . $shelf->title">
     <x-main>
-        @persist('shelf-list')
-            <livewire:shelf-list />
-        @endpersist
-
         @volt('shelf.index')
             <div>
-                <x-title>{{ $shelf->title }}</x-title>
-
-                <p>Hello, <em>{{ $this->name }}</em>. Maybe add some friends below?</p>
+                @persist('shelf-list')
+                    <livewire:shelf-list />
+                @endpersist
 
                 <x-well>
+                    <x-title>{{ $shelf->title }}</x-title>
+
+                    <p>Hello, <em>{{ $this->name }}</em>. Maybe add some friends below?</p>
+
                     <form wire:submit="addUser">
                         <div>
                             <input type="text" wire:model="user" id="user" placeholder="Tone" />
 
-                            <x-button type="submit">Add</x-button>
+                            <x-button type="submit">Add Friend</x-button>
 
                             @error('user')
                                 <p>{{ $message }}</p>
@@ -53,7 +53,7 @@ $addUser = function () {
                         <div class="mt-4">
                             <p class="text-sm">Not {{ $this->name }}?</p>
 
-                            <div class="flex gap-2 pt-2">
+                            <div class="flex flex-wrap gap-2 pt-2">
                                 @foreach ($shelf->users as $user)
                                     @continue($user === $this->name)
                                     <x-button wire:click="setUser('{{ $user }}')">{{ $user }}</x-button>
@@ -61,6 +61,10 @@ $addUser = function () {
                             </div>
                         </div>
                     @endunless
+                </x-well>
+
+                <x-well>
+                    <livewire:book-create :shelf="$shelf" />
                 </x-well>
 
             </div>
