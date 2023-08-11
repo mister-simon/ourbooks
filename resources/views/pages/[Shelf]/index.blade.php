@@ -24,7 +24,7 @@ $addUser = function () {
 };
 
 ?>
-<x-layouts.app :title="'OurBooks - ' . $shelf->title">
+<x-layouts.app :title="$shelf->title">
     <x-main>
         @volt('shelf.index')
             <div>

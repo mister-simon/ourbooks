@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('edition');
             $table->string('co_author');
 
-            $table->foreignUlid('shelf_id')
+            $table->foreignUlid('shelf_id');
         });
     }
 

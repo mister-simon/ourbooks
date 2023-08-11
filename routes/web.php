@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Shelf;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +21,12 @@ Route::get('/shelf/{shelf}', function (Shelf $shelf) {
 })
     ->middleware('signed')
     ->name('shelf');
+
+Route::get('auth/{user}/login', function (User $user) {
+    Auth::login($user);
+
+    return redirect('/')
+        ->with('status', 'Successfully logged in!');
+})
+    ->middleware('throttle', 'signed')
+    ->name('auth.login');

@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('shelves', function (Blueprint $table) {
             $table->ulid('id');
             $table->timestamps();
-
             $table->string('title');
-            $table->json('users');
+        });
+
+        Schema::create('shelf_user', function (Blueprint $table) {
+            $table->foreignUlid('shelf_id');
+            $table->foreignUlid('user_id');
         });
     }
 
