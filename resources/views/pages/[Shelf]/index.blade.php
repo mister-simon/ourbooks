@@ -35,23 +35,33 @@ $addUser = function () {
                 <x-well>
                     <x-title>{{ $shelf->title }}</x-title>
 
-                    <p>Hello, <em>{{ $this->name }}</em>. Maybe add some friends below?</p>
+                    @if ($this->name)
+                        <p>Hello, <em>{{ $this->name }}</em>.</p>
+                    @endif
 
-                    <form wire:submit="addUser">
-                        <div>
-                            <input type="text" wire:model="user" id="user" placeholder="Tone" />
+                    @if ($this->name)
+                        <p> Maybe add some friends below?</p>
 
-                            <x-button type="submit">Add Friend</x-button>
+                        <form wire:submit="addUser">
+                            <div>
+                                <input type="text" wire:model="user" id="user" placeholder="Tone" />
 
-                            @error('user')
-                                <p>{{ $message }}</p>
-                            @enderror
-                        </div>
-                    </form>
+                                <x-button type="submit">Add Friend</x-button>
 
-                    @unless ($shelf->users->containsOneItem())
+                                @error('user')
+                                    <p>{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </form>
+                    @endif
+
+                    @unless ($shelf->users->containsOneItem() || $this->name !== null)
                         <div class="mt-4">
-                            <p class="text-sm">Not {{ $this->name }}?</p>
+                            @if ($this->name)
+                                <p class="text-sm">Not {{ $this->name }}?</p>
+                            @else
+                                <p class="text-sm">Who are you?</p>
+                            @endif
 
                             <div class="flex flex-wrap gap-2 pt-2">
                                 @foreach ($shelf->users as $user)

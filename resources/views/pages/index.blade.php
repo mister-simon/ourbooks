@@ -13,6 +13,7 @@ state([
 rules([
     'title' => ['required', 'string', 'min:1'],
     'user' => ['required', 'string', 'min:1'],
+    'email' => ['required', 'email'],
 ])->attributes([
     'user' => 'name',
 ]);
@@ -20,8 +21,8 @@ rules([
 $create = function () {
     $data = $this->validate();
 
+    $user = User::firstOrCreate($data['user']);
     $shelf = Shelf::create($data);
-    ShelfUserSession::set($shelf, $this->user);
 
     $this->redirect($shelf->getUrl());
 };
@@ -40,18 +41,20 @@ $shelves = computed(fn() => ShelfUserSession::all());
 
             @volt('shelf.create')
                 <form wire:submit="create">
-                    <div class="mb-4">
-                        <label for="title" class="block">Shelf Title</label>
-                        <input type="text" wire:model="title" id="title" placeholder="Simon + Toni's Books" />
-                        @error('title')
-                            <p>{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-text-input name="title" label="Shelf Title" />
 
                     <div class="mb-4">
                         <label for="user" class="block">Your Name</label>
                         <input type="text" wire:model="user" id="user" placeholder="Tone" />
                         @error('user')
+                            <p>{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="email" class="block">Your Email</label>
+                        <input type="text" wire:model="email" id="email" placeholder="tone@example.com" />
+                        @error('email')
                             <p>{{ $message }}</p>
                         @enderror
                     </div>
