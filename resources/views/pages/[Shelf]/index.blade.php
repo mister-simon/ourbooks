@@ -1,20 +1,12 @@
 <?php
 
-use App\Helpers\ShelfUserSession;
+use App\Http\Middleware\RequireUserName;
+use function Laravel\Folio\{middleware};
 use function Livewire\Volt\{computed, state, rules};
 
-state([
-    'shelf' => fn() => $shelf,
-    'user' => null,
-]);
+middleware([RequireUserName::class]);
 
-rules([
-    'user' => 'required|string|min:1',
-]);
-
-$name = computed(fn() => ShelfUserSession::get($this->shelf));
-
-$setUser = fn($user) => ShelfUserSession::set($this->shelf, $user);
+state(['shelf' => fn() => $shelf]);
 
 $addUser = function () {
     $data = $this->validate();

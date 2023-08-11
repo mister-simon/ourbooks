@@ -22,11 +22,26 @@ Route::get('/shelf/{shelf}', function (Shelf $shelf) {
     ->middleware('signed')
     ->name('shelf');
 
-Route::get('auth/{user}/login', function (User $user) {
+Route::get('login/{user}', function (User $user) {
     Auth::login($user);
+
+    // Verify the user on their first login
+    if (! $user->hasVerifiedEmail()) {
+        $user->markEmailAsVerified();
+    }
+
+    if ($user->name === null) {
+        return to_route('profile');
+    }
 
     return redirect('/')
         ->with('status', 'Successfully logged in!');
 })
     ->middleware('throttle', 'signed')
     ->name('auth.login');
+
+Route::get('profile', function () {
+    return view('pages.profile');
+})
+    ->middleware(['auth'])
+    ->name('profile');

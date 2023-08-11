@@ -15,6 +15,7 @@ return new class extends Migration
             $table->ulid('id');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('name')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
