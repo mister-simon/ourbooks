@@ -1,6 +1,9 @@
 <?php
 
 use function Livewire\Volt\{state, rules};
+use function Laravel\Folio\{middleware};
+
+middleware(['auth']);
 
 state(['user' => fn() => Auth::user()]);
 state(['name' => fn() => $this->user->name]);
@@ -16,7 +19,7 @@ $create = function () {
 };
 
 ?>
-<x-layouts.app title="Home">
+<x-layouts.app title="Profile">
     <livewire:header />
 
     <x-main>

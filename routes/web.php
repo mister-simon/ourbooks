@@ -16,12 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Named folio routes
 Route::get('/shelf/{shelf}', function (Shelf $shelf) {
     return view('pages.[Shelf].index', ['shelf' => $shelf]);
-})
-    ->middleware('signed')
-    ->name('shelf');
+})->name('shelf');
 
+Route::get('profile', function () {
+    return view('pages.profile');
+})
+    ->name('profile');
+
+// Login Route
 Route::get('login/{user}', function (User $user) {
     Auth::login($user);
 
@@ -39,9 +44,3 @@ Route::get('login/{user}', function (User $user) {
 })
     ->middleware('throttle', 'signed')
     ->name('auth.login');
-
-Route::get('profile', function () {
-    return view('pages.profile');
-})
-    ->middleware(['auth'])
-    ->name('profile');

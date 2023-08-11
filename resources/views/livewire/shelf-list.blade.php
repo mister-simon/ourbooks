@@ -9,13 +9,13 @@ state(['shelves' => fn() => $this->user->shelves]);
 ?>
 
 <nav>
-
     @if ($this->shelves->isNotEmpty())
         <x-subtitle>Your Shelves</x-subtitle>
+
         <ul class="flex flex-wrap gap-2 py-2">
             @foreach ($this->shelves as $shelf)
                 <li>
-                    <x-link href="{{ $shelf->getUrl() }}">
+                    <x-link href="{{ route('shelf', ['shelf' => $shelf]) }}">
                         {{ $shelf->title }}
                     </x-link>
                 </li>
@@ -24,6 +24,4 @@ state(['shelves' => fn() => $this->user->shelves]);
     @else
         <x-subtitle>No Shelves Yet, Add One!</x-subtitle>
     @endif
-
-    <livewire:shelf-create />
 </nav>

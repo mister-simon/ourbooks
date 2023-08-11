@@ -15,6 +15,10 @@ middleware([RequireUserName::class]);
                 @persist('shelf-list')
                     <livewire:shelf-list />
                 @endpersist
+
+                <x-hr />
+
+                <livewire:shelf-create />
             @else
                 <livewire:login-link />
             @endauth
