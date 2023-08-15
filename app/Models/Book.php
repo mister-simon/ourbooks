@@ -17,4 +17,9 @@ class Book extends Model
     {
         return $this->belongsTo(Shelf::class);
     }
+
+    public function getSeriesTextAttribute()
+    {
+        return implode(' ', $this->only('series', 'series_index'));
+    }
 }
