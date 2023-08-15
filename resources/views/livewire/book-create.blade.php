@@ -18,7 +18,10 @@ rules([
 ]);
 
 $create = function () {
-    $this->validate();
+    $data = $this->validate();
+
+    $book = $this->shelf->books()->create($data);
+    $this->dispatch('book-created', book: $book->id);
 };
 
 ?>

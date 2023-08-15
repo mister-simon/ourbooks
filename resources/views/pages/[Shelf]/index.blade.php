@@ -2,12 +2,15 @@
 
 use App\Http\Middleware\RequireUserName;
 use function Laravel\Folio\{middleware};
-use function Livewire\Volt\{computed, state, rules};
+use function Livewire\Volt\{computed, state, rules, on};
 
 middleware(['auth', RequireUserName::class]);
 
 state(['shelf' => fn() => $shelf]);
 state(['user' => fn() => Auth::user()]);
+
+on(['shelf-user-added' => fn() => $this->shelf->load('users')]);
+on(['book-created' => fn() => $this->shelf->load('books')]);
 
 ?>
 <x-layouts.app :title="$shelf->title">
@@ -23,11 +26,11 @@ state(['user' => fn() => Auth::user()]);
                 <x-well>
                     <x-title>{{ $shelf->title }}</x-title>
 
-                    <p class="pb-4">This shelf is for {{ $shelf->users->map(fn($user) => $user->name ?? $user->email)->join(', ') }}</p>
+                    <p class="pb-4">This shelf belongs to {{ $shelf->userListString() }}</p>
 
                     <p> Maybe add some friends below?</p>
 
-                    <livewire:friend-login-link :shelf="$this->shelf" />
+                    <livewire:shelf-user-add :shelf="$this->shelf" />
 
                     @unless ($shelf->users->containsOneItem() || $this->user->name !== null)
                         <div class="mt-4">
@@ -49,8 +52,13 @@ state(['user' => fn() => Auth::user()]);
 
                 <x-well>
                     <livewire:book-create :shelf="$shelf" />
-                </x-well>
 
+                    @forelse ($shelf->books as $book)
+                        {{ dump($book) && '' }}
+                    @empty
+                        <p>No books yet.</p>
+                    @endforelse
+                </x-well>
             </div>
         @endvolt
     </x-main>

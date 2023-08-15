@@ -4,7 +4,7 @@ use App\Helpers\ShelfUserSession;
 use function Livewire\Volt\{state, computed};
 
 state(['user' => fn() => Auth::user()]);
-state(['shelves' => fn() => $this->user->shelves]);
+state(['shelves' => fn() => $this->user ? $this->user->shelves : collect([])]);
 
 ?>
 

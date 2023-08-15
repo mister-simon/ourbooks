@@ -19,7 +19,9 @@ $logout = function () {
 
         @auth
             <div class="flex items-center justify-between gap-4">
-                <span>Hi, {{ $user->name }}!</span>
+                @if ($user->name)
+                    <span>Hi, {{ $user->name }}!</span>
+                @endif
 
                 <x-link href="{{ route('profile') }}">Profile</x-link>
                 <form wire:submit="logout">
