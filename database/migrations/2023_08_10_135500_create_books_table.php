@@ -12,22 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('books', function (Blueprint $table) {
-            $table->ulid('id');
+            $table->ulid('id')->primary();
             $table->timestamps();
 
-            $table->string('series');
-            $table->unsignedBigInteger('series_index');
+            $table->string('series')->index();
+            $table->unsignedBigInteger('series_index')->index();
 
-            $table->string('author_surname');
-            $table->string('author_forename');
+            $table->string('author_surname')->index();
+            $table->string('author_forename')->index();
 
-            $table->string('book_title');
-            $table->string('genre');
+            $table->string('title');
+            $table->string('genre')->index();
             $table->string('edition');
             $table->string('co_author');
 
             $table->foreignUlid('shelf_id')
-                ->constrained('shelves')
+                ->constrained()
                 ->cascadeOnDelete();
         });
     }
