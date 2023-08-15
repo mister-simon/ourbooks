@@ -8,7 +8,7 @@ state(['shelf' => fn() => $shelf]);
 state(['user' => fn() => Auth::user()]);
 
 state(['email']);
-rules(['email' => ['required', 'email']]);
+rules(['email' => ['required', 'email', 'lowercase']]);
 
 state(['sent' => false]);
 
@@ -38,6 +38,7 @@ $submit = function () {
     <form wire:submit="submit">
         <x-email-input
             wire:model="email"
+            name="email"
             label="Their Email"
             placeholder="simon@example.com"
             autofocus />

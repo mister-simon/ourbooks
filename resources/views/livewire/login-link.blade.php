@@ -5,7 +5,7 @@ use App\Notifications\LoginLink;
 use function Livewire\Volt\{state, rules};
 
 state(['email']);
-rules(['email' => ['required', 'email']]);
+rules(['email' => ['required', 'email', 'lowercase']]);
 
 state(['sent' => false]);
 
