@@ -1,5 +1,5 @@
 <div class="self-centre mb-4 flex flex-col">
-    <label for="title" class="block">{{ $label ??str($attributes->get('name'))->replace('_', ' ')->title() }}</label>
+    <label for="{{ $attributes->get('id') ?? $attributes->get('name') }}" class="block">{{ $label ??str($attributes->get('name'))->replace('_', ' ')->title() }}</label>
 
     {{ $slot }}
 

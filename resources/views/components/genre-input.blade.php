@@ -10,6 +10,7 @@ $options = Genre::select();
     <input {{ $attributes->merge([
         'type' => 'text',
         'name' => $attributes->get('name'),
+        'id' => $attributes->get('id') ?? $attributes->get('name'),
         'list' => $randomId,
     ]) }} />
 
