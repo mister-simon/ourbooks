@@ -7,10 +7,20 @@ use function Livewire\Volt\{computed, state, rules, on};
 middleware(['auth', RequireUserName::class]);
 
 state(['shelf' => fn() => $shelf]);
+state(['books' => fn() => $this->getBooks()]);
 state(['user' => fn() => Auth::user()]);
 
+$getBooks = fn() => $this->shelf
+    ->books()
+    ->orderBy('author_surname')
+    ->orderBy('author_forename')
+    ->orderBy('series')
+    ->orderBy('series_index')
+    ->orderBy('title')
+    ->get();
+
 on(['shelf-user-added' => fn() => $this->shelf->load('users')]);
-on(['book-created' => fn() => $this->shelf->load('books')]);
+on(['book-created' => fn() => ($this->books = $this->getBooks())]);
 
 ?>
 <x-layouts.app :title="$shelf->title">
@@ -31,33 +41,21 @@ on(['book-created' => fn() => $this->shelf->load('books')]);
                     <p> Maybe add some friends below?</p>
 
                     <livewire:shelf-user-add :shelf="$this->shelf" />
-
-                    @unless ($shelf->users->containsOneItem() || $this->user->name !== null)
-                        <div class="mt-4">
-                            @if ($this->user->name)
-                                <p class="text-sm">Not {{ $this->user->name }}?</p>
-                            @else
-                                <p class="text-sm">Who are you?</p>
-                            @endif
-
-                            <div class="flex flex-wrap gap-2 pt-2">
-                                @foreach ($shelf->users as $user)
-                                    @continue($user === $this->user->name)
-                                    <x-button wire:click="setUser('{{ $user }}')">{{ $user }}</x-button>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endunless
                 </x-well>
 
                 <x-well>
                     <livewire:book-create :shelf="$shelf" />
 
-                    @forelse ($shelf->books as $book)
-                        {{ dump($book) && '' }}
-                    @empty
-                        <p>No books yet.</p>
-                    @endforelse
+                    <div class="mt-4">
+                        @forelse ($this->books as $book)
+                            <div>
+                                <h2>{{ $book->title }} - {{ join(' ', $book->only('author_surname', 'author_forename')) }}</h2>
+                            </div>
+                        @empty
+                            <p>No books yet.</p>
+                        @endforelse
+
+                    </div>
                 </x-well>
             </div>
         @endvolt
