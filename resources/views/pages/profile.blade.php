@@ -1,21 +1,26 @@
 <?php
 
-use function Livewire\Volt\{state, rules};
 use function Laravel\Folio\{middleware};
+use function Livewire\Volt\{state, rules};
+use Illuminate\Validation\Rule;
 
 middleware(['auth']);
 
 state(['user' => fn() => Auth::user()]);
 state(['name' => fn() => $this->user->name]);
+state(['email' => fn() => $this->user->email]);
 
-rules(['name' => ['required', 'string']]);
+rules([
+    'name' => ['required', 'string'],
+    'email' => ['required', 'email', Rule::unique('users')->ignoreModel(Auth::user())],
+]);
 
 $create = function () {
     $data = $this->validate();
 
     $this->user->update($data);
 
-    return $this->redirect('/');
+    $this->dispatch('profile-update');
 };
 
 ?>
@@ -32,9 +37,15 @@ $create = function () {
         <x-well>
             @volt('profile')
                 <form wire:submit="create">
-                    <x-text-input wire:model="name"
+                    <x-text-input
+                        wire:model="name"
                         name="name"
-                        label="Your Name" />
+                        label="Name" />
+
+                    <x-email-input
+                        wire:model="email"
+                        name="email"
+                        label="Email" />
 
                     <x-button type="submit">Save</x-button>
                 </form>

@@ -1,9 +1,11 @@
 <?php
 
-use function Livewire\Volt\{state};
+use function Livewire\Volt\{state, on};
 use Illuminate\Support\Facades\Auth;
 
 state(['user' => fn() => Auth::user()]);
+
+on(['profile-update' => fn() => ($this->user = Auth::user())]);
 
 $logout = function () {
     Auth::logout();
