@@ -1,7 +1,7 @@
 <?php
 
 use function Laravel\Folio\{middleware};
-use function Livewire\Volt\{state, rules};
+use function Livewire\Volt\{state, rules, updated};
 use Illuminate\Validation\Rule;
 
 middleware(['auth']);
@@ -9,18 +9,29 @@ middleware(['auth']);
 state(['user' => fn() => Auth::user()]);
 state(['name' => fn() => $this->user->name]);
 state(['email' => fn() => $this->user->email]);
+state(['success' => false]);
+
+updated(['email' => fn() => ($this->success = false)]);
+updated(['name' => fn() => ($this->success = false)]);
 
 rules([
     'name' => ['required', 'string'],
-    'email' => ['required', 'email', Rule::unique('users')->ignoreModel(Auth::user())],
+    'email' => ['required', 'email', 'lowercase', Rule::unique('users')->ignoreModel(Auth::user())],
 ]);
 
 $create = function () {
     $data = $this->validate();
 
+    $hadName = $this->user->name !== null;
+
     $this->user->update($data);
 
     $this->dispatch('profile-update');
+    $this->success = true;
+
+    if ($hadName === false) {
+        $this->redirect('/');
+    }
 };
 
 ?>
@@ -34,22 +45,27 @@ $create = function () {
             </div>
         @endif
 
-        <x-well>
-            @volt('profile')
+        @volt('profile')
+            <x-well>
+                @if ($this->success)
+                    <div class="bg-emerald-100 p-4">
+                        <p>Successfully updated</p>
+                    </div>
+                @endif
                 <form wire:submit="create">
                     <x-text-input
-                        wire:model="name"
+                        wire:model.live="name"
                         name="name"
                         label="Name" />
 
                     <x-email-input
-                        wire:model="email"
+                        wire:model.live="email"
                         name="email"
                         label="Email" />
 
                     <x-button type="submit">Save</x-button>
                 </form>
-            @endvolt
-        </x-well>
+            </x-well>
+        @endvolt
     </x-main>
 </x-layouts.app>
