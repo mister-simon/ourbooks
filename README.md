@@ -12,11 +12,8 @@ Not sure about the name yet.
 
 ## TODO
 
-- [ ] Lots of things
 - [ ] Add some book API to look up additional book details / thumbnails?
-- [ ] Password protect shelves?
+  - [ ] Open Library API enhancements? `https://openlibrary.org/search/authors.json?q=jasper+fforde`
 - [ ] `ourtome.cloud`, `shelves.cloud` ? Some other domain name?
-- [ ] Improve user handling to allow for users to be renamed / improve session locking
-
 - [ ] Add read / rating system
 - [ ] Computed "Anyone read?"
