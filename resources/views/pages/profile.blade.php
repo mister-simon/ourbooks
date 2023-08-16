@@ -1,10 +1,12 @@
 <?php
 
-use function Laravel\Folio\{middleware};
+use App\Http\Middleware\Authenticate;
+use function Laravel\Folio\{middleware, name};
 use function Livewire\Volt\{state, rules, updated};
 use Illuminate\Validation\Rule;
 
-middleware(['auth']);
+name('profile');
+middleware([Authenticate::class]);
 
 state(['user' => fn() => Auth::user()]);
 state(['name' => fn() => $this->user->name]);
@@ -16,7 +18,14 @@ updated(['name' => fn() => ($this->success = false)]);
 
 rules([
     'name' => ['required', 'string'],
-    'email' => ['required', 'email', 'lowercase', Rule::unique('users')->ignoreModel(Auth::user())],
+    'email' => [
+        'required',
+        'email',
+        'lowercase',
+        Rule::unique('users')
+            ->when(Auth::user())
+            ->ignoreModel(Auth::user())
+    ],
 ]);
 
 $create = function () {

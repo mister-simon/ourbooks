@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Middleware\RequireUserName;
-use function Laravel\Folio\{middleware};
+use function Laravel\Folio\{middleware, name};
 
+name('home');
 middleware([RequireUserName::class]);
 
 ?>

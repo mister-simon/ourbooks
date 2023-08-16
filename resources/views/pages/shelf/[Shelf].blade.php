@@ -1,34 +1,52 @@
 <?php
 
+use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\RequireUserName;
-use function Laravel\Folio\{middleware};
+use App\Models\Book;
+use function Laravel\Folio\{middleware, name};
 use function Livewire\Volt\{computed, state, rules, on};
 
-middleware(['auth', RequireUserName::class]);
+name('shelf');
+middleware([Authenticate::class, RequireUserName::class]);
 
 state(['shelf' => fn() => $shelf]);
-state(['books' => fn() => $this->getBooks()]);
 state(['user' => fn() => Auth::user()]);
 state(['state' => 'filter']);
+state(['filter' => null]);
 
-$getBooks = fn() => $this->shelf
-    ->books()
-    ->orderBy('author_surname')
-    ->orderBy('author_forename')
-    ->orderBy('series')
-    ->orderBy('series_index')
-    ->orderBy('title')
-    ->get();
+$books = computed(
+    fn() => $this->shelf
+        ->books()
+        ->orderBy('author_surname')
+        ->orderBy('author_forename')
+        ->orderBy('series')
+        ->orderBy('series_index')
+        ->orderBy('title')
+        ->when(
+            $this->filterIds !== null,
+            fn($query) => $query->whereIn('id', $this->filterIds)
+        )
+        ->get()
+);
+
+$filterIds = computed(
+    fn() => $this->filter
+        ? Book::search($this->filter)
+            ->where('shelf_id', $this->shelf->id)
+            ->get()
+            ->modelKeys()
+        : null
+);
 
 on(['shelf-user-added' => fn() => $this->shelf->load('users')]);
-on(['book-created' => fn() => ($this->books = $this->getBooks())]);
-on(['book-filter' => fn($filter) => debug($filter)]);
+on(['book-created' => fn() => ($this->shelf->refresh())]);
+on(['book-filter' => fn($filter) => $this->filter = $filter['search'] ?? null]);
 
 ?>
 <x-layouts.app :title="$shelf->title">
     <livewire:header />
 
-    <x-main>
+    <x-main class="container">
         @volt('shelf.index')
             <div>
                 <x-well>
@@ -50,6 +68,10 @@ on(['book-filter' => fn($filter) => debug($filter)]);
                         <x-button wire:click="$set('state', 'create')">Create</x-button>
                         <x-button wire:click="$set('state', 'filter')">Filter</x-button>
 
+                        <x-hr />
+
+                        Meep
+
                         @if ($this->state === 'create')
                             <livewire:book-create :shelf="$shelf" />
                         @endif
@@ -58,6 +80,8 @@ on(['book-filter' => fn($filter) => debug($filter)]);
                             <livewire:book-filter />
                         @endif
                     </div>
+
+                    <x-hr />
 
                     <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
                         @forelse ($this->books as $book)
