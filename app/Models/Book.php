@@ -26,6 +26,16 @@ class Book extends Model
         return implode(' ', $this->only('series', 'series_index'));
     }
 
+    public function getAuthorNameAttribute()
+    {
+        return implode(' ', $this->only('author_forename', 'author_surname'));
+    }
+
+    public function getAuthorSurnameCharAttribute()
+    {
+        return str($this->author_surname ?? '')->charAt(0);
+    }
+
     #[SearchUsingPrefix(['series_index'])]
     #[SearchUsingFullText(['series', 'author_surname', 'author_forename', 'title', 'genre', 'edition', 'co_author'])]
     public function toSearchableArray(): array

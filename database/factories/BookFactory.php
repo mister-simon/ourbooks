@@ -22,7 +22,7 @@ class BookFactory extends Factory
             'series_index' => fake()->numberBetween(0, 50),
             'author_surname' => fake()->lastName(),
             'author_forename' => fake()->firstName(),
-            'title' => fake()->words(asText: true),
+            'title' => str(fake()->words(asText: true))->title(),
             'genre' => fake()->randomElement(Genre::cases())->value,
             'edition' => fake()->randomElement([
                 'Hardback',

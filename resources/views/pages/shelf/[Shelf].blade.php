@@ -83,13 +83,23 @@ on(['book-filter' => fn($filter) => $this->filter = $filter['search'] ?? null]);
 
                     <x-hr />
 
-                    <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
                         @forelse ($this->books as $book)
-                            <div>
+                            @if ($loop->first)
+                                <div class="mt-4 ml-6 space-y-4">
+                            @endif
+                            <div @class([
+                                'px-2 relative',
+                                'border-primary-800 border-l-2' => $isNewSurnameChar = ($prev = $this->books[$loop->index - 1] ?? null) === null || ($prev->authorSurnameChar !== $book->authorSurnameChar)
+                            ])>
+                                @if ($isNewSurnameChar)
+                                    <div class="absolute top-0 right-full p-2 leading-none bg-primary-800 text-white text-xs font-mono">
+                                        {{ $book->authorSurnameChar }}
+                                    </div>
+                                @endif
                                 <h2>
                                     <span class="font-semibold">
                                         {{ $book->title }}
-                                    </span> - {{ join(' ', $book->only('author_forename', 'author_surname')) }}
+                                    </span> - {{ $book->authorName }}
                                     @if ($book->co_author)
                                         <span class="text-xs"> and {{ $book->co_author }}</span>
                                     @endif
@@ -101,12 +111,13 @@ on(['book-filter' => fn($filter) => $this->filter = $filter['search'] ?? null]);
                                     @endforeach
 
                                 </div>
-                            </div>
+                            @if ($loop->last)
+                                </div>
+                            @endif
+                        </div>
                         @empty
                             <p>No books yet.</p>
                         @endforelse
-
-                    </div>
                 </x-well>
             </div>
         @endvolt
