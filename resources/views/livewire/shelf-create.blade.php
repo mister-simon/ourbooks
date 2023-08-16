@@ -13,7 +13,7 @@ $create = function () {
     $shelf = Shelf::create($data);
     $shelf->users()->syncWithoutDetaching([$this->user->id]);
 
-    $this->redirect(route('shelf', ['shelf' => $shelf]));
+    return $this->redirect(route('shelf', ['shelf' => $shelf]));
 };
 
 ?>
