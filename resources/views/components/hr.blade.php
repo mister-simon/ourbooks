@@ -1,1 +1,3 @@
-<hr class="my-4 border-primary-300">
+<hr {{ $attributes->merge([
+    'class' => 'my-4 border-primary-300'
+]) }}>

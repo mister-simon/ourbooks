@@ -65,12 +65,21 @@ on(['book-filter' => fn($filter) => $this->filter = $filter['search'] ?? null]);
 
                 <x-well>
                     <div>
-                        <x-button wire:click="$set('state', 'create')">Create</x-button>
-                        <x-button wire:click="$set('state', 'filter')">Filter</x-button>
+                        <div class="overflow-hidden">
+                            <x-button
+                                wire:click="$set('state', 'create')"
+                                class="rounded-b-none {{$this->state !== 'create' ? 'opacity-70' : ''}}">
+                                Create
+                            </x-button>
+                            <x-button
+                                wire:click="$set('state', 'filter')"
+                                class="rounded-b-none {{$this->state !== 'filter' ? 'opacity-70' : ''}}">
+                                Filter
+                            </x-button>
 
-                        <x-hr />
+                        </div>
 
-                        Meep
+                        <x-hr class="mt-0 border-t-4 border-primary-500" />
 
                         @if ($this->state === 'create')
                             <livewire:book-create :shelf="$shelf" />
