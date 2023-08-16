@@ -15,16 +15,35 @@ return new class extends Migration
             $table->ulid('id')->primary();
             $table->timestamps();
 
-            $table->string('series')->index();
-            $table->unsignedBigInteger('series_index')->index();
-
-            $table->string('author_surname')->index();
-            $table->string('author_forename')->index();
-
             $table->string('title')->index();
-            $table->string('genre')->index();
-            $table->string('edition')->index();
-            $table->string('co_author')->index();
+
+            $table->string('series')
+                ->nullable()
+                ->index();
+
+            $table->unsignedBigInteger('series_index')
+                ->nullable()
+                ->index();
+
+            $table->string('author_surname')
+                ->nullable()
+                ->index();
+
+            $table->string('author_forename')
+                ->nullable()
+                ->index();
+
+            $table->string('co_author')
+                ->nullable()
+                ->index();
+
+            $table->string('genre')
+                ->nullable()
+                ->index();
+
+            $table->string('edition')
+                ->nullable()
+                ->index();
 
             $table->foreignUlid('shelf_id')
                 ->constrained()

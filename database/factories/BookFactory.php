@@ -34,7 +34,7 @@ class BookFactory extends Factory
                 'Paperback Boxset',
                 'SF Master Works - Gifted',
             ]),
-            'co_author' => fake()->name(),
+            'co_author' => fake()->optional()->name(),
         ];
     }
 }
