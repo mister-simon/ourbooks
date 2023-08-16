@@ -15,14 +15,14 @@ $logout = function () {
 
 ?>
 
-<header>
-    <nav class="flex items-center justify-between p-4">
+<header class="container mx-auto ">
+    <nav class="flex items-center justify-between p-4 flex-wrap">
         <a href="/">{{ config('app.name') }}</a>
 
         @auth
-            <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center justify-between gap-4 flex-wrap">
                 @if ($user->name)
-                    <span>Hi, {{ $user->name }}!</span>
+                    <span class="hidden sm:inline">Hi, {{ $user->name }}!</span>
                 @endif
 
                 <x-link href="{{ route('profile') }}">Profile</x-link>
