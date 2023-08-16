@@ -22,6 +22,10 @@ $create = function () {
 
     $book = $this->shelf->books()->create($data);
     $this->dispatch('book-created', book: $book->id);
+
+    $shelf = $this->shelf;
+    $this->reset();
+    $this->shelf = $shelf;
 };
 
 ?>
