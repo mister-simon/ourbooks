@@ -21,10 +21,10 @@ return new class extends Migration
             $table->string('author_surname')->index();
             $table->string('author_forename')->index();
 
-            $table->string('title');
+            $table->string('title')->index();
             $table->string('genre')->index();
-            $table->string('edition');
-            $table->string('co_author');
+            $table->string('edition')->index();
+            $table->string('co_author')->index();
 
             $table->foreignUlid('shelf_id')
                 ->constrained()
