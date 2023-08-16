@@ -92,41 +92,42 @@ on(['book-filter' => fn($filter) => $this->filter = $filter['search'] ?? null]);
 
                     <x-hr />
 
-                        @forelse ($this->books as $book)
-                            @if ($loop->first)
-                                <div class="mt-4 ml-6 space-y-4">
+                    @forelse ($this->books as $book)
+                        @if ($loop->first)
+                            <div class="mt-4 ml-6 space-y-4">
+                        @endif
+
+                        <div @class([
+                            'px-2 relative',
+                            'border-primary-800 border-l-2' => $isNewSurnameChar = ($prev = $this->books[$loop->index - 1] ?? null) === null || ($prev->authorSurnameChar !== $book->authorSurnameChar)
+                        ])>
+                            @if ($isNewSurnameChar)
+                                <div class="absolute top-0 right-full p-2 leading-none bg-primary-800 text-white text-xs font-mono">
+                                    {{ $book->authorSurnameChar }}
+                                </div>
                             @endif
-                            <div @class([
-                                'px-2 relative',
-                                'border-primary-800 border-l-2' => $isNewSurnameChar = ($prev = $this->books[$loop->index - 1] ?? null) === null || ($prev->authorSurnameChar !== $book->authorSurnameChar)
-                            ])>
-                                @if ($isNewSurnameChar)
-                                    <div class="absolute top-0 right-full p-2 leading-none bg-primary-800 text-white text-xs font-mono">
-                                        {{ $book->authorSurnameChar }}
-                                    </div>
+                            <h2>
+                                <span class="font-semibold">
+                                    {{ $book->title }}
+                                </span> - {{ $book->authorName }}
+                                @if ($book->co_author)
+                                    <span class="text-xs"> and {{ $book->co_author }}</span>
                                 @endif
-                                <h2>
-                                    <span class="font-semibold">
-                                        {{ $book->title }}
-                                    </span> - {{ $book->authorName }}
-                                    @if ($book->co_author)
-                                        <span class="text-xs"> and {{ $book->co_author }}</span>
-                                    @endif
-                                </h2>
+                            </h2>
 
-                                <div class="text-xs">
-                                    @foreach ($book->only('genre', 'series_text', 'edition') as $attribute => $value)
-                                        <p>{{ str($attribute)->replace('_', ' ')->title() }}: {{ $value }}</p>
-                                    @endforeach
-
-                                </div>
-                            @if ($loop->last)
-                                </div>
-                            @endif
+                            <div class="text-xs">
+                                @foreach ($book->only('genre', 'series_text', 'edition') as $attribute => $value)
+                                    <p>{{ str($attribute)->replace('_', ' ')->title() }}: {{ $value }}</p>
+                                @endforeach
+                            </div>
                         </div>
-                        @empty
-                            <p>No books yet.</p>
-                        @endforelse
+
+                        @if ($loop->last)
+                            </div>
+                        @endif
+                    @empty
+                        <p>No books yet.</p>
+                    @endforelse
                 </x-well>
             </div>
         @endvolt
