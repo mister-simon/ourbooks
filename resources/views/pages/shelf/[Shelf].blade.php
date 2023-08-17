@@ -5,14 +5,15 @@ use App\Http\Middleware\RequireUserName;
 use App\Models\Book;
 use function Laravel\Folio\{middleware, name};
 use function Livewire\Volt\{computed, state, rules, on};
+use Illuminate\Support\Arr;
 
 name('shelf');
 middleware([Authenticate::class, RequireUserName::class]);
 
 state(['shelf' => fn() => $shelf]);
 state(['user' => fn() => Auth::user()]);
-state(['state' => 'filter']);
-state(['filter' => null]);
+state(['state' => fn() => $this->shelf->books->isEmpty() ? 'create' : 'filter']);
+state(['search' => null]);
 
 $books = computed(
     fn() => $this->shelf
@@ -22,25 +23,29 @@ $books = computed(
         ->orderBy('series')
         ->orderBy('series_index')
         ->orderBy('title')
-        ->when(
-            $this->filterIds !== null,
-            fn($query) => $query->whereIn('id', $this->filterIds)
-        )
-        ->get()
+        ->when($this->filterIds !== null, fn($query) => $query->whereIn('id', $this->filterIds))
+        ->get(),
 );
 
-$filterIds = computed(
-    fn() => $this->filter
-        ? Book::search($this->filter)
-            ->where('shelf_id', $this->shelf->id)
-            ->get()
-            ->modelKeys()
-        : null
-);
+$filterIds = computed(function () {
+    if (!$this->search) {
+        return null;
+    }
+
+    return str($this->search)
+        ->explode(' or ')
+        ->map(
+            fn($searchPart) => Book::search($searchPart)
+                ->where('shelf_id', $this->shelf->id)
+                ->keys(),
+        )
+        ->flatten()
+        ->unique();
+});
 
 on(['shelf-user-added' => fn() => $this->shelf->load('users')]);
-on(['book-created' => fn() => ($this->shelf->refresh())]);
-on(['book-filter' => fn($filter) => $this->filter = $filter['search'] ?? null]);
+on(['book-created' => fn() => $this->shelf->refresh()]);
+on(['book-filter' => fn($filter) => ($this->search = $filter['search'] ?? null)]);
 
 ?>
 <x-layouts.app :title="$shelf->title">
@@ -68,15 +73,14 @@ on(['book-filter' => fn($filter) => $this->filter = $filter['search'] ?? null]);
                         <div class="overflow-hidden">
                             <x-button
                                 wire:click="$set('state', 'create')"
-                                class="rounded-b-none {{$this->state !== 'create' ? 'opacity-70' : ''}}">
+                                class="{{ $this->state !== 'create' ? 'opacity-70' : '' }} rounded-b-none">
                                 Create
                             </x-button>
                             <x-button
                                 wire:click="$set('state', 'filter')"
-                                class="rounded-b-none {{$this->state !== 'filter' ? 'opacity-70' : ''}}">
+                                class="{{ $this->state !== 'filter' ? 'opacity-70' : '' }} rounded-b-none">
                                 Filter
                             </x-button>
-
                         </div>
 
                         <x-hr class="mt-0 border-t-4 border-primary-500" />
@@ -86,48 +90,19 @@ on(['book-filter' => fn($filter) => $this->filter = $filter['search'] ?? null]);
                         @endif
 
                         @if ($this->state === 'filter')
-                            <livewire:book-filter />
+                            <livewire:book-filter :search="$this->search" />
                         @endif
                     </div>
 
                     <x-hr />
 
-                    @forelse ($this->books as $book)
-                        @if ($loop->first)
-                            <div class="mt-4 ml-6 space-y-4">
-                        @endif
+                    @if ($this->search)
+                        <p>{{ $this->books->count() }} results for search "{{ $this->search }}".</p>
+                    @endif
 
-                        <div @class([
-                            'px-2 relative',
-                            'border-primary-800 border-l-2' => $isNewSurnameChar = ($prev = $this->books[$loop->index - 1] ?? null) === null || ($prev->authorSurnameChar !== $book->authorSurnameChar)
-                        ])>
-                            @if ($isNewSurnameChar)
-                                <div class="absolute top-0 right-full p-2 leading-none bg-primary-800 text-white text-xs font-mono">
-                                    {{ $book->authorSurnameChar }}
-                                </div>
-                            @endif
-                            <h2>
-                                <span class="font-semibold">
-                                    {{ $book->title }}
-                                </span> - {{ $book->authorName }}
-                                @if ($book->co_author)
-                                    <span class="text-xs"> and {{ $book->co_author }}</span>
-                                @endif
-                            </h2>
-
-                            <div class="text-xs">
-                                @foreach ($book->only('genre', 'series_text', 'edition') as $attribute => $value)
-                                    <p>{{ str($attribute)->replace('_', ' ')->title() }}: {{ $value }}</p>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        @if ($loop->last)
-                            </div>
-                        @endif
-                    @empty
-                        <p>No books yet.</p>
-                    @endforelse
+                    <livewire:book-list
+                        :books="$this->books"
+                        :key="'books-' . $this->search . '-' . $this->books->count()" />
                 </x-well>
             </div>
         @endvolt

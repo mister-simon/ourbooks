@@ -1,7 +1,8 @@
 <?php
 
 use App\Models\Book;
-use function Livewire\Volt\{state, computed, rules};
+use function Livewire\Volt\{state, computed, rules, updated};
+use Illuminate\Support\Arr;
 
 state(['series', 'series_index', 'author_surname', 'author_forename', 'title', 'genre', 'edition', 'co_author']);
 state(['shelf' => fn() => $shelf]);
@@ -19,6 +20,7 @@ rules([
 
 $create = function () {
     $data = $this->validate();
+    $data = Arr::map($data, fn($value) => $value === '' ? null : $value);
 
     $book = $this->shelf->books()->create($data);
     $this->dispatch('book-created', book: $book->id);
@@ -27,6 +29,19 @@ $create = function () {
     $this->reset();
     $this->shelf = $shelf;
 };
+
+$dispatchSearch = function () {
+    $data = $this->only(['series', 'author_surname', 'author_forename', 'title', 'co_author']);
+
+    $this->dispatch('book-filter', filter: ['search' => Arr::join(array_filter($data), ' or ')]);
+};
+
+updated(
+    collect(['series', 'author_surname', 'author_forename', 'title', 'co_author'])
+        ->flip()
+        ->map(fn() => fn() => $this->dispatchSearch())
+        ->all(),
+);
 
 ?>
 
@@ -37,14 +52,14 @@ $create = function () {
 
     <form wire:submit="create">
         <div class="grid grid-cols-4 gap-2">
-            <x-text-input name="title" wire:model="title" />
-            <x-text-input name="author_surname" wire:model="author_surname" />
-            <x-text-input name="author_forename" wire:model="author_forename" />
-            <x-text-input name="co_author" wire:model="co_author" />
-            <x-genre-input name="genre" wire:model="genre" />
-            <x-text-input name="series" wire:model="series" />
-            <x-number-input name="series_index" wire:model="series_index" />
-            <x-text-input name="edition" wire:model="edition" />
+            <x-text-input name="title" wire:model.live="title" />
+            <x-text-input name="author_surname" wire:model.live="author_surname" />
+            <x-text-input name="author_forename" wire:model.live="author_forename" />
+            <x-text-input name="co_author" wire:model.live="co_author" />
+            <x-genre-input name="genre" wire:model.live="genre" />
+            <x-text-input name="series" wire:model.live="series" />
+            <x-number-input name="series_index" wire:model.live="series_index" />
+            <x-text-input name="edition" wire:model.live="edition" />
         </div>
 
         <x-button type="submit">Add Book</x-button>

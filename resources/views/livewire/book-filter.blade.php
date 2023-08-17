@@ -1,9 +1,9 @@
 <?php
 
 use App\Models\Book;
-use function Livewire\Volt\{state, rules, updated};
+use function Livewire\Volt\{state, rules, updated, on};
 
-state(['search']);
+state(['search' => fn() => $search]);
 rules(['search' => ['nullable', 'string']]);
 
 $filter = function () {
@@ -17,15 +17,11 @@ updated(['search' => fn() => $this->filter()]);
 ?>
 
 <div>
-    <x-subtitle>
-        Search
-    </x-subtitle>
-
     <form wire:submit="filter">
         <div class="grid grid-cols-4 gap-2">
             <x-text-input name="search" wire:model.live.debounce="search" />
         </div>
 
-        <x-button type="submit">Search</x-button>
+        <x-button type="submit" class="hidden">Search</x-button>
     </form>
 </div>
