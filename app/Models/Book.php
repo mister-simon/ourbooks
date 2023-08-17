@@ -33,7 +33,9 @@ class Book extends Model
 
     public function getAuthorSurnameCharAttribute()
     {
-        return str($this->author_surname ?? '')->charAt(0);
+        return $this->author_surname
+            ? str($this->author_surname)->charAt(0)
+            : '-';
     }
 
     #[SearchUsingPrefix(['series_index'])]
