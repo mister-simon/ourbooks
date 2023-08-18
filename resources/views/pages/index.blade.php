@@ -9,10 +9,8 @@ middleware([RequireUserName::class]);
 
 ?>
 <x-layouts.app title="Home">
-    <livewire:header />
-
     <x-main>
-        <x-well>
+        <x-card class="w-auto">
             @auth
                 @persist('shelf-list')
                     <livewire:shelf-list />
@@ -25,14 +23,14 @@ middleware([RequireUserName::class]);
                 <livewire:login-link />
 
                 @env('local')
-                <div class="bg-slate-300 rounded-lg p-4 mt-8 text-xs text-center space-y-4">
+                <div class="mt-8 space-y-4 rounded-lg bg-slate-300 p-4 text-center text-xs">
                     <p>Local Env Only:</p>
-                    <x-link :href="URL::signedRoute('auth.login', ['user' => $user = User::first()])">
-                        Login as {{$user->name}}
+                    <x-link :href="URL::signedRoute('auth.login', ['user' => ($user = User::first())])">
+                        Login as {{ $user->name }}
                     </x-link>
                 </div>
                 @endenv
             @endauth
-        </x-well>
+        </x-card>
     </x-main>
 </x-layouts.app>

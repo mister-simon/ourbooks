@@ -5,10 +5,7 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                primary: defaultColors.amber
-            },
-            fontFamily: {
-                sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+                primary: '#3b71ca'
             },
         },
     },
@@ -31,5 +28,7 @@ module.exports = {
     plugins: [
         require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
+        require("tw-elements/dist/plugin.cjs")
     ],
+    // darkMode: "class"
 }

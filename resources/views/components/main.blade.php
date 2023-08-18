@@ -1,5 +1,6 @@
-<div class="relative flex min-h-screen justify-center bg-gray-100 bg-center sm:items-center">
-    <main {{ $attributes->merge(['class' => 'px-4 pb-8']) }}>
-        {{ $slot }}
-    </main>
-</div>
+<main {{ $attributes->merge([
+    'class' => 'relative flex flex-1 justify-center bg-center sm:items-center',
+    'id' => 'content',
+]) }}>
+    {{ $slot }}
+</main>

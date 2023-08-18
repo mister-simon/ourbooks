@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="min-h-screen">
 
 <head>
     <meta charset="utf-8">
@@ -11,7 +11,9 @@
     <link rel="shortcut icon" href="{{ url(asset('favicon.ico')) }}">
 
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
+        rel="stylesheet" />
 
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
@@ -19,7 +21,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
-<body>
+<body class="flex min-h-screen flex-col transition-colors duration-500 dark:bg-neutral-800 dark:text-white">
+    <livewire:header />
     {{ $slot }}
 </body>
 

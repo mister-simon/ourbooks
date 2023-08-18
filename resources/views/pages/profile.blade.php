@@ -24,7 +24,7 @@ rules([
         'lowercase',
         Rule::unique('users')
             ->when(Auth::user())
-            ->ignoreModel(Auth::user())
+            ->ignoreModel(Auth::user()),
     ],
 ]);
 
@@ -45,8 +45,6 @@ $create = function () {
 
 ?>
 <x-layouts.app title="Profile">
-    <livewire:header />
-
     <x-main>
         @if (session()->has('status'))
             <div class="bg-emerald-100 p-4">
@@ -55,7 +53,9 @@ $create = function () {
         @endif
 
         @volt('profile')
-            <x-well>
+            <x-card class="w-auto">
+                <x-subtitle>Profile</x-subtitle>
+
                 @if ($this->success)
                     <div class="bg-emerald-100 p-4">
                         <p>Successfully updated</p>
@@ -74,7 +74,7 @@ $create = function () {
 
                     <x-button type="submit">Save</x-button>
                 </form>
-            </x-well>
+            </x-card>
         @endvolt
     </x-main>
 </x-layouts.app>

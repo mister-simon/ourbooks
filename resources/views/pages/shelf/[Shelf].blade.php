@@ -49,16 +49,14 @@ on(['book-filter' => fn($filter) => ($this->search = $filter['search'] ?? null)]
 
 ?>
 <x-layouts.app :title="$shelf->title">
-    <livewire:header />
-
-    <x-main class="container">
+    <x-main class="container mx-auto !items-start">
         @volt('shelf.index')
-            <div>
-                <x-well>
+            <div class="w-full space-y-4">
+                <x-card class="rounded-t-none">
                     <livewire:shelf-list />
-                </x-well>
+                </x-card>
 
-                <x-well>
+                <x-card>
                     <x-title>{{ $shelf->title }}</x-title>
 
                     <p class="pb-4">This shelf belongs to {{ $shelf->userListString() }}</p>
@@ -66,9 +64,9 @@ on(['book-filter' => fn($filter) => ($this->search = $filter['search'] ?? null)]
                     <p> Maybe add some friends below?</p>
 
                     <livewire:shelf-user-add :shelf="$this->shelf" />
-                </x-well>
+                </x-card>
 
-                <x-well>
+                <x-card>
                     <div>
                         <div class="overflow-hidden">
                             <x-button
@@ -83,7 +81,7 @@ on(['book-filter' => fn($filter) => ($this->search = $filter['search'] ?? null)]
                             </x-button>
                         </div>
 
-                        <x-hr class="mt-0 border-t-4 border-primary-500" />
+                        <x-hr class="border-primary-500 mt-0 border-t-4" />
 
                         @if ($this->state === 'create')
                             <livewire:book-create :shelf="$shelf" />
@@ -103,7 +101,7 @@ on(['book-filter' => fn($filter) => ($this->search = $filter['search'] ?? null)]
                     <livewire:book-list
                         :books="$this->books"
                         :key="'books-' . $this->search . '-' . $this->books->count()" />
-                </x-well>
+                </x-card>
             </div>
         @endvolt
     </x-main>

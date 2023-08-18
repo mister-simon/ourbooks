@@ -18,7 +18,7 @@ state([
 ]);
 
 state(['books' => fn() => $books]);
-state(['layout' => 'grid']);
+state(['layout' => 'list']);
 
 ?>
 
