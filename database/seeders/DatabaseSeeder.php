@@ -9,6 +9,7 @@ use App\Models\Shelf;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use League\Csv\Reader;
 
 class DatabaseSeeder extends Seeder
@@ -67,10 +68,18 @@ class DatabaseSeeder extends Seeder
                 )
                 ->transform(
                     fn ($value, $attribute) => $attribute === 'series_index'
-                        ? ($value === '' ? null : (int) $value)
+                        ? ($value === '' ? null : (int) (str($value)->replaceMatches('/[^\d]/', '')->toString()))
                         : $value
                 )
                 ->all();
+
+            if (Str::contains($data['title'], ' | ')) {
+                $series = Str::before($data['title'], ' | ');
+                $title = Str::after($data['title'], ' | ');
+
+                $data['series'] = $series;
+                $data['title'] = $title;
+            }
 
             $shelf->books()->create($data);
         }
