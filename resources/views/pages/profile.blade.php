@@ -45,15 +45,15 @@ $create = function () {
 
 ?>
 <x-layouts.app title="Profile">
-    <x-main>
+    <x-main class="container mx-auto">
         @if (session()->has('status'))
-            <div class="bg-emerald-100 p-4">
-                <p>{{ session('status') }}</p>
-            </div>
+            <x-alert-success>
+                {{ session('status') }}
+            </x-alert-success>
         @endif
 
         @volt('profile')
-            <x-card class="w-auto">
+            <x-card class="w-auto max-w-screen-md">
                 <x-subtitle>Profile</x-subtitle>
 
                 @if ($this->success)
@@ -65,12 +65,14 @@ $create = function () {
                     <x-text-input
                         wire:model.live="name"
                         name="name"
-                        label="Name" />
+                        label="Name"
+                        :data-te-input-state-active="$this->name !== null" />
 
                     <x-email-input
                         wire:model.live="email"
                         name="email"
-                        label="Email" />
+                        label="Email"
+                        :data-te-input-state-active="$this->email !== null" />
 
                     <x-button type="submit">Save</x-button>
                 </form>

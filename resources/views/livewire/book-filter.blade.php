@@ -18,12 +18,12 @@ updated(['search' => fn() => $this->filter()]);
 
 <div>
     <form wire:submit="filter">
-        <div class="flex items-center">
+        <div class="flex items-center gap-2">
             <x-text-input name="search" wire:model.live.debounce="search" />
 
             <x-button
                 type="submit"
-                class="ml-2 inline-flex flex-row items-center gap-2">
+                class="inline-flex flex-row items-center gap-2">
                 @svg('heroicon-o-magnifying-glass', 'w-4 h-4') Search
             </x-button>
         </div>

@@ -30,19 +30,21 @@ $submit = function () {
 
 <div>
     @if ($this->sent)
-        <div class="bg-emerald-100 p-4">
-            <p>Success! Your friend has been added and sent a login link!</p>
-        </div>
+        <x-alert-success>
+            Success! Your friend has been added and sent a login link!
+        </x-alert-success>
     @endif
 
     <form wire:submit="submit">
-        <x-email-input
-            wire:model="email"
-            name="email"
-            label="Their Email"
-            placeholder="simon@example.com"
-            autofocus />
+        <div class="flex items-center gap-2">
+            <x-email-input
+                wire:model="email"
+                name="email"
+                label="Their Email"
+                placeholder="simon@example.com"
+                autofocus />
 
-        <x-button type="submit">Add Friend</x-button>
+            <x-button type="submit">Add Friend</x-button>
+        </div>
     </form>
 </div>
