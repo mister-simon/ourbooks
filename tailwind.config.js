@@ -2,13 +2,6 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 const defaultColors = require('tailwindcss/colors');
 
 module.exports = {
-    theme: {
-        extend: {
-            colors: {
-                primary: '#3b71ca'
-            },
-        },
-    },
     variants: {
         extend: {
             backgroundColor: ['active'],
@@ -24,11 +17,17 @@ module.exports = {
         './resources/**/*.php',
         './resources/**/*.vue',
         './resources/**/*.twig',
+        "./node_modules/tw-elements/dist/js/**/*.js"
     ],
     plugins: [
-        require('@tailwindcss/forms'),
+        // require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
         require("tw-elements/dist/plugin.cjs")
     ],
+    // safelist: [
+    //     {
+    //         pattern: /./
+    //     }
+    // ]
     // darkMode: "class"
 }

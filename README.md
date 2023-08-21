@@ -22,3 +22,4 @@ Not sure about the name yet.
 - [ ] Add read / rating system
 - [ ] Computed "Anyone read?"
 - [ ] [https://tailwind-elements.com/ - Fully FOSS UI Library](https://tailwind-elements.com/)
+- [x] The button animations are broken... Probably just go without for now.

@@ -9,8 +9,8 @@ middleware([RequireUserName::class]);
 
 ?>
 <x-layouts.app title="Home">
-    <x-main>
-        <x-card class="w-auto">
+    <x-main class="container mx-auto">
+        <x-card class="w-auto max-w-screen-md">
             @auth
                 @persist('shelf-list')
                     <livewire:shelf-list />

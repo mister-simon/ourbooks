@@ -23,7 +23,7 @@ updated(['search' => fn() => $this->filter()]);
 
             <x-button
                 type="submit"
-                class="ml-2 mt-2 inline-flex h-11 flex-row items-center gap-2">
+                class="ml-2 inline-flex flex-row items-center gap-2">
                 @svg('heroicon-o-magnifying-glass', 'w-4 h-4') Search
             </x-button>
         </div>
