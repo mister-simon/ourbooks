@@ -17,7 +17,7 @@ $color = computed(function () {
 
 ?>
 
-<div class="{{ $this->color }} mb-2 flex shrink flex-row border" x-data="{ open: false }">
+<div class="{{ $this->color }} relative mb-2 flex shrink flex-row flex-wrap border border-b-0" x-data="{ open: false }">
     <button
         class="flex max-h-40 grow items-center justify-center self-stretch px-1 py-4 dark:bg-white/10"
         @click="open = !open">
@@ -51,6 +51,6 @@ $color = computed(function () {
                 <p>{{ str($attribute)->replace('_', ' ')->title() }}: {{ $value }}</p>
             @endforeach
         </div>
-
     </div>
+    <hr class="absolute -inset-x-96 top-full border-b-4 border-t-4 border-b-amber-950 border-t-amber-900">
 </div>
