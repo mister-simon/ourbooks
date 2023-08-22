@@ -12,8 +12,8 @@ $groupedBooks = computed(fn() => $this->books->groupBy('authorSurnameChar')->map
     @if ($this->books->isNotEmpty())
         <div class="relative mx-6 my-4 space-y-4">
             @foreach ($this->groupedBooks as $character => $booksByChar)
-                <div class="relative space-y-4">
-                    <div class="absolute right-full top-0 bg-primary-500 p-2 font-mono text-xs leading-none text-white">
+                <div class="relative space-y-4 overflow-hidden">
+                    <div class="absolute right-full top-0 bg-primary-500 p-2 font-mono text-xs leading-none">
                         <h2>{{ $character }}</h2>
                     </div>
 
@@ -25,9 +25,9 @@ $groupedBooks = computed(fn() => $this->books->groupBy('authorSurnameChar')->map
                                 @endif
                             </div>
 
-                            <div class="ml-4 grid grid-cols-4 gap-1 p-4">
+                            <div class="ml-4 grid gap-1 p-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
                                 @foreach ($booksByAuthor as $book)
-                                    <div class="border border-neutral-400 bg-white p-4 drop-shadow">
+                                    <div class="border border-neutral-400 p-4 drop-shadow">
                                         @if ($book->co_author)
                                             <span class="text-xs"> With {{ $book->co_author }}</span>
                                         @endif

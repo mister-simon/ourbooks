@@ -81,7 +81,7 @@ on(['book-filter' => fn($filter) => ($this->search = $filter['search'] ?? null)]
                             </x-button>
                         </div>
 
-                        <x-hr class="border-primary-500 mt-0 border-t-4" />
+                        <x-hr class="mt-0 border-t-4 border-primary-500" />
 
                         @if ($this->state === 'create')
                             <livewire:book-create :shelf="$shelf" />

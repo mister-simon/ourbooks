@@ -6,6 +6,8 @@ state(['books' => fn() => $books]);
 
 ?>
 
-<div>
-    Not implemented yet...
+<div class="flex flex-wrap items-end gap-y-2" id="shelf">
+    @foreach ($this->books as $book)
+        <livewire:book-list-shelf-book :book="$book" />
+    @endforeach
 </div>

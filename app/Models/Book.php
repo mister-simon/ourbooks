@@ -53,4 +53,10 @@ class Book extends Model
             'co_author' => $this->co_author,
         ];
     }
+
+    public function getIntegerHashAttribute()
+    {
+        return collect(str_split($this->title))
+            ->sum(fn ($char) => ord($char));
+    }
 }
