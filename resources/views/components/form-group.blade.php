@@ -1,4 +1,4 @@
-<div class="relative my-3" data-te-input-wrapper-init>
+<div class="relative my-3">
     {{ $slot }}
 
     <label

@@ -2,10 +2,10 @@ import './bootstrap';
 
 import {
     Collapse,
-    Input,
+    // Input,
     // Ripple,
     Sidenav,
     initTE,
 } from "tw-elements";
 
-initTE({ Collapse, Input, /* Ripple, */ Sidenav }, true);
+initTE({ Collapse, /* Input, */ /* Ripple, */ Sidenav }, true);
