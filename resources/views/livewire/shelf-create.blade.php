@@ -3,12 +3,14 @@
 use App\Models\Shelf;
 use function Livewire\Volt\{state, rules};
 
-state(['user' => fn() => Auth::user()]);
+state(['user' => fn() => Auth::user()])->locked();
 state(['title']);
 rules(['title' => ['required', 'string']]);
 
 $create = function () {
     $data = $this->validate();
+
+    $this->authorize('create', Shelf::class);
 
     $shelf = Shelf::create($data);
     $shelf->users()->syncWithoutDetaching([$this->user->id]);

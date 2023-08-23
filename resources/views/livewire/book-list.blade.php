@@ -17,7 +17,7 @@ state([
     ],
 ]);
 
-state(['books' => fn() => $books]);
+state(['books' => fn() => $books])->locked();
 state(['layout' => 'shelf']);
 
 ?>

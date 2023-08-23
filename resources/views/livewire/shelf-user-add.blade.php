@@ -4,8 +4,8 @@ use App\Models\User;
 use App\Notifications\ShelfInvitation;
 use function Livewire\Volt\{state, rules};
 
-state(['shelf' => fn() => $shelf]);
-state(['user' => fn() => Auth::user()]);
+state(['shelf' => fn() => $shelf])->locked();
+state(['user' => fn() => Auth::user()])->locked();
 
 state(['email']);
 rules(['email' => ['required', 'email', 'lowercase']]);

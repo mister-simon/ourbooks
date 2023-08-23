@@ -2,7 +2,7 @@
 
 use function Livewire\Volt\{state, computed};
 
-state(['books' => fn() => $books]);
+state(['books' => fn() => $books])->locked();
 
 $groupedBooks = computed(fn() => $this->books->groupBy('authorSurnameChar'));
 
@@ -19,4 +19,12 @@ $groupedBooks = computed(fn() => $this->books->groupBy('authorSurnameChar'));
             <livewire:book-list-shelf-book :book="$book" />
         @endforeach
     @endforeach
+
+    @if ($this->books->isEmpty())
+        <div class="relative -mt-10 mb-auto flex grow flex-row flex-wrap self-stretch px-1">
+            <span class="clip-b-arrow absolute top-0 border border-neutral-900 border-b-transparent bg-neutral-950 px-1 pb-4 font-mono text-sm font-bold">
+                No books yet...
+            </span>
+        </div>
+    @endif
 </div>

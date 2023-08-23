@@ -2,7 +2,7 @@
 
 use function Livewire\Volt\{state, computed};
 
-state(['books' => fn() => $books]);
+state(['books' => fn() => $books])->locked();
 
 ?>
 <div class="max-w-full overflow-auto">

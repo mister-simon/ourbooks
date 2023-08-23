@@ -3,8 +3,8 @@
 use App\Helpers\ShelfUserSession;
 use function Livewire\Volt\{state, computed};
 
-state(['user' => fn() => Auth::user()]);
-state(['shelves' => fn() => $this->user ? $this->user->shelves : collect([])]);
+state(['user' => fn() => Auth::user()])->locked();
+state(['shelves' => fn() => $this->user ? $this->user->shelves : collect([])])->locked();
 
 ?>
 

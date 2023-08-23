@@ -2,9 +2,8 @@
 
 use function Livewire\Volt\{state, computed};
 
-state(['book' => fn() => $book]);
+state(['book' => fn() => $book])->locked();
 state(['colors' => ['border-slate-600 bg-slate-600', 'border-slate-900 bg-slate-900', 'border-zinc-500 bg-zinc-500', 'border-neutral-600 bg-neutral-600', 'border-neutral-800 bg-neutral-800', 'border-orange-800 bg-orange-800', 'border-green-800 bg-green-800', 'border-sky-800 bg-sky-800', 'border-rose-800 bg-rose-800', 'border-teal-800 bg-teal-800', 'border-teal-900 bg-teal-900', 'border-green-900 bg-green-900']]);
-// state(['colors' => ['bg-slate-50 text-black', 'bg-slate-100 text-black', 'bg-slate-200 text-black', 'bg-slate-300 text-black', 'bg-slate-400 text-black', 'bg-slate-700', 'bg-slate-800', 'bg-slate-900']]);
 
 $colorIndex = computed(function () {
     $length = count($this->colors);

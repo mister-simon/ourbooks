@@ -3,7 +3,7 @@
 use function Livewire\Volt\{state, on};
 use Illuminate\Support\Facades\Auth;
 
-state(['user' => fn() => Auth::user()]);
+state(['user' => fn() => Auth::user()])->locked();
 
 on(['profile-update' => fn() => ($this->user = Auth::user())]);
 

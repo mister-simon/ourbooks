@@ -4,8 +4,8 @@ use App\Models\Book;
 use function Livewire\Volt\{state, computed, rules, updated};
 use Illuminate\Support\Arr;
 
+state(['shelf' => fn() => $shelf])->locked();
 state(['series', 'series_index', 'author_surname', 'author_forename', 'title', 'genre', 'edition', 'co_author']);
-state(['shelf' => fn() => $shelf]);
 
 rules([
     'series' => ['nullable', 'string'],

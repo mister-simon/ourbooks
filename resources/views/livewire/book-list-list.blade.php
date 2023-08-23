@@ -2,7 +2,7 @@
 
 use function Livewire\Volt\{state, computed};
 
-state(['books' => fn() => $books]);
+state(['books' => fn() => $books])->locked();
 
 $groupedBooks = computed(fn() => $this->books->groupBy('authorSurnameChar')->map(fn($booksByChar) => $booksByChar->groupBy('authorName')));
 
