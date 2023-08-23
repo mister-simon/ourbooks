@@ -19,6 +19,8 @@ rules([
 ]);
 
 $create = function () {
+    $this->authorize('create', [Book::class, $this->shelf]);
+
     $data = $this->validate();
     $data = Arr::map($data, fn($value) => $value === '' ? null : $value);
 
