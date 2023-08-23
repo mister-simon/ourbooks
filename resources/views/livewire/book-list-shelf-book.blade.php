@@ -35,12 +35,16 @@ $color = computed(function () {
         x-transition:leave="transition-all ease-in duration-300"
         x-transition:leave-end="opacity-0 transform scale-x-50">
 
-        @if ($this->book->co_author)
-            <span class="text-xs"> With {{ $this->book->co_author }}</span>
-        @endif
         <h4 class="font-semibold">
             {{ $this->book->title }}
         </h4>
+
+        @if ($this->book->author_name)
+            <span> {{ $this->book->author_name }}</span>
+        @endif
+        @if ($this->book->co_author)
+            <span class="text-xs"> With {{ $this->book->co_author }}</span>
+        @endif
 
         <div class="text-xs">
             @foreach ($this->book->only('genre', 'series_text', 'edition') as $attribute => $value)
@@ -48,5 +52,5 @@ $color = computed(function () {
             @endforeach
         </div>
     </div>
-    <hr class="absolute -inset-x-96 top-full border-b-4 border-t-4 border-b-amber-950 border-t-amber-900">
+    <hr class="absolute -inset-x-0 top-full w-screen -translate-x-1/2 border-b-4 border-t-4 border-b-amber-950 border-t-amber-900" role="presentation">
 </div>

@@ -48,3 +48,25 @@ select:invalid {
 .text-mode-vertical {
     writing-mode: vertical-rl;
 }
+
+.clip-b-bookmark {
+    clip-path: polygon(
+        0% 0%,
+        100% 0%,
+        100% 100%,
+        50% calc(100% - 10px),
+        0% 100%,
+        0% 0%
+    );
+}
+
+.clip-b-arrow {
+    clip-path: polygon(
+        0% 0%,
+        100% 0%,
+        100% calc(100% - 10px),
+        50% 100%,
+        0% calc(100% - 10px),
+        0% 0%
+    );
+}
