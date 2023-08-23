@@ -3,7 +3,7 @@
 use App\Models\Book;
 use function Livewire\Volt\{state, rules, updated, on};
 
-state(['search' => fn() => $search]);
+state(['search' => fn() => $search ?? null]);
 rules(['search' => ['nullable', 'string']]);
 
 $filter = function () {
@@ -13,6 +13,7 @@ $filter = function () {
 };
 
 updated(['search' => fn() => $this->filter()]);
+on(['book-filter' => fn($filter) => ($this->search = $filter['search'] ?? null)]);
 
 ?>
 
