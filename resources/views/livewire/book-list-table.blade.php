@@ -39,7 +39,7 @@ state(['books' => fn() => $books])->locked();
                 </tr>
             @empty
                 <tr>
-                    <td width="100%">No books yet...</td>
+                    <td width="100%">No books here...</td>
                 </tr>
             @endforelse
         </tbody>

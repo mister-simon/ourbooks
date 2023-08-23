@@ -47,6 +47,6 @@ $groupedBooks = computed(fn() => $this->books->groupBy('authorSurnameChar')->map
             @endforeach
         </div>
     @else
-        <p>No books yet.</p>
+        <p>No books here...</p>
     @endif
 </div>
