@@ -10,7 +10,7 @@ $groupedBooks = computed(fn() => $this->books->groupBy('authorSurnameChar'));
 
 <div class="relative">
     {{-- Controls --}}
-    <div class="sticky inset-x-0 top-16 z-20 mb-4 ml-4 drop-shadow">
+    <div class="sticky inset-x-0 top-10 z-20 -mb-[6px] bg-amber-950 p-4 text-center shadow-md sm:text-left lg:top-14">
         <x-button
             class="inline-flex gap-2 !px-2 shadow-lg"
             wire:click="$dispatch('books-list-expand')">

@@ -17,7 +17,7 @@ $color = computed(function () {
 ?>
 
 <div
-    class="{{ $this->color }} relative mb-2 flex shrink flex-row flex-wrap border border-b-0"
+    class="{{ $this->color }} relative mb-2 flex shrink flex-row border border-b-0"
     x-data="{ open: false }"
     :class="open && 'grow'">
     <button
