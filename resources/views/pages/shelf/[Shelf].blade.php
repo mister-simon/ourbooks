@@ -96,6 +96,7 @@ on(['book-filter' => fn($filter) => ($this->search = $filter['search'] ?? null)]
 
                     @if ($this->search)
                         <p>{{ $this->books->count() }} results for search "{{ $this->search }}".</p>
+                        <x-button wire:click="$dispatch('book-filter', { filter: {search: null} })">Clear Search</x-button>
                     @endif
 
                     <livewire:book-list
