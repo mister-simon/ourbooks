@@ -35,10 +35,6 @@ $color = computed(function () {
         x-transition:leave="transition-all ease-in duration-300"
         x-transition:leave-end="opacity-0 transform scale-x-50">
 
-        {{-- {{ $this->book->integer_hash }}
-        {{ $this->color }}
-        {{ $this->colorIndex }} --}}
-
         @if ($this->book->co_author)
             <span class="text-xs"> With {{ $this->book->co_author }}</span>
         @endif
