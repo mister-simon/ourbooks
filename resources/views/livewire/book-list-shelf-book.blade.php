@@ -28,7 +28,7 @@ $color = computed(function () {
     <div
         x-cloak
         x-show="open"
-        class="origin-left p-4"
+        class="custom-scrollbar max-h-40 origin-left overflow-auto p-4"
         x-transition:enter="transition-all ease-out duration-200"
         x-transition:enter-start="opacity-0 transform scale-x-50"
         x-transition:enter-end="opacity-100 transform scale-x-100"
