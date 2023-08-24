@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\ReadStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class BookUser extends Pivot
@@ -20,4 +21,14 @@ class BookUser extends Pivot
     protected $casts = [
         'read' => ReadStatus::class,
     ];
+
+    public function book(): BelongsTo
+    {
+        return $this->belongsTo(Book::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

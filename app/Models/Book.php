@@ -35,6 +35,8 @@ class Book extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class)
+            ->withPivot(['read', 'rating'])
+            ->withTimestamps()
             ->using(BookUser::class);
     }
 
@@ -75,5 +77,12 @@ class Book extends Model
     {
         return collect(str_split($this->title))
             ->sum(fn ($char) => ord($char));
+    }
+
+    public function getWasReadAttribute()
+    {
+        return $this->users
+            ->pluck('pivot.read')
+            ->dd();
     }
 }
