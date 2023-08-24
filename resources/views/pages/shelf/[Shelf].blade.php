@@ -5,10 +5,12 @@ use App\Http\Middleware\RequireUserName;
 use App\Models\Book;
 use function Laravel\Folio\{middleware, name};
 use function Livewire\Volt\{computed, state, rules, on};
+use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Support\Arr;
 
 name('shelf');
 middleware([Authenticate::class, RequireUserName::class]);
+middleware([Authorize::using('view', 'shelf')]);
 
 state(['shelf' => fn() => $shelf]);
 state(['user' => fn() => Auth::user()]);
@@ -95,8 +97,10 @@ on(['book-filter' => fn($filter) => ($this->search = $filter['search'] ?? null)]
                     <x-hr />
 
                     @if ($this->search)
-                        <p>{{ $this->books->count() }} results for search "{{ $this->search }}".</p>
-                        <x-button wire:click="$dispatch('book-filter', { filter: {search: null} })">Clear Search</x-button>
+                        <div class="flex justify-between">
+                            <p>{{ $this->books->count() }} results for search "{{ $this->search }}".</p>
+                            <x-button wire:click="$dispatch('book-filter', { filter: {search: null} })">Clear Search</x-button>
+                        </div>
                     @endif
 
                     <livewire:book-list
