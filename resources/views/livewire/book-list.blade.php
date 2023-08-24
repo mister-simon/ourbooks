@@ -1,6 +1,6 @@
 <?php
 
-use function Livewire\Volt\{state};
+use function Livewire\Volt\{state, updating};
 
 state([
     'layouts' => [
@@ -17,8 +17,8 @@ state([
     ],
 ]);
 
-state(['books' => fn() => $books])->locked();
-state(['layout' => 'shelf']);
+state(['shelf' => fn() => $shelf])->locked();
+state(['layout']);
 
 ?>
 
@@ -34,13 +34,16 @@ state(['layout' => 'shelf']);
     </div>
 
     @if ($layout === 'list')
-        <livewire:book-list-list :books="$this->books" />
+        <livewire:book-list-list
+            :shelf="$this->shelf" />
     @elseif ($layout === 'grid')
-        <livewire:book-list-grid :books="$this->books" />
+        <livewire:book-list-grid
+            :shelf="$this->shelf" />
     @elseif ($layout === 'shelf')
-        <livewire:book-list-shelf :books="$this->books" />
-    @elseif ($layout === 'table')
-        <livewire:book-list-table :books="$this->books" />
+        <livewire:book-list-shelf
+            :shelf="$this->shelf" />
+    @else
+        <livewire:book-list-table
+            :shelf="$this->shelf" />
     @endif
-
 </div>

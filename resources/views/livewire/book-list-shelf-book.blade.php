@@ -7,6 +7,7 @@ state(['colors' => ['border-slate-300 bg-slate-300 dark:border-slate-600 dark:bg
 
 $colorIndex = computed(function () {
     $length = count($this->colors);
+
     return $this->book->integer_hash % $length;
 });
 

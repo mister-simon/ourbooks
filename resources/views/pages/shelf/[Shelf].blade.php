@@ -12,42 +12,13 @@ name('shelf');
 middleware([Authenticate::class, RequireUserName::class]);
 middleware([Authorize::using('view', 'shelf')]);
 
-state(['shelf' => fn() => $shelf]);
-state(['user' => fn() => Auth::user()]);
+state(['shelf' => fn() => $shelf])->locked();
 state(['state' => fn() => $this->shelf->books->isEmpty() ? 'create' : 'filter']);
-state(['search' => null]);
 
-$books = computed(
-    fn() => $this->shelf
-        ->books()
-        ->orderBy('author_surname')
-        ->orderBy('author_forename')
-        ->orderBy('series')
-        ->orderBy('series_index')
-        ->orderBy('title')
-        ->when($this->filterIds !== null, fn($query) => $query->whereIn('id', $this->filterIds))
-        ->get(),
-);
-
-$filterIds = computed(function () {
-    if (!$this->search) {
-        return null;
-    }
-
-    return str($this->search)
-        ->explode(' or ')
-        ->map(
-            fn($searchPart) => Book::search($searchPart)
-                ->where('shelf_id', $this->shelf->id)
-                ->keys(),
-        )
-        ->flatten()
-        ->unique();
-});
+$users = computed(fn() => $this->shelf->users->keyBy('id'));
 
 on(['shelf-user-added' => fn() => $this->shelf->load('users')]);
 on(['book-created' => fn() => $this->shelf->refresh()]);
-on(['book-filter' => fn($filter) => ($this->search = $filter['search'] ?? null)]);
 
 ?>
 <x-layouts.app :title="$shelf->title">
@@ -90,22 +61,14 @@ on(['book-filter' => fn($filter) => ($this->search = $filter['search'] ?? null)]
                         @endif
 
                         @if ($this->state === 'filter')
-                            <livewire:book-filter :search="$this->search" />
+                            <livewire:book-filter />
                         @endif
                     </div>
 
                     <x-hr />
 
-                    @if ($this->search)
-                        <div class="flex justify-between">
-                            <p>{{ $this->books->count() }} results for search "{{ $this->search }}".</p>
-                            <x-button wire:click="$dispatch('book-filter', { filter: {search: null} })">Clear Search</x-button>
-                        </div>
-                    @endif
-
                     <livewire:book-list
-                        :books="$this->books"
-                        :key="'books-' . $this->search . '-' . $this->books->count()" />
+                        :shelf="$this->shelf" />
                 </x-card>
             </div>
         @endvolt

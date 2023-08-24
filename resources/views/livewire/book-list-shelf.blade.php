@@ -1,14 +1,64 @@
 <?php
 
-use function Livewire\Volt\{state, computed};
+use App\Models\Book;
+use function Livewire\Volt\{computed, state, on, mount};
 
-state(['books' => fn() => $books])->locked();
+state(['shelf' => fn() => $shelf])->locked();
+
+state(['search']);
+on([
+    'book-filter' => function ($filter) {
+        $this->search = $filter['search'] ?? null;
+    },
+]);
+
+mount(fn() => $this->dispatch('book-filter-refresh', search: null));
+
+$books = computed(
+    fn() => $this->shelf
+        ->books()
+        ->orderBy('author_surname')
+        ->orderBy('author_forename')
+        ->orderBy('series')
+        ->orderBy('series_index')
+        ->orderBy('title')
+        ->when($this->filterIds !== null, fn($query) => $query->whereIn('id', $this->filterIds))
+        ->with('bookUsers.user')
+        ->get(),
+);
+
+$filterIds = computed(function () {
+    if (!$this->search) {
+        return null;
+    }
+
+    return str($this->search)
+        ->explode(' or ')
+        ->map(
+            fn($searchPart) => Book::search($searchPart)
+                ->where('shelf_id', $this->shelf->id)
+                ->keys(),
+        )
+        ->flatten()
+        ->unique();
+});
 
 $groupedBooks = computed(fn() => $this->books->groupBy('authorSurnameChar'));
 
 ?>
 
 <div class="relative">
+    @if ($this->search)
+        <div class="flex justify-between">
+            <p>{{ $this->books->count() }} results for search "{{ $this->search }}".</p>
+            <x-button wire:click="$dispatch('book-filter-search', { search: null })">Clear Search</x-button>
+        </div>
+    @else
+        <div class="flex justify-between">
+            <p>{{ $this->books->count() }} books on the shelf.</p>
+        </div>
+    @endif
+
     {{-- Controls --}}
     <div class="sticky inset-x-0 top-10 z-20 -mb-[6px] bg-amber-950 p-4 text-center shadow-md sm:text-left lg:top-14">
         <x-button

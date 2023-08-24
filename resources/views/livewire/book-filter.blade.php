@@ -1,9 +1,9 @@
 <?php
 
 use App\Models\Book;
-use function Livewire\Volt\{state, rules, updated, on};
+use function Livewire\Volt\{state, rules, updated, booted, on};
 
-state(['search' => fn() => $search ?? null]);
+state(['search'])->url();
 rules(['search' => ['nullable', 'string']]);
 
 $filter = function () {
@@ -13,7 +13,17 @@ $filter = function () {
 };
 
 updated(['search' => fn() => $this->filter()]);
-on(['book-filter' => fn($filter) => ($this->search = $filter['search'] ?? null)]);
+// booted(fn() => $this->filter());
+
+on([
+    'book-filter-search' => function ($search) {
+        $this->search = $search;
+        $this->filter();
+    },
+    'book-filter-refresh' => function () {
+        $this->filter();
+    },
+]);
 
 ?>
 
