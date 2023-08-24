@@ -4,14 +4,14 @@ use function Livewire\Volt\{state};
 
 state([
     'layouts' => [
-        'list' => 'book-list-list',
-        'grid' => 'book-list-grid',
+        // 'list' => 'book-list-list',
+        // 'grid' => 'book-list-grid',
         'shelf' => 'book-list-shelf',
         'table' => 'book-list-table',
     ],
     'icons' => [
-        'list' => 'heroicon-o-list-bullet',
-        'grid' => 'heroicon-o-squares-2x2',
+        // 'list' => 'heroicon-o-list-bullet',
+        // 'grid' => 'heroicon-o-squares-2x2',
         'shelf' => 'heroicon-o-view-columns',
         'table' => 'heroicon-o-table-cells',
     ],
