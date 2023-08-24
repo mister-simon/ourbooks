@@ -11,8 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('book_users', function (Blueprint $table) {
-            $table->id();
+        Schema::create('book_user', function (Blueprint $table) {
+            $table->foreignUlid('book_id')
+                ->constrained('books')
+                ->cascadeOnDelete();
+
+            $table->foreignUlid('user_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->primary(['book_id', 'user_id']);
+
+            $table->char('read', 1)
+                ->nullable()
+                ->index();
+
+            $table->decimal('rating', 4, 2, true)
+                ->nullable()
+                ->index();
+
             $table->timestamps();
         });
     }
@@ -22,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('book_users');
+        Schema::dropIfExists('book_user');
     }
 };

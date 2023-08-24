@@ -47,4 +47,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Shelf::class);
     }
+
+    public function books(): BelongsToMany
+    {
+        return $this->belongsToMany(Book::class)
+            ->using(BookUser::class);
+    }
 }

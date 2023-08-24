@@ -10,14 +10,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Shelf extends Model
 {
-    use HasUlids;
-    use HasFactory;
+    use HasUlids, HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'id',
+        'title',
+    ];
 
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function books(): HasMany
+    {
+        return $this->hasMany(Book::class);
     }
 
     public function userListString()
@@ -28,10 +35,5 @@ class Shelf extends Model
             )
             ->sort(SORT_NATURAL | SORT_FLAG_CASE)
             ->join(', ', ', and ');
-    }
-
-    public function books(): HasMany
-    {
-        return $this->hasMany(Book::class);
     }
 }

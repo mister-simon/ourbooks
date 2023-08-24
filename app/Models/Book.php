@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Scout\Attributes\SearchUsingFullText;
 use Laravel\Scout\Attributes\SearchUsingPrefix;
 use Laravel\Scout\Searchable;
@@ -14,11 +15,27 @@ class Book extends Model
 {
     use HasFactory, HasUlids, Searchable;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'id',
+        'author_surname',
+        'author_forename',
+        'series_index',
+        'title',
+        'genre',
+        'edition',
+        'co_author',
+        'series',
+    ];
 
     public function shelf(): BelongsTo
     {
         return $this->belongsTo(Shelf::class);
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)
+            ->using(BookUser::class);
     }
 
     public function getSeriesTextAttribute()
