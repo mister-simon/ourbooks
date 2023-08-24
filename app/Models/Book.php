@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Scout\Attributes\SearchUsingFullText;
 use Laravel\Scout\Attributes\SearchUsingPrefix;
 use Laravel\Scout\Searchable;
@@ -30,6 +31,11 @@ class Book extends Model
     public function shelf(): BelongsTo
     {
         return $this->belongsTo(Shelf::class);
+    }
+
+    public function bookUsers(): HasMany
+    {
+        return $this->hasMany(BookUser::class);
     }
 
     public function users(): BelongsToMany
