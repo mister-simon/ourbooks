@@ -35,7 +35,12 @@ class DatabaseSeeder extends Seeder
             ->create(['email' => 'test@example.com']);
     }
 
-    protected function importCsv($path)
+    /**
+     * Imports data into the system based on a pretty specific data structure.
+     * Roughly based on the google sheet previously used for tracking books.
+     * See the example import.csv
+     */
+    protected function importCsv(string $path)
     {
         // Prepare reader
         $reader = Reader::createFromPath($path, 'r')
@@ -109,7 +114,7 @@ class DatabaseSeeder extends Seeder
             // Normalise series index numeric, strip any non-nums
             $seriesIndex = $data['series_index'];
 
-            if ($seriesIndex !== null && is_numeric($seriesIndex)) {
+            if ($seriesIndex !== null && is_numeric($seriesIndex) === false) {
                 $data['series_index'] = str($seriesIndex)
                     ->replaceMatches('/[^\d]/', '')
                     ->toInteger();
