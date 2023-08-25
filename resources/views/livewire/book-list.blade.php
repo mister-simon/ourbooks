@@ -17,12 +17,15 @@ state([
     ],
 ]);
 
+state(['search']);
 state(['shelf' => fn() => $shelf])->locked();
 state(['layout']);
 
 ?>
 
 <div>
+    {{ $this->search }}
+
     <div class="mb-8">
         @foreach ($this->icons as $name => $svgComponent)
             <x-button

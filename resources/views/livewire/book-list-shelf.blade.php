@@ -5,14 +5,10 @@ use function Livewire\Volt\{computed, state, on, mount};
 
 state(['shelf' => fn() => $shelf])->locked();
 
-state(['search']);
-on([
-    'book-filter' => function ($filter) {
-        $this->search = $filter['search'] ?? null;
-    },
-]);
+state(['search'])->reactive();
+on(['book-search' => fn($search) => ($this->search = $search ?? null)]);
 
-mount(fn() => $this->dispatch('book-filter-refresh', search: null));
+mount(fn() => $this->dispatch('book-search-refresh', search: null));
 
 $books = computed(
     fn() => $this->shelf
@@ -51,7 +47,7 @@ $groupedBooks = computed(fn() => $this->books->groupBy('authorSurnameChar'));
     @if ($this->search)
         <div class="flex justify-between">
             <p>{{ $this->books->count() }} results for search "{{ $this->search }}".</p>
-            <x-button wire:click="$dispatch('book-filter-search', { search: null })">Clear Search</x-button>
+            <x-button wire:click="$dispatch('book-search-set', { search: null })">Clear Search</x-button>
         </div>
     @else
         <div class="flex justify-between">

@@ -23,7 +23,7 @@ middleware([RequireUserName::class]);
                 <livewire:login-link />
 
                 @env('local')
-                <div class="mt-8 space-y-4 rounded-lg bg-slate-300 p-4 text-center text-xs">
+                <div class="mt-8 space-y-4 rounded-lg bg-slate-300 p-4 text-center text-xs dark:bg-slate-800">
                     <p>Local Env Only:</p>
                     <x-link :href="URL::signedRoute('auth.login', ['user' => ($user = User::first())])">
                         Login as {{ $user->name }}
