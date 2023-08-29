@@ -21,6 +21,7 @@
                     <td scope="col" class="px-6 py-2">Genre</td>
                     <td scope="col" class="px-6 py-2">Edition</td>
                     <td scope="col" class="px-6 py-2">Co Author</td>
+                    <td scope="col" class="px-6 py-2">Actions</td>
                 </tr>
             </thead>
             <tbody>
