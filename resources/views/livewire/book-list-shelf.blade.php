@@ -1,48 +1,3 @@
-<?php
-
-use App\Models\Book;
-use function Livewire\Volt\{computed, state, on, mount};
-
-state(['shelf' => fn() => $shelf])->locked();
-
-state(['search'])->reactive();
-on(['book-search' => fn($search) => ($this->search = $search ?? null)]);
-
-mount(fn() => $this->dispatch('book-search-refresh', search: null));
-
-$books = computed(
-    fn() => $this->shelf
-        ->books()
-        ->orderBy('author_surname')
-        ->orderBy('author_forename')
-        ->orderBy('series')
-        ->orderBy('series_index')
-        ->orderBy('title')
-        ->when($this->filterIds !== null, fn($query) => $query->whereIn('id', $this->filterIds))
-        ->with('bookUsers.user')
-        ->get(),
-);
-
-$filterIds = computed(function () {
-    if (!$this->search) {
-        return null;
-    }
-
-    return str($this->search)
-        ->explode(' or ')
-        ->map(
-            fn($searchPart) => Book::search($searchPart)
-                ->where('shelf_id', $this->shelf->id)
-                ->keys(),
-        )
-        ->flatten()
-        ->unique();
-});
-
-$groupedBooks = computed(fn() => $this->books->groupBy('authorSurnameChar'));
-
-?>
-
 <div class="relative">
     @if ($this->search)
         <div class="flex justify-between">
@@ -79,7 +34,9 @@ $groupedBooks = computed(fn() => $this->books->groupBy('authorSurnameChar'));
                 </span>
             </div>
             @foreach ($group as $book)
-                <livewire:book-list-shelf-book :book="$book" />
+                <livewire:book-list-shelf-book
+                    :book="$book"
+                    :key="'shelfBook-' . $book->id" />
             @endforeach
         @endforeach
 

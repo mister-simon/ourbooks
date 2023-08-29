@@ -1,31 +1,4 @@
-<?php
-
-use function Livewire\Volt\{state, updating};
-
-state([
-    'layouts' => [
-        // 'list' => 'book-list-list',
-        // 'grid' => 'book-list-grid',
-        'shelf' => 'book-list-shelf',
-        'table' => 'book-list-table',
-    ],
-    'icons' => [
-        // 'list' => 'heroicon-o-list-bullet',
-        // 'grid' => 'heroicon-o-squares-2x2',
-        'shelf' => 'heroicon-o-view-columns',
-        'table' => 'heroicon-o-table-cells',
-    ],
-]);
-
-state(['search']);
-state(['shelf' => fn() => $shelf])->locked();
-state(['layout']);
-
-?>
-
 <div>
-    {{ $this->search }}
-
     <div class="mb-8">
         @foreach ($this->icons as $name => $svgComponent)
             <x-button
@@ -36,17 +9,13 @@ state(['layout']);
         @endforeach
     </div>
 
-    @if ($layout === 'list')
-        <livewire:book-list-list
-            :shelf="$this->shelf" />
-    @elseif ($layout === 'grid')
-        <livewire:book-list-grid
-            :shelf="$this->shelf" />
-    @elseif ($layout === 'shelf')
+    @if ($layout === 'shelf')
         <livewire:book-list-shelf
-            :shelf="$this->shelf" />
+            :shelf="$this->shelf"
+            :search="$this->search" />
     @else
         <livewire:book-list-table
-            :shelf="$this->shelf" />
+            :shelf="$this->shelf"
+            :search="$this->search" />
     @endif
 </div>

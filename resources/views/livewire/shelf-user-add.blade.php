@@ -44,7 +44,7 @@ $submit = function () {
                 placeholder="simon@example.com"
                 autofocus />
 
-            <x-button type="submit">Add Friend</x-button>
+            <x-button type="submit" class="mt-6">Add Friend</x-button>
         </div>
     </form>
 </div>

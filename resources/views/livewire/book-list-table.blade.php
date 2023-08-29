@@ -1,44 +1,3 @@
-<?php
-
-use App\Models\Book;
-use function Livewire\Volt\{computed, state, on};
-
-state(['shelf' => fn() => $shelf])->locked();
-
-state(['search']);
-on(['book-search' => fn($search) => ($this->search = $search ?? null)]);
-
-$books = computed(
-    fn() => $this->shelf
-        ->books()
-        ->orderBy('author_surname')
-        ->orderBy('author_forename')
-        ->orderBy('series')
-        ->orderBy('series_index')
-        ->orderBy('title')
-        ->when($this->filterIds !== null, fn($query) => $query->whereIn('id', $this->filterIds))
-        ->with('bookUsers.user')
-        ->get(),
-);
-
-$filterIds = computed(function () {
-    if (!$this->search) {
-        return null;
-    }
-
-    return str($this->search)
-        ->explode(' or ')
-        ->map(
-            fn($searchPart) => Book::search($searchPart)
-                ->where('shelf_id', $this->shelf->id)
-                ->keys(),
-        )
-        ->flatten()
-        ->unique();
-});
-
-?>
-
 <div>
     @if ($this->search)
         <div class="flex justify-between">
@@ -65,23 +24,23 @@ $filterIds = computed(function () {
                 </tr>
             </thead>
             <tbody>
-                @forelse ($this->books as $book)
-                    @if (($prev = $this->books[$loop->index - 1] ?? null) === null || $book->author_surname_char !== $prev->author_surname_char)
-                        <tr>
-                            <td colspan="100%" class="whitespace-nowrap border-y bg-neutral-100 px-6 text-center transition duration-300 ease-in-out dark:bg-neutral-600">{{ $book->author_surname_char }}</td>
-                        </tr>
-                    @endif
-                    @if ($next = $this->books[$loop->index + 1] ?? null)
-                    @endif
-                    <tr class="@if ($next && $next->authorName !== $book->authorName) border-neutral-500 dark:border-neutral-200 @else border-neutral-200 dark:border-neutral-500 @endif whitespace-nowrap border-b px-6 py-2 transition duration-300 ease-in-out hover:bg-neutral-100 dark:hover:bg-neutral-600">
-                        <td class="whitespace-break-spaces px-6 py-2">{{ $book->author_surname }}</td>
-                        <td class="whitespace-break-spaces border-r px-6 py-2 dark:border-neutral-500">{{ $book->author_forename }}</td>
-                        <td class="whitespace-break-spaces px-6 py-2">{{ $book->series_text }}</td>
-                        <td class="whitespace-break-spaces border-r px-6 py-2 dark:border-neutral-500">{{ $book->title }}</td>
-                        <td class="whitespace-break-spaces px-6 py-2">{{ $book->genre }}</td>
-                        <td class="whitespace-break-spaces px-6 py-2">{{ $book->edition }}</td>
-                        <td class="whitespace-break-spaces px-6 py-2">{{ $book->co_author }}</td>
+                @forelse ($this->groupedBooks as $char => $group)
+                    <tr key="{{ 'authorChar-' . $char }}">
+                        <td colspan="100%" class="whitespace-nowrap border-y bg-neutral-100 px-6 text-center transition duration-300 ease-in-out dark:bg-neutral-600">{{ $char }}</td>
                     </tr>
+                    @foreach ($group as $book)
+                        <tr
+                            class="@if (($next = $this->books[$loop->index + 1] ?? null) && $next->authorName !== $book->authorName) border-neutral-500 dark:border-neutral-200 @else border-neutral-200 dark:border-neutral-500 @endif whitespace-nowrap border-b px-6 py-2 transition duration-300 ease-in-out hover:bg-neutral-100 dark:hover:bg-neutral-600"
+                            key="{{ 'tableBook-' . $book->id }}">
+                            <td class="whitespace-break-spaces px-6 py-2">{{ $book->author_surname }}</td>
+                            <td class="whitespace-break-spaces border-r px-6 py-2 dark:border-neutral-500">{{ $book->author_forename }}</td>
+                            <td class="whitespace-break-spaces px-6 py-2">{{ $book->series_text }}</td>
+                            <td class="whitespace-break-spaces border-r px-6 py-2 dark:border-neutral-500">{{ $book->title }}</td>
+                            <td class="whitespace-break-spaces px-6 py-2">{{ $book->genre }}</td>
+                            <td class="whitespace-break-spaces px-6 py-2">{{ $book->edition }}</td>
+                            <td class="whitespace-break-spaces px-6 py-2">{{ $book->co_author }}</td>
+                        </tr>
+                    @endforeach
                 @empty
                     <tr>
                         <td width="100%">No books here...</td>
