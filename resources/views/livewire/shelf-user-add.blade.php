@@ -40,7 +40,7 @@ $submit = function () {
             <x-email-input
                 wire:model="email"
                 name="email"
-                label="Their Email"
+                label="Email"
                 placeholder="simon@example.com"
                 autofocus />
 

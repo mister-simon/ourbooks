@@ -15,9 +15,4 @@ class BookListTable extends Component
     {
         return $this->books->groupBy('authorSurnameChar');
     }
-
-    public function render()
-    {
-        return view('livewire.book-list-table');
-    }
 }

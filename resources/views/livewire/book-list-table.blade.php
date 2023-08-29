@@ -29,17 +29,10 @@
                         <td colspan="100%" class="whitespace-nowrap border-y bg-neutral-100 px-6 text-center transition duration-300 ease-in-out dark:bg-neutral-600">{{ $char }}</td>
                     </tr>
                     @foreach ($group as $book)
-                        <tr
-                            class="@if (($next = $this->books[$loop->index + 1] ?? null) && $next->authorName !== $book->authorName) border-neutral-500 dark:border-neutral-200 @else border-neutral-200 dark:border-neutral-500 @endif whitespace-nowrap border-b px-6 py-2 transition duration-300 ease-in-out hover:bg-neutral-100 dark:hover:bg-neutral-600"
-                            key="{{ 'tableBook-' . $book->id }}">
-                            <td class="whitespace-break-spaces px-6 py-2">{{ $book->author_surname }}</td>
-                            <td class="whitespace-break-spaces border-r px-6 py-2 dark:border-neutral-500">{{ $book->author_forename }}</td>
-                            <td class="whitespace-break-spaces px-6 py-2">{{ $book->series_text }}</td>
-                            <td class="whitespace-break-spaces border-r px-6 py-2 dark:border-neutral-500">{{ $book->title }}</td>
-                            <td class="whitespace-break-spaces px-6 py-2">{{ $book->genre }}</td>
-                            <td class="whitespace-break-spaces px-6 py-2">{{ $book->edition }}</td>
-                            <td class="whitespace-break-spaces px-6 py-2">{{ $book->co_author }}</td>
-                        </tr>
+                        <livewire:book-list-table-book
+                            :book="$book"
+                            :next-book="$group[$loop->index + 1] ?? null"
+                            :key="'tableBook-' . $book->id" />
                     @endforeach
                 @empty
                     <tr>

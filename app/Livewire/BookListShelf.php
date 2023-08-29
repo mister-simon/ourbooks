@@ -15,9 +15,4 @@ class BookListShelf extends Component
     {
         return $this->books->groupBy('authorSurnameChar');
     }
-
-    public function render()
-    {
-        return view('livewire.book-list-shelf');
-    }
 }

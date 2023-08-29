@@ -30,9 +30,4 @@ class ShelfShow extends Component
             ? 'filter'
             : 'create';
     }
-
-    public function render()
-    {
-        return view('livewire.shelf-show');
-    }
 }

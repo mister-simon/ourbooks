@@ -27,9 +27,4 @@ class BookSearch extends Component
         $this->dispatch('book-search-set', search: $this->search)
             ->self();
     }
-
-    public function render()
-    {
-        return view('livewire.book-search');
-    }
 }

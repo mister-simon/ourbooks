@@ -100,9 +100,4 @@ class BookCreate extends Component
 
         $this->reset();
     }
-
-    public function render()
-    {
-        return view('livewire.book-create');
-    }
 }

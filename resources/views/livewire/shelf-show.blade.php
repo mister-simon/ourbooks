@@ -1,18 +1,18 @@
-<x-main class="container mx-auto !items-start">
+<x-main class="container mx-auto mb-32 !items-start">
     <div class="w-full space-y-4">
-        <x-card class="rounded-t-none">
+        <x-card class="rounded-t-none border-t-0">
             <livewire:shelf-list />
         </x-card>
 
-        <x-card>
-            <x-title>{{ $shelf->title }}</x-title>
+        <div class="sm:px-8">
+            <x-card class="mx-auto -mt-2 translate-y-2 sm:-mt-8 sm:translate-y-8 md:max-w-screen-md">
+                <x-title>{{ $shelf->title }}</x-title>
 
-            <p class="pb-4">This shelf belongs to {{ $shelf->userListString() }}</p>
+                <p class="pb-4">This shelf belongs to {{ $shelf->userListString() }}</p>
 
-            <p> Maybe add some friends below?</p>
-
-            <livewire:shelf-user-add :shelf="$this->shelf" />
-        </x-card>
+                <livewire:shelf-user-add :shelf="$this->shelf" />
+            </x-card>
+        </div>
 
         <x-card>
             <div>

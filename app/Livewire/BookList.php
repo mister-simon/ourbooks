@@ -33,9 +33,4 @@ class BookList extends Component
     {
         $this->search = $search ?? null;
     }
-
-    public function render()
-    {
-        return view('livewire.book-list');
-    }
 }
