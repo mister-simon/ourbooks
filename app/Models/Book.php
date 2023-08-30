@@ -63,6 +63,11 @@ class Book extends Model
             : '-';
     }
 
+    public function getBookUserAvgRatingAttribute()
+    {
+        return $this->bookUsers->avg('rating');
+    }
+
     #[SearchUsingPrefix(['series_index'])]
     #[SearchUsingFullText(['series', 'author_surname', 'author_forename', 'title', 'genre', 'edition', 'co_author'])]
     public function toSearchableArray(): array

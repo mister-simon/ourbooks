@@ -28,6 +28,7 @@
                     <th scope="col" class="px-6 py-2">Genre</th>
                     <th scope="col" class="px-6 py-2">Edition</th>
                     <th scope="col" class="px-6 py-2">Co Author</th>
+                    <th scope="col" class="px-6 py-2">Ratings</th>
                     <th scope="col" class="px-6 py-2">Actions</th>
                 </tr>
             </thead>

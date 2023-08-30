@@ -3,11 +3,12 @@
     x-data="{ open: false }"
     :class="open && 'grow'">
     <button
-        class="flex max-h-60 items-center justify-center self-stretch bg-black/5 px-1 py-4 dark:bg-white/10"
+        class="{{ $this->edit ? '' : 'max-h-60' }} flex items-center justify-center self-stretch bg-black/5 px-1 py-4 dark:bg-white/10"
         x-on:click="
             open = !open
             setTimeout(() => $el.scrollIntoView({ block: 'center', behavior: 'smooth' }), 100)
         "
+        :class="open && 'max-h-80'"
         x-on:books-list-expand.window="open = true"
         x-on:books-list-collapse.window="open = false"
         wire:click="save">
@@ -24,7 +25,8 @@
         x-transition:enter-start="opacity-0 transform scale-x-50"
         x-transition:enter-end="opacity-100 transform scale-x-100"
         x-transition:leave="transition-all ease-in duration-300"
-        x-transition:leave-end="opacity-0 transform scale-x-50">
+        x-transition:leave-end="opacity-0 transform scale-x-50"
+        :class="open && 'max-h-80'">
 
         <div class="absolute right-2 top-2">
             @if ($this->edit)
@@ -107,9 +109,9 @@
             </form>
         @else
             <div>
-                <h4 class="font-semibold">
+                <h3 class="font-semibold">
                     {{ $this->book->title }}
-                </h4>
+                </h3>
 
                 @if ($this->book->author_name)
                     <span> {{ $this->book->author_name }}</span>
@@ -121,9 +123,30 @@
 
                 <div class="text-xs">
                     @foreach ($this->book->only('genre', 'series_text', 'edition') as $attribute => $value)
-                        <p>{{ str($attribute)->replace('_', ' ')->title() }}: {{ $value }}</p>
+                        <p>{{ $value }}</p>
                     @endforeach
                 </div>
+
+                <x-hr />
+
+                @if ($this->book->bookUsers->isNotEmpty())
+                    <table>
+                        <tr class="font-semibold">
+                            <td class="px-1">Average</td>
+                            <td class="px-1">{{ $this->book->book_user_avg_rating }}</td>
+                            <td class="px-1"><x-rating :value="$this->book->book_user_avg_rating" class="inline-flex" /></td>
+                        </tr>
+
+                        @foreach ($this->book->bookUsers as $bookUser)
+                            <tr class="text-sm">
+                                <td class="px-1">{{ $bookUser->user->readable }}</td>
+                                <td class="px-1">{{ $bookUser->rating }}</td>
+                                <td class="px-1"><x-rating :value="$bookUser->rating" class="inline-flex" /></td>
+                            </tr>
+                        @endforeach
+                    </table>
+                @endif
+
             </div>
         @endif
     </div>

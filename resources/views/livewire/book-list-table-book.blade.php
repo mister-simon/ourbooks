@@ -69,6 +69,7 @@
                 name="co_author"
                 :id="'co_author-' . $this->book->id" />
         </td>
+        <td></td>
     @else
         <td class="whitespace-break-spaces px-6 py-2">{{ $this->book->author_surname }}</td>
         <td class="whitespace-break-spaces border-r px-6 py-2 dark:border-neutral-500">{{ $this->book->author_forename }}</td>
@@ -77,6 +78,23 @@
         <td class="whitespace-break-spaces px-6 py-2">{{ $this->book->genre }}</td>
         <td class="whitespace-break-spaces px-6 py-2">{{ $this->book->edition }}</td>
         <td class="whitespace-break-spaces px-6 py-2">{{ $this->book->co_author }}</td>
+        <td>
+            @if ($this->book->bookUsers->isNotEmpty())
+                <table>
+                    <tr class="font-semibold">
+                        <td class="px-1">Average</td>
+                        <td class="px-1"><x-rating :value="$this->book->book_user_avg_rating" class="inline-flex" /></td>
+                    </tr>
+
+                    @foreach ($this->book->bookUsers as $bookUser)
+                        <tr class="text-sm">
+                            <td class="px-1">{{ $bookUser->user->readable }}</td>
+                            <td class="px-1"><x-rating :value="$bookUser->rating" class="inline-flex" /></td>
+                        </tr>
+                    @endforeach
+                </table>
+            @endif
+        </td>
     @endif
 
     <td class="px-6 py-2">

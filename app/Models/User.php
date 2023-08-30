@@ -61,4 +61,9 @@ class User extends Authenticatable
             ->withTimestamps()
             ->using(BookUser::class);
     }
+
+    public function getReadableAttribute()
+    {
+        return $this->name ?? str($this->email)->limit(15);
+    }
 }

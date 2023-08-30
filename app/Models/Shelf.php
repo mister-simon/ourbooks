@@ -31,7 +31,7 @@ class Shelf extends Model
     {
         return $this->users
             ->map(
-                fn ($user) => $user->name ?? str($user->email)->limit(15)
+                fn ($user) => $user->readable
             )
             ->sort(SORT_NATURAL | SORT_FLAG_CASE)
             ->join(', ', ', and ');
