@@ -2,15 +2,13 @@
 
 namespace App\Livewire;
 
-use App\Models\Book;
+use App\Livewire\Traits\UpdatesBook;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 class BookListShelfBook extends Component
 {
-    #[Locked]
-    public Book $book;
+    use UpdatesBook;
 
     protected array $colors = [
         'border-slate-500   bg-slate-300    dark:border-slate-600   dark:bg-slate-600',

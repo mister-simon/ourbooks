@@ -1,4 +1,4 @@
-<div class="relative my-3 flex flex-col">
+<div class="{{ $attributes->get('wrapperClasses') }} relative my-3 flex flex-col">
     {{ $slot }}
 
     @unless ($attributes->has('hide-label'))
