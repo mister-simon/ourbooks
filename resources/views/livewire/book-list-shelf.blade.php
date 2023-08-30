@@ -1,14 +1,20 @@
 <div class="relative">
     @if ($this->search)
-        <div class="flex justify-between">
+        <div class="flex justify-between" wire:loading.remove>
             <p>{{ $this->books->count() }} results for search "{{ $this->search }}".</p>
             <x-button wire:click="$dispatch('book-search-set', { search: null })">Clear Search</x-button>
         </div>
     @else
-        <div class="flex justify-between">
+        <div class="flex justify-between" wire:loading.remove>
             <p>{{ $this->books->count() }} books on the shelf.</p>
         </div>
     @endif
+
+    <div
+        wire:loading.flex
+        class="pointer-events-none sticky inset-x-0 top-32 z-[35] flex flex-row items-center justify-center gap-2 bg-slate-200/5 p-2 text-center">
+        @svg('heroicon-o-arrow-path', 'w-4 h-4 animate-spin') Loading
+    </div>
 
     {{-- Controls --}}
     <div class="sticky inset-x-0 top-10 z-30 -mb-[6px] bg-neutral-200 p-4 text-center shadow-md dark:bg-amber-950 sm:text-left lg:top-14">
@@ -25,19 +31,19 @@
     </div>
 
     <div class="flex flex-wrap items-end justify-center gap-y-10 overflow-hidden border-8 py-10 shadow-inner dark:border-amber-950 dark:bg-amber-800/10" id="shelf">
+        @foreach ($this->books as $book)
+            @if (($prev = $this->books[$loop->index - 1] ?? null) === null || $book->author_surname_char !== $prev->author_surname_char)
+                <div
+                    class="relative -mt-10 mb-auto flex flex-row flex-wrap self-stretch px-1 drop-shadow-[0_1px_1px_#00000030]">
+                    <span class="clip-b-arrow absolute -top-[2px] z-10 -translate-x-1/2 border border-b-transparent bg-neutral-100 px-1 pb-[5px] font-mono text-sm font-bold dark:border-neutral-900 dark:bg-neutral-950">
+                        {{ $book->author_surname_char }}
+                    </span>
+                </div>
+            @endif
 
-        {{-- Books by Surname char --}}
-        @foreach ($this->groupedBooks as $char => $group)
-            <div class="relative -mt-10 mb-auto flex flex-row flex-wrap self-stretch px-1 drop-shadow-[0_1px_1px_#00000030]">
-                <span class="clip-b-arrow absolute -top-[2px] z-10 -translate-x-1/2 border border-b-transparent bg-neutral-100 px-1 pb-[5px] font-mono text-sm font-bold dark:border-neutral-900 dark:bg-neutral-950">
-                    {{ $char }}
-                </span>
-            </div>
-            @foreach ($group as $book)
-                <livewire:book-list-shelf-book
-                    :book="$book"
-                    :key="'shelfBook-' . $book->id" />
-            @endforeach
+            <livewire:book-list-shelf-book
+                :book="$book"
+                :key="$book->id" />
         @endforeach
 
         {{-- No books --}}

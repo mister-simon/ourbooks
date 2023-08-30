@@ -1,5 +1,5 @@
 <div>
-    <form wire:submit="$dispatch('book-search', search: $this->search)">
+    <form wire:submit="doSearch">
         <div class="flex items-center gap-2">
             <x-text-input
                 name="search"

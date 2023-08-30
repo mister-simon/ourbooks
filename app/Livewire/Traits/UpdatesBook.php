@@ -58,6 +58,10 @@ trait UpdatesBook
 
     public function save()
     {
+        if (! $this->edit) {
+            return;
+        }
+
         $this->authorize('update', $this->book);
 
         $data = $this->validate();

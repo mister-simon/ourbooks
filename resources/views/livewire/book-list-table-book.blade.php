@@ -3,13 +3,16 @@
     @if ($this->edit)
         <td class="px-3">
             <x-text-input
+                wire:keydown.enter="save"
                 hide-label
                 wire:model="author_surname"
                 name="author_surname"
-                :id="'author_surname-' . $this->book->id" />
+                :id="'author_surname-' . $this->book->id"
+                x-init="$el.focus()" />
         </td>
         <td class="border-r px-3 dark:border-neutral-500">
             <x-text-input
+                wire:keydown.enter="save"
                 hide-label
                 wire:model="author_forename"
                 name="author_forename"
@@ -18,12 +21,14 @@
         <td class="px-3">
             <div class="flex flex-row">
                 <x-text-input
+                    wire:keydown.enter="save"
                     hide-label
                     wire:model="series"
                     name="series"
                     :id="'series-' . $this->book->id" />
 
                 <x-number-input
+                    wire:keydown.enter="save"
                     hide-label
                     wire:model="series_index"
                     label="Index"
@@ -34,6 +39,7 @@
         </td>
         <td class="border-r px-3 dark:border-neutral-500">
             <x-text-input
+                wire:keydown.enter="save"
                 hide-label
                 wire:model="title"
                 name="title"
@@ -41,6 +47,7 @@
         </td>
         <td class="px-3">
             <x-text-input
+                wire:keydown.enter="save"
                 hide-label
                 wire:model="genre"
                 name="genre"
@@ -48,6 +55,7 @@
         </td>
         <td class="px-3">
             <x-text-input
+                wire:keydown.enter="save"
                 hide-label
                 wire:model="edition"
                 name="edition"
@@ -55,6 +63,7 @@
         </td>
         <td class="px-3">
             <x-text-input
+                wire:keydown.enter="save"
                 hide-label
                 wire:model="co_author"
                 name="co_author"

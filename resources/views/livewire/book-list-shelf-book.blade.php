@@ -2,13 +2,15 @@
     class="{{ $this->color }} relative mb-2 flex shrink flex-row border border-b-0 shadow"
     x-data="{ open: false }"
     :class="open && 'grow'">
-
     <button
         class="flex max-h-60 items-center justify-center self-stretch bg-black/5 px-1 py-4 dark:bg-white/10"
-        @click="open = !open"
+        x-on:click="
+            open = !open
+            setTimeout(() => $el.scrollIntoView({ block: 'center', behavior: 'smooth' }), 100)
+        "
         x-on:books-list-expand.window="open = true"
         x-on:books-list-collapse.window="open = false"
-        wire:click="{{ $this->edit ? 'save' : '' }}">
+        wire:click="save">
         <span class="text-mode-vertical line-clamp-3 overflow-hidden text-ellipsis">
             {{ $book->title }}
         </span>
@@ -52,68 +54,76 @@
         </div>
 
         @if ($this->edit)
-            <x-text-input
-                wire:model="author_surname"
-                name="author_surname"
-                :id="'author_surname-' . $this->book->id" />
-
-            <x-text-input
-                wire:model="author_forename"
-                name="author_forename"
-                :id="'author_forename-' . $this->book->id" />
-
-            <div class="-my-3 flex flex-row justify-stretch gap-2">
+            <form wire:submit="save">
                 <x-text-input
-                    wire:model="series"
-                    name="series"
-                    :id="'series-' . $this->book->id"
-                    wrapperClasses="grow" />
+                    wire:model="author_surname"
+                    name="author_surname"
+                    :id="'author_surname-' . $this->book->id"
+                    x-data
+                    x-init="$nextTick(() => $el.focus())" />
 
-                <x-number-input
-                    wire:model="series_index"
-                    label="Index"
-                    name="series_index"
-                    :id="'series_index-' . $this->book->id"
-                    min="0"
-                    wrapperClasses="grow" />
-            </div>
+                <x-text-input
+                    wire:model="author_forename"
+                    name="author_forename"
+                    :id="'author_forename-' . $this->book->id" />
 
-            <x-text-input
-                wire:model="title"
-                name="title"
-                :id="'title-' . $this->book->id" />
+                <div class="-my-3 flex flex-row justify-stretch gap-2">
+                    <x-text-input
+                        wire:model="series"
+                        name="series"
+                        :id="'series-' . $this->book->id"
+                        wrapperClasses="grow" />
 
-            <x-text-input
-                wire:model="genre"
-                name="genre"
-                :id="'genre-' . $this->book->id" />
+                    <x-number-input
+                        wire:model="series_index"
+                        label="Index"
+                        name="series_index"
+                        :id="'series_index-' . $this->book->id"
+                        min="0"
+                        wrapperClasses="grow" />
+                </div>
 
-            <x-text-input
-                wire:model="edition"
-                name="edition"
-                :id="'edition-' . $this->book->id" />
+                <x-text-input
+                    wire:model="title"
+                    name="title"
+                    :id="'title-' . $this->book->id" />
 
-            <x-text-input
-                wire:model="co_author"
-                name="co_author"
-                :id="'co_author-' . $this->book->id" />
+                <x-text-input
+                    wire:model="genre"
+                    name="genre"
+                    :id="'genre-' . $this->book->id" />
+
+                <x-text-input
+                    wire:model="edition"
+                    name="edition"
+                    :id="'edition-' . $this->book->id" />
+
+                <x-text-input
+                    wire:model="co_author"
+                    name="co_author"
+                    :id="'co_author-' . $this->book->id" />
+
+                <button type="submit"></button>
+            </form>
         @else
-            <h4 class="font-semibold">
-                {{ $this->book->title }}
-            </h4>
+            <div>
+                <h4 class="font-semibold">
+                    {{ $this->book->title }}
+                </h4>
 
-            @if ($this->book->author_name)
-                <span> {{ $this->book->author_name }}</span>
-            @endif
+                @if ($this->book->author_name)
+                    <span> {{ $this->book->author_name }}</span>
+                @endif
 
-            @if ($this->book->co_author)
-                <span class="text-xs"> With {{ $this->book->co_author }}</span>
-            @endif
+                @if ($this->book->co_author)
+                    <span class="text-xs"> With {{ $this->book->co_author }}</span>
+                @endif
 
-            <div class="text-xs">
-                @foreach ($this->book->only('genre', 'series_text', 'edition') as $attribute => $value)
-                    <p>{{ str($attribute)->replace('_', ' ')->title() }}: {{ $value }}</p>
-                @endforeach
+                <div class="text-xs">
+                    @foreach ($this->book->only('genre', 'series_text', 'edition') as $attribute => $value)
+                        <p>{{ str($attribute)->replace('_', ' ')->title() }}: {{ $value }}</p>
+                    @endforeach
+                </div>
             </div>
         @endif
     </div>

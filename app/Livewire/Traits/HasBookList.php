@@ -33,8 +33,6 @@ trait HasBookList
             ->flatten()
             ->unique();
 
-        debug($searchIds);
-
         return $searchIds;
     }
 
