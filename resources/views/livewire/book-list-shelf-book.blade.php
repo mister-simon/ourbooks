@@ -19,7 +19,7 @@
     <div
         x-cloak
         x-show="open"
-        class="custom-scrollbar {{ $this->edit ? '' : 'max-h-60' }} relative grow origin-left overflow-auto p-4 pr-12"
+        class="custom-scrollbar {{ $this->edit ? '' : '' }} relative grow origin-left overflow-auto p-4 pr-12"
         x-transition:enter="transition-all ease-out duration-200"
         x-transition:enter-start="opacity-0 transform scale-x-50"
         x-transition:enter-end="opacity-100 transform scale-x-100"
@@ -105,22 +105,6 @@
 
                 <button type="submit"></button>
             </form>
-
-            <x-hr />
-
-            <form wire:submit="saveRating">
-                <x-number-input
-                    wire:model="rating"
-                    label="Rating"
-                    name="rating"
-                    :id="'rating-' . $this->book->id"
-                    min="0"
-                    max="10" />
-
-                @foreach (\App\Enums\ReadStatus::select() as $key => $val)
-                    <label for="{{ 'rating-' . $this->book->id }}"><input type="radio" name="read" value="{{ $key }}" id="{{ 'rating-' . $this->book->id }}"> {{ ucwords($val) }}</label>
-                @endforeach
-            </form>
         @else
             <div>
                 <h3 class="font-semibold">
@@ -162,6 +146,24 @@
                     </table>
                 @endif
 
+                <x-number-input
+                    wire:model.live="rating"
+                    label="Rating"
+                    name="rating"
+                    :id="'rating-' . $this->book->id"
+                    min="0"
+                    max="10" />
+
+                @foreach (\App\Enums\ReadStatus::select() as $key => $val)
+                    <label for="{{ 'read-' . $key . $this->book->id }}">
+                        <input
+                            type="radio"
+                            name="read"
+                            value="{{ $key }}"
+                            id="{{ 'read-' . $key . $this->book->id }}"
+                            wire:model.live="read"> {{ ucwords($val) }}
+                    </label>
+                @endforeach
             </div>
         @endif
     </div>

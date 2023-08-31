@@ -35,4 +35,14 @@ class BookPolicy
 
         return $user->hasVerifiedEmail() && $shelf->users->contains($user);
     }
+
+    /**
+     * Determine whether the user can update the model.
+     */
+    public function rate(User $user, Book $book): bool
+    {
+        $shelf = $book->shelf;
+
+        return $user->hasVerifiedEmail() && $shelf->users->contains($user);
+    }
 }

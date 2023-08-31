@@ -38,7 +38,7 @@ trait UpdatesBook
     #[Rule(['nullable', 'string'])]
     public ?string $co_author = null;
 
-    public function mount(Book $book)
+    public function mountUpdatesBook(Book $book)
     {
         $this->book = $book;
 
@@ -65,6 +65,17 @@ trait UpdatesBook
         $this->authorize('update', $this->book);
 
         $data = $this->validate();
+
+        $data = Arr::only($data, [
+            'title',
+            'series',
+            'series_index',
+            'author_surname',
+            'author_forename',
+            'genre',
+            'edition',
+            'co_author',
+        ]);
 
         $data = Arr::map(
             $data,

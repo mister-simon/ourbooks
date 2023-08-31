@@ -3,12 +3,13 @@
 namespace App\Livewire;
 
 use App\Livewire\Traits\UpdatesBook;
+use App\Livewire\Traits\UpdatesBookUser;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class BookListShelfBook extends Component
 {
-    use UpdatesBook;
+    use UpdatesBook, UpdatesBookUser;
 
     protected array $colors = [
         'border-slate-500   bg-slate-300    dark:border-slate-600   dark:bg-slate-600',
