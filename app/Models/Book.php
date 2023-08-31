@@ -46,6 +46,22 @@ class Book extends Model
             ->using(BookUser::class);
     }
 
+    #[SearchUsingPrefix(['series_index'])]
+    #[SearchUsingFullText(['series', 'author_surname', 'author_forename', 'title', 'genre', 'edition', 'co_author'])]
+    public function toSearchableArray(): array
+    {
+        return [
+            'series' => $this->series,
+            'series_index' => (int) $this->series_index,
+            'author_surname' => $this->author_surname,
+            'author_forename' => $this->author_forename,
+            'title' => $this->title,
+            'genre' => $this->genre,
+            'edition' => $this->edition,
+            'co_author' => $this->co_author,
+        ];
+    }
+
     public function getSeriesTextAttribute()
     {
         return implode(' ', $this->only('series', 'series_index'));
@@ -63,27 +79,6 @@ class Book extends Model
             : '-';
     }
 
-    public function getBookUserAvgRatingAttribute()
-    {
-        return $this->bookUsers->avg('rating');
-    }
-
-    #[SearchUsingPrefix(['series_index'])]
-    #[SearchUsingFullText(['series', 'author_surname', 'author_forename', 'title', 'genre', 'edition', 'co_author'])]
-    public function toSearchableArray(): array
-    {
-        return [
-            'series' => $this->series,
-            'series_index' => (int) $this->series_index,
-            'author_surname' => $this->author_surname,
-            'author_forename' => $this->author_forename,
-            'title' => $this->title,
-            'genre' => $this->genre,
-            'edition' => $this->edition,
-            'co_author' => $this->co_author,
-        ];
-    }
-
     public function getIntegerHashAttribute()
     {
         return collect(str_split($this->title))
@@ -92,8 +87,14 @@ class Book extends Model
 
     public function getWasReadAttribute()
     {
-        return $this->users
-            ->pluck('pivot.read')
+        return $this->bookUsers
+            ->pluck('read')
             ->dd();
+    }
+
+    public function getBookUserAvgRatingAttribute()
+    {
+        return $this->bookUsers
+            ->avg('rating');
     }
 }

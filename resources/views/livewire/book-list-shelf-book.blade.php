@@ -8,7 +8,6 @@
             open = !open
             setTimeout(() => $el.scrollIntoView({ block: 'center', behavior: 'smooth' }), 100)
         "
-        :class="open && 'max-h-80'"
         x-on:books-list-expand.window="open = true"
         x-on:books-list-collapse.window="open = false"
         wire:click="save">
@@ -25,8 +24,7 @@
         x-transition:enter-start="opacity-0 transform scale-x-50"
         x-transition:enter-end="opacity-100 transform scale-x-100"
         x-transition:leave="transition-all ease-in duration-300"
-        x-transition:leave-end="opacity-0 transform scale-x-50"
-        :class="open && 'max-h-80'">
+        x-transition:leave-end="opacity-0 transform scale-x-50">
 
         <div class="absolute right-2 top-2">
             @if ($this->edit)
@@ -107,6 +105,22 @@
 
                 <button type="submit"></button>
             </form>
+
+            <x-hr />
+
+            <form wire:submit="saveRating">
+                <x-number-input
+                    wire:model="rating"
+                    label="Rating"
+                    name="rating"
+                    :id="'rating-' . $this->book->id"
+                    min="0"
+                    max="10" />
+
+                @foreach (\App\Enums\ReadStatus::select() as $key => $val)
+                    <label for="{{ 'rating-' . $this->book->id }}"><input type="radio" name="read" value="{{ $key }}" id="{{ 'rating-' . $this->book->id }}"> {{ ucwords($val) }}</label>
+                @endforeach
+            </form>
         @else
             <div>
                 <h3 class="font-semibold">
@@ -142,6 +156,7 @@
                                 <td class="px-1">{{ $bookUser->user->readable }}</td>
                                 <td class="px-1">{{ $bookUser->rating }}</td>
                                 <td class="px-1"><x-rating :value="$bookUser->rating" class="inline-flex" /></td>
+                                <td class="px-1">{{ ucwords($bookUser->read->trans()) }}</td>
                             </tr>
                         @endforeach
                     </table>
