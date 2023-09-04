@@ -22,12 +22,13 @@ $submit = function () {
 
 <div>
     @if ($this->sent)
-        <div class="bg-emerald-100 p-4">
+        <x-alert-success>
             <p>Success! Check your emails for your login link!</p>
-        </div>
+        </x-alert-success>
     @else
         <form wire:submit="submit">
             <x-email-input
+                name="email"
                 wire:model="email"
                 label="Your Email"
                 placeholder="tone@example.com"
