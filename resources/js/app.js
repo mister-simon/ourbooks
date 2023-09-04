@@ -9,3 +9,7 @@ import {
 } from "tw-elements";
 
 initTE({ Collapse, /* Input, */ /* Ripple, */ Sidenav }, true);
+
+import bgCanvas from "./bg-canvas";
+
+bgCanvas();

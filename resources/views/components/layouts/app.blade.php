@@ -24,6 +24,7 @@
 <body class="flex min-h-screen flex-col bg-slate-300 transition-colors duration-500 dark:bg-neutral-800 dark:text-white">
     <livewire:header />
     {{ $slot }}
+    <x-bg-canvas />
 </body>
 
 </html>
