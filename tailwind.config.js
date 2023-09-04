@@ -5,6 +5,13 @@ module.exports = {
     variants: {
         extend: {
             backgroundColor: ['active'],
+        },
+    },
+    theme: {
+        extend: {
+            backgroundImage: {
+                'gradient-radial': 'radial-gradient(circle farthest-corner at center, var(--tw-gradient-stops))',
+            }
         }
     },
     content: [
