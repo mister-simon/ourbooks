@@ -1,4 +1,4 @@
-const debug = true;
+const debug = false;
 
 const dd = (...log) => debug ? console.log(log) : null;
 
@@ -11,7 +11,7 @@ let context;
 window.bgCanvasPlaying = true;
 
 // Create points per 1086720px screen area
-const pointCountAreaRatio = 100 / 1086720;
+const pointCountAreaRatio = 150 / 1086720;
 
 // Expected length of 1 frame
 const frameTime = 1000 / 60;
@@ -55,6 +55,10 @@ function step(frame = 0) {
         requestAnimationFrame(step);
     }
 
+    if (frame - prevFrame < frameTime) {
+        return;
+    }
+
     let delta = frame - prevFrame;
     prevFrame = frame;
 
@@ -69,8 +73,8 @@ function step(frame = 0) {
         point.neighbourDist = 0;
         point.neighbourCount = 0;
 
-        point.xVelocity = 0;
-        point.yVelocity = 0;
+        // point.xVelocity *= 0.99;
+        // point.yVelocity *= 0.99;
     }
 
     // Update point positions
@@ -98,11 +102,11 @@ function step(frame = 0) {
             point.neighbourDist += 1 - (distanceSquared / pointDistanceSquared);
             neighbour.neighbourDist += 1 - (distanceSquared / pointDistanceSquared);
 
-            point.xVelocity += ((point.x - neighbour.x) / pointDistance);
-            point.yVelocity += ((point.y - neighbour.y) / pointDistance);
+            point.xVelocity += ((point.x - neighbour.x) / pointDistance) / 10;
+            point.yVelocity += ((point.y - neighbour.y) / pointDistance) / 10;
 
-            neighbour.xVelocity += ((neighbour.x - point.x) / pointDistance);
-            neighbour.yVelocity += ((neighbour.y - point.y) / pointDistance);
+            neighbour.xVelocity += ((neighbour.x - point.x) / pointDistance) / 10;
+            neighbour.yVelocity += ((neighbour.y - point.y) / pointDistance) / 10;
         }
     }
 
@@ -111,8 +115,8 @@ function step(frame = 0) {
         const point = points[i];
 
         // Update position
-        point.x += ((point.xVelocity + ((Math.random() - .5) * 2)) / 100) * frameTime;
-        point.y += ((point.yVelocity + ((Math.random() - .5) * 2)) / 100) * frameTime;
+        point.x += ((point.xVelocity/*  + ((Math.random() - .5) * 2) */) / 100) * frameTime;
+        point.y += ((point.yVelocity/*  + ((Math.random() - .5) * 2) */) / 100) * frameTime;
 
         // Reflect left / right
         if (point.x < -halfPointPadding || point.x > (canvas.width + halfPointPadding)) {
@@ -147,8 +151,9 @@ function step(frame = 0) {
 function draw() {
     context.fillStyle = darkMode ? "#FFF" : "#000";
     context.strokeStyle = darkMode ? "#FFF" : "#000";
-    context.lineWidth = 10;
     context.lineCap = 'round';
+
+    const rgb = `${darkMode ? 255 : 0}, ${darkMode ? 255 : 0}, ${darkMode ? 255 : 0}`;
 
     context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -172,9 +177,9 @@ function draw() {
             context.beginPath();
             context.moveTo(point.x, point.y);
             context.lineTo(neighbour.x, neighbour.y);
-            context.closePath();
 
-            context.strokeStyle = `rgba(${darkMode ? 255 : 0}, ${darkMode ? 255 : 0}, ${darkMode ? 255 : 0}, ${1 - (distanceSquared / (pointDistanceSquared * 1.2))})`;
+            context.lineWidth = (1 - (distanceSquared / (pointDistanceSquared * 1.2))) * 10;
+            context.strokeStyle = `rgba(${rgb}, ${1 - (distanceSquared / (pointDistanceSquared * 1.2))})`;
             context.stroke();
         }
 
@@ -198,7 +203,7 @@ function draw() {
         if (debug && i === 50) {
             context.beginPath();
             context.moveTo(point.x, point.y);
-            context.lineTo((point.x + point.xVelocity * 10000), (point.y + point.yVelocity * 10000));
+            context.lineTo((point.x + point.xVelocity * 10), (point.y + point.yVelocity * 10));
             context.closePath();
 
             context.strokeStyle = `red`;
@@ -216,12 +221,21 @@ function draw() {
 
 function generatePoints() {
     const area = canvas.width * canvas.height;
-
     const pointCount = area * pointCountAreaRatio;
+
+    // const rows = 10;
+    // const cols = Math.round(pointCount / rows);
+
+    // const availableWidth = canvas.width + (pointPadding * 2);
+    // const availableHeight = canvas.height + (pointPadding * 2);
 
     points = [];
 
     for (let i = 0; i < pointCount; i++) {
+        // const iteration = i + 1;
+        // const column = i % cols;
+        // const row = Math.floor(i / rows);
+
         points.push({
             x: (Math.random() * (canvas.width + pointPadding)) - halfPointPadding,
             y: (Math.random() * (canvas.height + pointPadding)) - halfPointPadding,
