@@ -11,7 +11,7 @@ let context;
 window.bgCanvasPlaying = true;
 
 // Create points per 1086720px screen area
-const pointCountAreaRatio = 150 / 1086720;
+const pointCountAreaRatio = 200 / 1086720;
 
 // Expected length of 1 frame
 const frameTime = 1000 / 60;
@@ -67,30 +67,20 @@ function step(frame = 0) {
     }
 
     for (let i = 0; i < points.length; i++) {
-        // console.groupCollapsed('step ' + i);
         const point = points[i];
 
         point.neighbourDist = 0;
         point.neighbourCount = 0;
-
-        // point.xVelocity *= 0.99;
-        // point.yVelocity *= 0.99;
     }
 
     // Update point positions
-    // console.clear();
-
     for (let i = 0; i < points.length; i++) {
-        // console.groupCollapsed('step ' + i);
         const point = points[i];
 
         for (let j = i + 1; j < points.length; j++) {
             const neighbour = points[j];
 
-            // c2 = x2 + y2
-            const xDiff = Math.abs(point.x - neighbour.x);
-            const yDiff = Math.abs(point.y - neighbour.y);
-            const distanceSquared = (xDiff * xDiff) + (yDiff * yDiff);
+            const distanceSquared = pythag(point, neighbour);
 
             if (distanceSquared > pointDistanceSquared) {
                 continue;
@@ -111,12 +101,11 @@ function step(frame = 0) {
     }
 
     for (let i = 0; i < points.length; i++) {
-        // console.groupCollapsed('step ' + i);
         const point = points[i];
 
         // Update position
-        point.x += ((point.xVelocity/*  + ((Math.random() - .5) * 2) */) / 100) * frameTime;
-        point.y += ((point.yVelocity/*  + ((Math.random() - .5) * 2) */) / 100) * frameTime;
+        point.x += ((point.xVelocity) / 100) * frameTime;
+        point.y += ((point.yVelocity) / 100) * frameTime;
 
         // Reflect left / right
         if (point.x < -halfPointPadding || point.x > (canvas.width + halfPointPadding)) {
@@ -139,10 +128,6 @@ function step(frame = 0) {
                 point.y = canvas.height + halfPointPadding;
             }
         }
-
-
-        // console.groupEnd();
-
     }
 
     draw();
@@ -159,16 +144,12 @@ function draw() {
 
     // Draw connections
     for (let i = 0; i < points.length; i++) {
-        // console.groupCollapsed(i);
         const point = points[i];
 
         for (let j = i + 1; j < points.length; j++) {
             const neighbour = points[j];
 
-            // c2 = x2 + y2
-            const xDiff = Math.abs(point.x - neighbour.x);
-            const yDiff = Math.abs(point.y - neighbour.y);
-            const distanceSquared = (xDiff * xDiff) + (yDiff * yDiff);
+            const distanceSquared = pythag(point, neighbour);
 
             if (distanceSquared > (pointDistanceSquared * 1.2)) {
                 continue;
@@ -182,8 +163,6 @@ function draw() {
             context.strokeStyle = `rgba(${rgb}, ${1 - (distanceSquared / (pointDistanceSquared * 1.2))})`;
             context.stroke();
         }
-
-        // console.groupEnd();
     }
 
     // Draw points
@@ -199,51 +178,49 @@ function draw() {
         context.closePath();
         context.fill();
 
-        // Debugging
-        if (debug && i === 50) {
-            context.beginPath();
-            context.moveTo(point.x, point.y);
-            context.lineTo((point.x + point.xVelocity * 10), (point.y + point.yVelocity * 10));
-            context.closePath();
-
-            context.strokeStyle = `red`;
-            context.lineWidth = 2;
-            context.stroke();
-
+        if (debug) {
             context.fillStyle = 'red';
-            context.textAlign = 'left';
-            context.font = "12px monospace";
-
-            printAt(JSON.stringify(point, null, 2), 20, 20 + 20, 12);
+            context.fillText(i, point.x, point.y + 15);
         }
     }
 }
 
 function generatePoints() {
     const area = canvas.width * canvas.height;
-    const pointCount = area * pointCountAreaRatio;
+    const pointCount = Math.round(area * pointCountAreaRatio);
 
-    // const rows = 10;
-    // const cols = Math.round(pointCount / rows);
+    const availableWidth = canvas.width + pointPadding;
+    const availableHeight = canvas.height + pointPadding;
 
-    // const availableWidth = canvas.width + (pointPadding * 2);
-    // const availableHeight = canvas.height + (pointPadding * 2);
+    const rows = 5;
+    const cols = Math.floor(pointCount / rows);
 
-    points = [];
+    const colDistance = availableWidth / cols;
+    const rowDistance = availableHeight / rows;
 
-    for (let i = 0; i < pointCount; i++) {
-        // const iteration = i + 1;
-        // const column = i % cols;
-        // const row = Math.floor(i / rows);
+    if (points.length !== 0) {
+        points.length = rows * cols;
+    } else {
+        points = [];
+    }
 
-        points.push({
-            x: (Math.random() * (canvas.width + pointPadding)) - halfPointPadding,
-            y: (Math.random() * (canvas.height + pointPadding)) - halfPointPadding,
-            xVelocity: (Math.random() - .5) / 100,
-            yVelocity: (Math.random() - .5) / 100,
-            neighbourCount: 0,
-            neighbourDist: 0,
-        })
+    let i = 0;
+
+    for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+            if (points[i] === undefined) {
+                points[i] = {
+                    x: ((Math.random() - .5) * pointDistance) + (x * colDistance) - halfPointPadding,
+                    y: ((Math.random() - .5) * pointDistance) + (y * rowDistance) - halfPointPadding,
+                    xVelocity: (Math.random() - .5) / 1000,
+                    yVelocity: (Math.random() - .5) / 1000,
+                    neighbourCount: 0,
+                    neighbourDist: 0,
+                };
+            }
+
+            i++;
+        }
     }
 }
 
@@ -256,11 +233,10 @@ function resize() {
     generatePoints();
 }
 
-function printAt(text, x, y, lineHeight) {
-    var lines = text.split('\n');
-
-    for (var i = 0; i < lines.length; i++)
-        context.fillText(lines[i], x, y + (i * lineHeight));
+function pythag(p1, p2) {
+    const xDiff = Math.abs(p1.x - p2.x);
+    const yDiff = Math.abs(p1.y - p2.y);
+    return (xDiff * xDiff) + (yDiff * yDiff);
 }
 
 export default bgCanvas;

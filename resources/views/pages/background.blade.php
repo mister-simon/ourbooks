@@ -22,7 +22,7 @@
 </head>
 
 <body class="flex min-h-screen flex-col bg-slate-300 transition-colors duration-500 dark:bg-neutral-800 dark:text-white">
-    <x-bg-canvas class="blur-none" />
+    <x-bg-canvas class="blur-none dark:blur-none" />
 </body>
 
 </html>
