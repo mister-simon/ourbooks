@@ -99,7 +99,12 @@
         <td class="whitespace-break-spaces px-6 py-2">{{ $this->book->genre }}</td>
         <td class="whitespace-break-spaces px-6 py-2">{{ $this->book->edition }}</td>
         <td class="whitespace-break-spaces px-6 py-2">{{ $this->book->co_author }}</td>
-        <td>
+        <td
+            x-data="{ open: false }"
+            x-on:click="open = !open"
+            class="cursor-pointer"
+            x-on:books-list-expand.window="open = true"
+            x-on:books-list-collapse.window="open = false">
             @if ($this->book->bookUsers->isNotEmpty())
                 <table>
                     <tr class="font-semibold">
@@ -108,7 +113,7 @@
                     </tr>
 
                     @foreach ($this->book->bookUsers as $bookUser)
-                        <tr class="text-sm">
+                        <tr class="text-sm" x-show="open" x-transition x-cloak>
                             <td class="px-1">{{ $bookUser->user->readable }}</td>
                             <td class="px-1"><x-rating :value="$bookUser->rating" class="inline-flex" /></td>
                         </tr>

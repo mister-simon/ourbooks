@@ -28,7 +28,23 @@
                     <th scope="col" class="px-6 py-2">Genre</th>
                     <th scope="col" class="px-6 py-2">Edition</th>
                     <th scope="col" class="px-6 py-2">Co Author</th>
-                    <th scope="col" class="px-6 py-2">Ratings</th>
+                    <th
+                        scope="col"
+                        class="cursor-pointer py-2"
+                        x-data="{
+                            expand: true,
+                            toggle() {
+                                this.expand ?
+                                    $dispatch('books-list-expand') :
+                                    $dispatch('books-list-collapse');
+                        
+                                this.expand = !this.expand
+                            }
+                        }"
+                        @click="toggle()">
+                        Ratings
+                        <span class="text-xs" x-cloak>(click to <span x-text="expand ? 'expand' : 'collapse'"></span>)</span>
+                    </th>
                     <th scope="col" class="px-6 py-2">Actions</th>
                 </tr>
             </thead>
@@ -42,7 +58,7 @@
 
                     <livewire:book-list-table-book
                         :book="$book"
-                        :next-book="$group[$loop->index + 1] ?? null"
+                        :next-book="$this->books[$loop->index + 1] ?? null"
                         :key="$book->id" />
                 @empty
                     <tr>
