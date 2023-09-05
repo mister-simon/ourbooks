@@ -148,7 +148,7 @@
 
                 <x-number-input
                     wire:model.live="rating"
-                    label="Rating"
+                    label="Your Rating"
                     name="rating"
                     :id="'rating-' . $this->book->id"
                     min="0"
@@ -158,7 +158,7 @@
                     <label for="{{ 'read-' . $key . $this->book->id }}">
                         <input
                             type="radio"
-                            name="read"
+                            name="{{ 'read-' . $this->book->id }}"
                             value="{{ $key }}"
                             id="{{ 'read-' . $key . $this->book->id }}"
                             wire:model.live="read"> {{ ucwords($val) }}
