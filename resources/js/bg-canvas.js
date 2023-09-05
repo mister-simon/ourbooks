@@ -1,10 +1,17 @@
-const debug = false;
+const debug = true;
+
+const dd = (...log) => debug ? console.log(log) : null;
 
 /** @type {HTMLCanvasElement} */
 let canvas;
 
 /** @type {CanvasRenderingContext2D} */
 let context;
+
+window.bgCanvasPlaying = true;
+
+// Create points per 1086720px screen area
+const pointCountAreaRatio = 100 / 1086720;
 
 // Expected length of 1 frame
 const frameTime = 1000 / 60;
@@ -44,7 +51,9 @@ function bgCanvas() {
 }
 
 function step(frame = 0) {
-    requestAnimationFrame(step);
+    if (window.bgCanvasPlaying) {
+        requestAnimationFrame(step);
+    }
 
     let delta = frame - prevFrame;
     prevFrame = frame;
@@ -53,21 +62,25 @@ function step(frame = 0) {
         return;
     }
 
-    // Update point positions
     for (let i = 0; i < points.length; i++) {
         // console.groupCollapsed('step ' + i);
         const point = points[i];
 
+        point.neighbourDist = 0;
         point.neighbourCount = 0;
+
+        point.xVelocity = 0;
+        point.yVelocity = 0;
     }
 
+    // Update point positions
+    // console.clear();
+
     for (let i = 0; i < points.length; i++) {
         // console.groupCollapsed('step ' + i);
         const point = points[i];
 
-        point.neighbourCount = 0;
-
-        for (let j = 0; j < points.length; j++) {
+        for (let j = i + 1; j < points.length; j++) {
             const neighbour = points[j];
 
             // c2 = x2 + y2
@@ -79,13 +92,27 @@ function step(frame = 0) {
                 continue;
             }
 
-            point.neighbourCount += 1 - (distanceSquared / pointDistanceSquared);
-            neighbour.neighbourCount += 1 - (distanceSquared / pointDistanceSquared);
+            point.neighbourCount++;
+            neighbour.neighbourCount++;
+
+            point.neighbourDist += 1 - (distanceSquared / pointDistanceSquared);
+            neighbour.neighbourDist += 1 - (distanceSquared / pointDistanceSquared);
+
+            point.xVelocity += ((point.x - neighbour.x) / pointDistance);
+            point.yVelocity += ((point.y - neighbour.y) / pointDistance);
+
+            neighbour.xVelocity += ((neighbour.x - point.x) / pointDistance);
+            neighbour.yVelocity += ((neighbour.y - point.y) / pointDistance);
         }
+    }
+
+    for (let i = 0; i < points.length; i++) {
+        // console.groupCollapsed('step ' + i);
+        const point = points[i];
 
         // Update position
-        point.x += point.xVelocity * frameTime;
-        point.y += point.yVelocity * frameTime;
+        point.x += ((point.xVelocity + ((Math.random() - .5) * 2)) / 100) * frameTime;
+        point.y += ((point.yVelocity + ((Math.random() - .5) * 2)) / 100) * frameTime;
 
         // Reflect left / right
         if (point.x < -halfPointPadding || point.x > (canvas.width + halfPointPadding)) {
@@ -121,6 +148,7 @@ function draw() {
     context.fillStyle = darkMode ? "#FFF" : "#000";
     context.strokeStyle = darkMode ? "#FFF" : "#000";
     context.lineWidth = 10;
+    context.lineCap = 'round';
 
     context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -137,7 +165,7 @@ function draw() {
             const yDiff = Math.abs(point.y - neighbour.y);
             const distanceSquared = (xDiff * xDiff) + (yDiff * yDiff);
 
-            if (distanceSquared > pointDistanceSquared) {
+            if (distanceSquared > (pointDistanceSquared * 1.2)) {
                 continue;
             }
 
@@ -146,8 +174,7 @@ function draw() {
             context.lineTo(neighbour.x, neighbour.y);
             context.closePath();
 
-            context.strokeStyle = `rgba(${darkMode ? 255 : 0}, ${darkMode ? 255 : 0}, ${darkMode ? 255 : 0}, ${1 - (distanceSquared / pointDistanceSquared)})`;
-            // context.fillText(1 - (distanceSquared / pointDistanceSquared), point.x, point.y);
+            context.strokeStyle = `rgba(${darkMode ? 255 : 0}, ${darkMode ? 255 : 0}, ${darkMode ? 255 : 0}, ${1 - (distanceSquared / (pointDistanceSquared * 1.2))})`;
             context.stroke();
         }
 
@@ -156,16 +183,19 @@ function draw() {
 
     // Draw points
     for (let i = 0; i < points.length; i++) {
+        context.fillStyle = darkMode ? "#FFF" : "#000";
+        context.strokeStyle = darkMode ? "#FFF" : "#000";
+
         const point = points[i];
 
         context.moveTo(point.x, point.y);
         context.beginPath();
-        context.arc(point.x, point.y, Math.min(10, 1 + (point.neighbourCount * point.neighbourCount) / 2), 0, Math.PI * 2);
+        context.arc(point.x, point.y, Math.min(10, 1 + (point.neighbourDist * point.neighbourDist) / 2), 0, Math.PI * 2);
         context.closePath();
         context.fill();
 
         // Debugging
-        if (debug) {
+        if (debug && i === 50) {
             context.beginPath();
             context.moveTo(point.x, point.y);
             context.lineTo((point.x + point.xVelocity * 10000), (point.y + point.yVelocity * 10000));
@@ -174,6 +204,12 @@ function draw() {
             context.strokeStyle = `red`;
             context.lineWidth = 2;
             context.stroke();
+
+            context.fillStyle = 'red';
+            context.textAlign = 'left';
+            context.font = "12px monospace";
+
+            printAt(JSON.stringify(point, null, 2), 20, 20 + 20, 12);
         }
     }
 }
@@ -181,7 +217,6 @@ function draw() {
 function generatePoints() {
     const area = canvas.width * canvas.height;
 
-    const pointCountAreaRatio = 150 / 1086720;
     const pointCount = area * pointCountAreaRatio;
 
     points = [];
@@ -192,7 +227,8 @@ function generatePoints() {
             y: (Math.random() * (canvas.height + pointPadding)) - halfPointPadding,
             xVelocity: (Math.random() - .5) / 100,
             yVelocity: (Math.random() - .5) / 100,
-            neighbourCount: 0
+            neighbourCount: 0,
+            neighbourDist: 0,
         })
     }
 }
@@ -204,6 +240,13 @@ function resize() {
     canvas.height = height;
 
     generatePoints();
+}
+
+function printAt(text, x, y, lineHeight) {
+    var lines = text.split('\n');
+
+    for (var i = 0; i < lines.length; i++)
+        context.fillText(lines[i], x, y + (i * lineHeight));
 }
 
 export default bgCanvas;
