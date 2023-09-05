@@ -115,10 +115,10 @@
                 wire:click="$set('edit', true)"
                 class="block w-full">
                 <span wire:loading.delay>
-                    @svg('heroicon-o-pencil-square', 'w-4 h-4 animate-spin')
+                    @svg('heroicon-o-arrow-path', 'w-4 h-4 animate-spin')
                 </span>
                 <span wire:loading.delay.remove>
-                    @svg('heroicon-o-check', 'w-4 h-4')
+                    @svg('heroicon-o-pencil-square', 'w-4 h-4')
                 </span>
             </x-button>
         @endif
