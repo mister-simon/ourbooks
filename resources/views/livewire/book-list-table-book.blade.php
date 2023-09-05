@@ -1,7 +1,7 @@
 <tr
     class="{{ $this->rowClasses }} whitespace-nowrap border-b px-6 py-2 transition duration-300 ease-in-out hover:bg-neutral-100 dark:hover:bg-neutral-600">
     @if ($this->edit)
-        <td class="px-3">
+        <td class="px-3 align-top">
             <x-text-input
                 wire:keydown.enter="save"
                 hide-label
@@ -10,7 +10,7 @@
                 :id="'author_surname-' . $this->book->id"
                 x-init="$el.focus()" />
         </td>
-        <td class="border-r px-3 dark:border-neutral-500">
+        <td class="border-r px-3 align-top dark:border-neutral-500">
             <x-text-input
                 wire:keydown.enter="save"
                 hide-label
@@ -18,7 +18,7 @@
                 name="author_forename"
                 :id="'author_forename-' . $this->book->id" />
         </td>
-        <td class="px-3">
+        <td class="px-3 align-top">
             <div class="flex flex-row">
                 <x-text-input
                     wire:keydown.enter="save"
@@ -37,7 +37,7 @@
                     min="0" />
             </div>
         </td>
-        <td class="border-r px-3 dark:border-neutral-500">
+        <td class="border-r px-3 align-top dark:border-neutral-500">
             <x-text-input
                 wire:keydown.enter="save"
                 hide-label
@@ -45,7 +45,7 @@
                 name="title"
                 :id="'title-' . $this->book->id" />
         </td>
-        <td class="px-3">
+        <td class="px-3 align-top">
             <x-text-input
                 wire:keydown.enter="save"
                 hide-label
@@ -53,7 +53,7 @@
                 name="genre"
                 :id="'genre-' . $this->book->id" />
         </td>
-        <td class="px-3">
+        <td class="px-3 align-top">
             <x-text-input
                 wire:keydown.enter="save"
                 hide-label
@@ -61,7 +61,7 @@
                 name="edition"
                 :id="'edition-' . $this->book->id" />
         </td>
-        <td class="px-3">
+        <td class="px-3 align-top">
             <x-text-input
                 wire:keydown.enter="save"
                 hide-label
@@ -69,7 +69,28 @@
                 name="co_author"
                 :id="'co_author-' . $this->book->id" />
         </td>
-        <td></td>
+        <td class="pb-3 align-top">
+            <x-number-input
+                hide-label
+                wire:model.live="rating"
+                label="Your Rating"
+                name="rating"
+                :id="'rating-' . $this->book->id"
+                min="0"
+                max="10" />
+
+            @foreach (\App\Enums\ReadStatus::select() as $key => $val)
+                <label for="{{ 'read-' . $key . $this->book->id }}">
+                    <input
+                        type="radio"
+                        name="{{ 'read-' . $this->book->id }}"
+                        value="{{ $key }}"
+                        id="{{ 'read-' . $key . $this->book->id }}"
+                        wire:model.live="read"> {{ ucwords($val) }}
+                </label>
+            @endforeach
+
+        </td>
     @else
         <td class="whitespace-break-spaces px-6 py-2">{{ $this->book->author_surname }}</td>
         <td class="whitespace-break-spaces border-r px-6 py-2 dark:border-neutral-500">{{ $this->book->author_forename }}</td>

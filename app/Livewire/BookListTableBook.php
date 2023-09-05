@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Livewire\Traits\UpdatesBook;
+use App\Livewire\Traits\UpdatesBookUser;
 use App\Models\Book;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
@@ -10,7 +11,7 @@ use Livewire\Component;
 
 class BookListTableBook extends Component
 {
-    use UpdatesBook;
+    use UpdatesBook, UpdatesBookUser;
 
     #[Locked]
     public ?Book $nextBook = null;
