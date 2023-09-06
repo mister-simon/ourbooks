@@ -12,4 +12,4 @@ initTE({ Collapse, /* Input, */ /* Ripple, */ Sidenav }, true);
 
 import bgCanvas from "./bg-canvas";
 
-bgCanvas();
+document.addEventListener('alpine:init', bgCanvas);

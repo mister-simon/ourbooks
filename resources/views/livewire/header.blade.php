@@ -14,17 +14,17 @@ $logout = function () {
 };
 
 ?>
-
 <header class="sticky top-0 z-[35]">
     <!-- Main navigation container -->
     <nav
-        class="flex-no-wrap relative flex w-full items-center justify-between border-b border-slate-500 bg-[#FBFBFB] py-2 shadow-md shadow-black/5 dark:border-slate-800 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4"
+        class="flex-no-wrap relative flex w-full items-center justify-between border-b border-slate-500 bg-[#FBFBFB] py-2 shadow-md shadow-black/5 backdrop-blur transition dark:border-slate-800 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4"
+        :class="{ '!bg-opacity-60': headerStuck }"
         data-te-navbar-ref>
         <div class="flex w-full flex-wrap items-center justify-between px-3">
             <a
-                class="text-neutral-500 dark:text-neutral-200 lg:px-2"
+                class="flex items-center gap-1 text-neutral-500 dark:text-neutral-200 lg:px-2"
                 href="{{ route('home') }}">
-                {{ config('app.name') }}
+                @svg('heroicon-s-book-open', 'w-5 h-5') {{ config('app.name') }}
             </a>
 
             <!-- Hamburger button for mobile view -->

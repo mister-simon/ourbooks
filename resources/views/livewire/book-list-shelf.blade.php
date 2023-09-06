@@ -17,7 +17,7 @@
     </div>
 
     {{-- Controls --}}
-    <div class="sticky inset-x-0 top-10 z-30 -mb-[6px] bg-neutral-200 p-4 text-center shadow-md dark:bg-amber-950 sm:text-left lg:top-14">
+    <div class="-mb-[6px] bg-neutral-200 p-4 text-center shadow-md dark:bg-amber-950 sm:text-left">
         <x-button
             class="inline-flex gap-2 !px-2 shadow-lg"
             wire:click="$dispatch('books-list-expand')">
