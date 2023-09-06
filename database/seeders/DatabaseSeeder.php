@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         $importCsv = database_path('seeders/import.csv');
 
         if (File::exists($importCsv)) {
-            $this->importCsv($importCsv, limit: 100);
+            $this->importCsv($importCsv/* , limit: 100 */);
         }
 
         // Basic data seed
@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
      * Roughly based on the google sheet previously used for tracking books.
      * See the example import.csv
      */
-    protected function importCsv(string $path, int $limit = INF)
+    protected function importCsv(string $path, int|float $limit = INF)
     {
         // Prepare reader
         $reader = Reader::createFromPath($path, 'r')

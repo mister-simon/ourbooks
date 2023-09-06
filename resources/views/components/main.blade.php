@@ -1,5 +1,5 @@
 <main {{ $attributes->merge([
-    'class' => 'relative flex flex-1 justify-center bg-center sm:items-center',
+    'class' => 'relative mx-auto my-auto flex w-full flex-1 grow-0 justify-center bg-center px-2 sm:container sm:items-center',
     'id' => 'content',
 ]) }}>
     {{ $slot }}

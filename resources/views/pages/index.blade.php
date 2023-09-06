@@ -9,7 +9,7 @@ middleware([RequireUserName::class]);
 
 ?>
 <x-layouts.app title="Home">
-    <x-main class="container mx-auto">
+    <x-main>
         <x-card class="w-auto max-w-screen-md">
             @auth
                 @persist('shelf-list')

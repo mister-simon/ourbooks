@@ -1,4 +1,4 @@
-<x-main class="container mx-auto mb-32 !items-start">
+<x-main class="mx-auto mb-32 !items-start">
     <div class="w-full space-y-4">
         <x-card class="rounded-t-none border-t-0">
             <livewire:shelf-list />

@@ -5,18 +5,18 @@
             <x-text-input
                 wire:keydown.enter="save"
                 hide-label
-                wire:model="author_surname"
-                name="author_surname"
-                :id="'author_surname-' . $this->book->id"
+                wire:model="author_forename"
+                name="author_forename"
+                :id="'author_forename-' . $this->book->id"
                 x-init="$el.focus()" />
         </td>
         <td class="border-r px-3 align-top dark:border-neutral-500">
             <x-text-input
                 wire:keydown.enter="save"
                 hide-label
-                wire:model="author_forename"
-                name="author_forename"
-                :id="'author_forename-' . $this->book->id" />
+                wire:model="author_surname"
+                name="author_surname"
+                :id="'author_surname-' . $this->book->id" />
         </td>
         <td class="px-3 align-top">
             <div class="flex flex-row">
@@ -92,8 +92,8 @@
 
         </td>
     @else
-        <td class="whitespace-break-spaces px-6 py-2">{{ $this->book->author_surname }}</td>
-        <td class="whitespace-break-spaces border-r px-6 py-2 dark:border-neutral-500">{{ $this->book->author_forename }}</td>
+        <td class="whitespace-break-spaces px-6 py-2">{{ $this->book->author_forename }}</td>
+        <td class="whitespace-break-spaces border-r px-6 py-2 dark:border-neutral-500">{{ $this->book->author_surname }}</td>
         <td class="whitespace-break-spaces px-6 py-2">{{ $this->book->series_text }}</td>
         <td class="whitespace-break-spaces border-r px-6 py-2 dark:border-neutral-500">{{ $this->book->title }}</td>
         <td class="whitespace-break-spaces px-6 py-2">{{ $this->book->genre }}</td>

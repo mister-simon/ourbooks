@@ -45,7 +45,7 @@ $create = function () {
 
 ?>
 <x-layouts.app title="Profile">
-    <x-main class="container mx-auto">
+    <x-main>
         @if (session()->has('status'))
             <x-alert-success>
                 {{ session('status') }}
@@ -53,13 +53,13 @@ $create = function () {
         @endif
 
         @volt('profile')
-            <x-card class="w-auto max-w-screen-md">
+            <x-card class="w-full max-w-screen-md sm:w-auto">
                 <x-subtitle>Profile</x-subtitle>
 
                 @if ($this->success)
-                    <div class="bg-emerald-100 p-4">
+                    <x-alert-success>
                         <p>Successfully updated</p>
-                    </div>
+                    </x-alert-success>
                 @endif
                 <form wire:submit="create">
                     <x-text-input

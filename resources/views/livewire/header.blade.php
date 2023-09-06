@@ -15,7 +15,7 @@ $logout = function () {
 
 ?>
 
-<header class="sticky top-0 z-30">
+<header class="sticky top-0 z-[35]">
     <!-- Main navigation container -->
     <nav
         class="flex-no-wrap relative flex w-full items-center justify-between border-b border-slate-500 bg-[#FBFBFB] py-2 shadow-md shadow-black/5 dark:border-slate-800 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4"
@@ -62,7 +62,7 @@ $logout = function () {
                         data-te-navbar-nav-ref>
 
                         @if ($user->name)
-                            <x-navbar-text>
+                            <x-navbar-text class="hidden lg:block">
                                 Hi, {{ $user->name }}!
                             </x-navbar-text>
                         @endif

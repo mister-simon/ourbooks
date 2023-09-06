@@ -25,6 +25,8 @@
     <livewire:header />
     {{ $slot }}
     <x-bg-canvas />
+
+    <x-footer />
 </body>
 
 </html>

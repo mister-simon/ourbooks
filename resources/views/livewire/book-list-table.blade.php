@@ -20,9 +20,9 @@
     <div class="max-w-full overflow-auto">
         <table class="w-full table-auto overflow-auto text-left text-sm font-light">
             <thead class="border-b font-medium dark:border-neutral-500">
-                <tr>
-                    <th scope="col" class="px-6 py-2">Surname</th>
-                    <th scope="col" class="border-r px-6 py-2">Forename</th>
+                <tr class="border-b-2">
+                    <th scope="col" class="px-6 py-2">Forename</th>
+                    <th scope="col" class="border-r px-6 py-2">Surname</th>
                     <th scope="col" class="px-6 py-2">Series</th>
                     <th scope="col" class="border-r px-6 py-2">Title</th>
                     <th scope="col" class="px-6 py-2">Genre</th>

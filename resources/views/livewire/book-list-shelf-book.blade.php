@@ -1,5 +1,5 @@
 <div
-    class="{{ $this->color }} relative mb-2 flex shrink flex-row border border-b-0 shadow"
+    class="{{ $this->color }} relative mb-2 flex max-w-full shrink flex-row border border-b-0 shadow"
     x-data="{ open: false }"
     :class="open && 'grow'">
     <button
