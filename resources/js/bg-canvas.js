@@ -8,10 +8,12 @@ let canvas;
 /** @type {CanvasRenderingContext2D} */
 let context;
 
+// Global context to start / stop animation
 window.bgCanvasPlaying = true;
 
 // Create points per 1086720px screen area
 const pointCountAreaRatio = 200 / 1086720;
+const canvasRescale = .1;
 
 // Expected length of 1 frame
 const frameTime = 1000 / 60;
@@ -19,12 +21,13 @@ let prevFrame = 0;
 let points = [];
 
 // Amount that a point can escape the canvas by
-const pointPadding = 200;
+const pointPadding = 200 * canvasRescale;
 const halfPointPadding = pointPadding / 2;
 
 // Max distance at which a point will line towards a neighbour
-const pointDistance = 150;
+const pointDistance = 150 * canvasRescale;
 const pointDistanceSquared = pointDistance * pointDistance;
+const connectionOverreach = pointDistanceSquared * 1.4;
 
 let darkMode = false;
 
@@ -104,8 +107,8 @@ function step(frame = 0) {
         const point = points[i];
 
         // Update position
-        point.x += ((point.xVelocity) / 100) * frameTime;
-        point.y += ((point.yVelocity) / 100) * frameTime;
+        point.x += ((point.xVelocity * canvasRescale) / 100) * frameTime;
+        point.y += ((point.yVelocity * canvasRescale) / 100) * frameTime;
 
         // Reflect left / right
         if (point.x < -halfPointPadding || point.x > (canvas.width + halfPointPadding)) {
@@ -151,7 +154,7 @@ function draw() {
 
             const distanceSquared = pythag(point, neighbour);
 
-            if (distanceSquared > (pointDistanceSquared * 1.2)) {
+            if (distanceSquared > connectionOverreach) {
                 continue;
             }
 
@@ -159,8 +162,8 @@ function draw() {
             context.moveTo(point.x, point.y);
             context.lineTo(neighbour.x, neighbour.y);
 
-            context.lineWidth = (1 - (distanceSquared / (pointDistanceSquared * 1.2))) * 10;
-            context.strokeStyle = `rgba(${rgb}, ${1 - (distanceSquared / (pointDistanceSquared * 1.2))})`;
+            context.lineWidth = ((1 - (distanceSquared / connectionOverreach)) * 10) * canvasRescale;
+            context.strokeStyle = `rgba(${rgb}, ${1 - (distanceSquared / connectionOverreach)})`;
             context.stroke();
         }
     }
@@ -174,7 +177,7 @@ function draw() {
 
         context.moveTo(point.x, point.y);
         context.beginPath();
-        context.arc(point.x, point.y, Math.min(10, 1 + (point.neighbourDist * point.neighbourDist) / 2), 0, Math.PI * 2);
+        context.arc(point.x, point.y, (Math.min(10, 1 + (point.neighbourDist * point.neighbourDist) / 2)) * canvasRescale, 0, Math.PI * 2);
         context.closePath();
         context.fill();
 
@@ -186,7 +189,8 @@ function draw() {
 }
 
 function generatePoints() {
-    const area = canvas.width * canvas.height;
+    const { width, height } = canvas.getBoundingClientRect();
+    const area = width * height;
     const pointCount = Math.round(area * pointCountAreaRatio);
 
     const availableWidth = canvas.width + pointPadding;
@@ -227,8 +231,8 @@ function generatePoints() {
 function resize() {
     const { width, height } = canvas.getBoundingClientRect();
 
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = width * canvasRescale;
+    canvas.height = height * canvasRescale;
 
     generatePoints();
 }
