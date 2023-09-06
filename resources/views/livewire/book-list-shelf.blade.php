@@ -10,11 +10,7 @@
         </div>
     @endif
 
-    <div
-        wire:loading.flex
-        class="pointer-events-none sticky inset-x-0 top-32 z-[35] flex flex-row items-center justify-center gap-2 bg-slate-200/5 p-2 text-center">
-        @svg('heroicon-o-arrow-path', 'w-4 h-4 animate-spin') Loading
-    </div>
+    <x-loading wire:loading.flex class="pointer-events-none sticky inset-x-0 top-32 z-[35]" />
 
     {{-- Controls --}}
     <div class="-mb-[6px] bg-neutral-200 p-4 text-center shadow-md dark:bg-amber-950 sm:text-left">

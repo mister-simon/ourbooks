@@ -50,4 +50,9 @@ trait HasBookList
             ->with('bookUsers.user')
             ->get();
     }
+
+    public function placeholder()
+    {
+        return view('partials.loading', ['message' => 'Loading so many books']);
+    }
 }

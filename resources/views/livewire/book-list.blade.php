@@ -11,10 +11,12 @@
 
     @if ($layout === 'shelf')
         <livewire:book-list-shelf
+            lazy="on-load"
             :shelf="$this->shelf"
             :search="$this->search" />
     @else
         <livewire:book-list-table
+            lazy="on-load"
             :shelf="$this->shelf"
             :search="$this->search" />
     @endif

@@ -30,14 +30,13 @@
         </div>
     </noscript>
     <div
-        x-intersect:leave="headerStuck = true"
-        x-intersect.half:enter="headerStuck = false"
+        x-intersect.full:leave="headerStuck = true"
+        x-intersect:enter="headerStuck = false"
         class="position absolute left-0 top-0 -z-50 h-4 w-4">
     </div>
     <livewire:header />
     {{ $slot }}
     <x-bg-canvas />
-
     <x-footer />
 </body>
 

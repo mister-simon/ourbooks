@@ -11,11 +11,7 @@
         </div>
     @endif
 
-    <div
-        wire:loading.flex
-        class="pointer-events-none sticky inset-x-0 top-20 flex flex-row items-center justify-center gap-2 bg-slate-200/5 p-2 text-center">
-        @svg('heroicon-o-arrow-path', 'w-4 h-4 animate-spin') Loading
-    </div>
+    <x-loading wire:loading.flex class="pointer-events-none sticky inset-x-0 top-32 z-[35]" />
 
     <div class="max-w-full overflow-auto">
         <table class="w-full table-auto overflow-auto text-left text-sm font-light">
