@@ -6,7 +6,9 @@ use App\Models\Book;
 use App\Models\BookUser;
 use App\Models\Shelf;
 use App\Models\User;
+use App\View\Components\Main;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,5 +32,9 @@ class AppServiceProvider extends ServiceProvider
             'book' => Book::class,
             'book_user' => BookUser::class,
         ]);
+
+        Blade::components([
+            Main::class,
+        ], 'app');
     }
 }

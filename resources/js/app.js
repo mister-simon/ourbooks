@@ -1,15 +1,5 @@
 import './bootstrap';
 
-import {
-    Collapse,
-    // Input,
-    // Ripple,
-    Sidenav,
-    initTE,
-} from "tw-elements";
-
-initTE({ Collapse, /* Input, */ /* Ripple, */ Sidenav }, true);
-
 import bgCanvas from "./bg-canvas";
 
 document.addEventListener('alpine:init', bgCanvas);

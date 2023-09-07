@@ -24,17 +24,11 @@ module.exports = {
         './resources/**/*.php',
         './resources/**/*.vue',
         './resources/**/*.twig',
-        "./node_modules/tw-elements/dist/js/**/*.js"
+        "./vendor/robsontenorio/mary/src/View/Components/**/*.php"
     ],
     plugins: [
         // require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
-        require("tw-elements/dist/plugin.cjs")
+        require("daisyui")
     ],
-    // safelist: [
-    //     {
-    //         pattern: /./
-    //     }
-    // ]
-    // darkMode: "class"
 }

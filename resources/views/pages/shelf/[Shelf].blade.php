@@ -10,6 +10,6 @@ middleware([Authenticate::class, RequireUserName::class]);
 middleware([Authorize::using('view', 'shelf')]);
 
 ?>
-<x-layouts.app :title="$shelf->title">
+<x-layouts.app :title="$shelf->title" hide-sidebar>
     <livewire:shelf-show :shelf="$shelf" />
 </x-layouts.app>

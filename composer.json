@@ -2,11 +2,13 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "blade-ui-kit/blade-heroicons": "^2.1",
         "guzzlehttp/guzzle": "^7.2",
         "laravel-frontend-presets/tall": "^6.2",
         "laravel/folio": "^1.0@beta",
@@ -16,7 +18,8 @@
         "laravel/tinker": "^2.8",
         "league/csv": "^9.0",
         "livewire/livewire": "^3.0@beta",
-        "livewire/volt": "^1.0@beta"
+        "livewire/volt": "^1.0@beta",
+        "robsontenorio/mary": "^0.33.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",

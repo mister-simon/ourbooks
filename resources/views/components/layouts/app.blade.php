@@ -21,7 +21,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
-<body class="flex min-h-screen flex-col bg-slate-300 transition-colors duration-500 dark:bg-neutral-800 dark:text-white" x-data="{ headerStuck: false }">
+<body class="flex min-h-screen flex-col antialiased duration-500" x-data="{ headerStuck: false }">
     <noscript class="fixed z-50 flex h-full w-full flex-col items-center justify-center bg-inherit">
         <div class="max-w-prose space-y-5 text-center">
             <h1 class="pb-9 text-4xl font-extrabold leading-5">Hey, there no-js person.</h1>
@@ -29,15 +29,34 @@
             <p>One day I might remedy that... Right now this is just a personal project, so for now you're out of luck.</p>
         </div>
     </noscript>
-    <div
-        x-intersect.full:leave="headerStuck = true"
-        x-intersect:enter="headerStuck = false"
-        class="position absolute left-0 top-0 -z-50 h-4 w-4">
-    </div>
+
     <livewire:header />
-    {{ $slot }}
+
+    <x-app-main class="grow" :hide-sidebar="$hideSidebar ?? false">
+
+        <x-slot:sidebar drawer="main-drawer" class="relative">
+            <div class="gutter-stable custom-scrollbar absolute inset-0 flex flex-col items-start justify-start overflow-auto">
+                <x-layouts.sidebar no-home />
+            </div>
+        </x-slot:sidebar>
+
+        <x-slot:sidebar-drawer>
+            <x-layouts.sidebar />
+        </x-slot:sidebar>
+
+        <!-- The `$slot` goes here -->
+        <x-slot:content class="flex flex-col items-center justify-center">
+            {{ $slot }}
+        </x-slot:content>
+
+        <!-- Footer area -->
+        <x-slot:footer>
+            <x-footer />
+        </x-slot:footer>
+    </x-app-main>
+
     <x-bg-canvas />
-    <x-footer />
+
 </body>
 
 </html>

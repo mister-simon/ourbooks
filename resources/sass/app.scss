@@ -72,20 +72,24 @@ select:invalid {
 }
 
 .custom-scrollbar {
-    &::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    &::scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
         background-color: transparent;
     }
 
-    &::-webkit-scrollbar {
+    &::scrollbar {
         width: 8px;
         background-color: transparent;
     }
 
-    &::-webkit-scrollbar-thumb {
+    &::scrollbar-thumb {
         // background-color: #3b71ca;
         background-color: transparent;
-        border: 2px solid #111827;
+        border: 2px solid #c8d9ff;
         border-radius: 5px;
     }
+}
+
+.gutter-stable {
+    scrollbar-gutter: stable;
 }

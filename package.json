@@ -18,6 +18,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "daisyui": "^3.7.3",
         "tw-elements": "^1.0.0-beta3"
     }
 }
