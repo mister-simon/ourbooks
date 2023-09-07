@@ -33,14 +33,13 @@
     <livewire:header />
 
     <x-app-main class="grow" :hide-sidebar="$hideSidebar ?? false">
-
-        <x-slot:sidebar drawer="main-drawer" class="relative">
-            <div class="gutter-stable custom-scrollbar absolute inset-0 flex flex-col items-start justify-start overflow-auto">
+        <x-slot:sidebar drawer="main-drawer">
+            <x-card title="" class="main-sidebar gutter-stable custom-scrollbar mb-auto hidden w-full max-w-[280px] flex-col overflow-auto rounded-t-none lg:flex">
                 <x-layouts.sidebar no-home />
-            </div>
+            </x-card>
         </x-slot:sidebar>
 
-        <x-slot:sidebar-drawer>
+        <x-slot:sidebar-drawer class="sm:min-w-[20vw]">
             <x-layouts.sidebar />
         </x-slot:sidebar>
 

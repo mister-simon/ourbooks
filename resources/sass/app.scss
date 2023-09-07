@@ -18,6 +18,10 @@ select:invalid {
  */
 @tailwind components;
 
+.main-sidebar {
+    max-height: calc(100vh - 10rem);
+}
+
 /**
  * Here you would add any of your custom component classes; stuff that you'd
  * want loaded *before* the utilities so that the utilities could still

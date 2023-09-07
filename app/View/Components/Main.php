@@ -25,9 +25,7 @@ class Main extends MaryMain
                  <main {{ $sidebar->attributes->class(["flex flex-col grow"]) }}>
                     <div class="w-full mx-auto max-w-screen-2xl flex grow">
                         @if($sidebar && !$hideSidebar)
-                            <x-card :attributes="$sidebar->attributes->merge(['class' => 'hidden lg:block max-w-[280px] w-full pt-5'])">
                                 {{ $sidebar }}
-                            </x-card>
                         @endif
 
                         <div {{ $content->attributes->class(["flex-1 mx-auto w-full p-5 lg:p-10 grow"]) }}>
@@ -42,7 +40,7 @@ class Main extends MaryMain
                     @endif
 
                     @if($sidebar?->attributes['drawer'])
-                        <x-drawer id="{{ $sidebar->attributes['drawer'] }}">
+                        <x-drawer id="{{ $sidebar->attributes['drawer'] }}" :attributes="$sidebarDrawer->attributes">
                             {{ $sidebarDrawer }}
                         </x-drawer>
                     @endif

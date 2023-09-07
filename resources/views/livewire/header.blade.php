@@ -14,7 +14,7 @@
         </a>
     </x-slot:brand>
 
-    <x-slot:actions>
+    <x-slot:actions class="hidden sm:block">
         @auth
             @if ($user->name)
                 <span>Hi, {{ $user->name }}!</span>
