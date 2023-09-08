@@ -21,7 +21,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
-<body class="flex min-h-screen flex-col antialiased duration-500" x-data="{ headerStuck: false }">
+<body class="flex min-h-screen flex-col antialiased" x-data="{ headerStuck: false }">
     <noscript class="fixed z-50 flex h-full w-full flex-col items-center justify-center bg-inherit">
         <div class="max-w-prose space-y-5 text-center">
             <h1 class="pb-9 text-4xl font-extrabold leading-5">Hey, there no-js person.</h1>
@@ -34,9 +34,9 @@
 
     <x-app-main class="grow" :hide-sidebar="$hideSidebar ?? false">
         <x-slot:sidebar drawer="main-drawer">
-            <x-card title="" class="main-sidebar gutter-stable custom-scrollbar mb-auto hidden w-full max-w-[280px] flex-col overflow-auto rounded-t-none lg:flex">
+            <x-app-card title="" class="main-sidebar gutter-stable custom-scrollbar mb-auto hidden w-full max-w-[280px] flex-col overflow-auto rounded-t-none lg:flex">
                 <x-layouts.sidebar no-home />
-            </x-card>
+            </x-app-card>
         </x-slot:sidebar>
 
         <x-slot:sidebar-drawer class="sm:min-w-[20vw]">

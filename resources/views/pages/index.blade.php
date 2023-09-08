@@ -10,11 +10,11 @@ middleware([RequireUserName::class]);
 ?>
 <x-layouts.app title="Home" :hide-sidebar="Auth::guest()">
     @auth
-        <x-card title="Build a New Shelf">
+        <x-app-card title="Build a New Shelf" class="card-bordered">
             <livewire:shelf-create />
-        </x-card>
+        </x-app-card>
     @else
-        <x-card>
+        <x-app-card class="card-bordered">
             <livewire:login-link />
 
             @env('local')
@@ -25,6 +25,6 @@ middleware([RequireUserName::class]);
                 </x-link>
             </div>
             @endenv
-        </x-card>
+        </x-app-card>
     @endauth
 </x-layouts.app>

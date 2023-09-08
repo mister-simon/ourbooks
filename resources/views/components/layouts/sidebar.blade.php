@@ -1,5 +1,5 @@
 @unless ($noHome ?? false)
-    <x-menu>
+    <x-menu title="Home">
         <x-menu-item
             :title="config('app.name')"
             icon="s-book-open"
@@ -7,6 +7,8 @@
     </x-menu>
 @endunless
 @auth
+    <livewire:sidebar-shelf-list />
+
     <x-menu title="User">
         <x-menu-item
             title="Profile"
@@ -18,6 +20,4 @@
             icon="s-lock-closed"
             x-on:click="$dispatch('logout')" />
     </x-menu>
-
-    <livewire:sidebar-shelf-list />
 @endauth

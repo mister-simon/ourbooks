@@ -40,7 +40,7 @@ class Main extends MaryMain
                     @endif
 
                     @if($sidebar?->attributes['drawer'])
-                        <x-drawer id="{{ $sidebar->attributes['drawer'] }}" :attributes="$sidebarDrawer->attributes">
+                        <x-drawer id="{{ $sidebar->attributes['drawer'] }}" :attributes="$sidebarDrawer->attributes" right>
                             {{ $sidebarDrawer }}
                         </x-drawer>
                     @endif

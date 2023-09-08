@@ -46,7 +46,7 @@ $create = function () {
 ?>
 <x-layouts.app title="Profile">
     @volt('profile')
-        <x-card class="w-full max-w-screen-md sm:w-auto">
+        <x-app-card class="w-full max-w-screen-md sm:w-auto">
             <x-subtitle>Profile</x-subtitle>
 
             @if ($this->success)
@@ -69,6 +69,6 @@ $create = function () {
 
                 <x-button type="submit">Save</x-button>
             </form>
-        </x-card>
+        </x-app-card>
     @endvolt
 </x-layouts.app>

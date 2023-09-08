@@ -1,19 +1,14 @@
 <div class="w-full space-y-4">
-    <x-card class="rounded-t-none border-t-0">
-        <livewire:shelf-list />
-    </x-card>
 
-    <div class="sm:px-8">
-        <x-card class="mx-auto -mt-2 translate-y-2 sm:-mt-8 sm:translate-y-8 md:max-w-screen-md">
-            <x-title>{{ $shelf->title }}</x-title>
+    <x-app-card class="card-bordered relative z-10 mx-5 -mt-2 translate-y-2 dark:bg-neutral dark:text-neutral-content sm:-mt-8 sm:translate-y-8 md:mx-auto md:max-w-screen-md">
+        <x-title>{{ $shelf->title }}</x-title>
 
-            <p class="pb-4">This shelf belongs to {{ $shelf->userListString() }}</p>
+        <p class="pb-4">This shelf belongs to {{ $shelf->userListString() }}</p>
 
-            <livewire:shelf-user-add :shelf="$this->shelf" />
-        </x-card>
-    </div>
+        <livewire:shelf-user-add :shelf="$this->shelf" />
+    </x-app-card>
 
-    <x-card>
+    <x-app-card>
         <div>
             <div class="overflow-hidden">
                 <x-button
@@ -46,5 +41,5 @@
         <livewire:book-list
             :shelf="$this->shelf"
             :search="$this->search" />
-    </x-card>
+    </x-app-card>
 </div>

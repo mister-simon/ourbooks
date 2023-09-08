@@ -1,12 +1,5 @@
-<x-nav sticky>
+<x-app-nav sticky class="relative z-20">
     <x-slot:brand>
-        @auth
-            <!-- Drawer toggle for "main-drawer" -->
-            <label for="main-drawer" class="mr-3">
-                <x-icon name="o-bars-3" class="cursor-pointer" />
-            </label>
-        @endauth
-
         <a
             class="flex items-center gap-1"
             href="{{ route('home') }}">
@@ -16,12 +9,9 @@
 
     <x-slot:actions class="hidden sm:block">
         @auth
-            @if ($user->name)
-                <span>Hi, {{ $user->name }}!</span>
-            @endif
-
-            <a href="{{ route('profile') }}"><x-icon name="s-user-circle" /> Profile</a>
-            <a href="" wire:click.prevent="logout"><x-icon name="s-lock-closed" /> Logout</a>
+            <label for="main-drawer" class="cursor-pointer p-4">
+                <x-icon name="o-bars-3" />
+            </label>
         @endauth
     </x-slot:actions>
-</x-nav>
+    </x-nav>
