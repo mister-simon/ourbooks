@@ -16,9 +16,6 @@
         rel="stylesheet" />
 
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body class="flex min-h-screen flex-col antialiased" x-data="{ headerStuck: false }">
@@ -30,17 +27,23 @@
         </div>
     </noscript>
 
-    <livewire:header />
+    @persist('header')
+        <livewire:header />
+    @endpersist
 
     <x-app-main class="grow" :hide-sidebar="$hideSidebar ?? false">
         <x-slot:sidebar drawer="main-drawer">
-            <x-app-card title="" class="main-sidebar gutter-stable custom-scrollbar mb-auto hidden w-full max-w-[280px] flex-col overflow-auto rounded-t-none lg:flex">
-                <x-layouts.sidebar no-home />
-            </x-app-card>
+            @persist('sidebar')
+                <x-app-card title="" class="main-sidebar gutter-stable custom-scrollbar mb-auto hidden w-full max-w-[280px] flex-col overflow-auto rounded-t-none lg:flex">
+                    <x-layouts.sidebar no-home />
+                </x-app-card>
+            @endpersist
         </x-slot:sidebar>
 
         <x-slot:sidebar-drawer class="sm:min-w-[20vw]">
-            <x-layouts.sidebar />
+            @persist('sidebar-drawer')
+                <x-layouts.sidebar />
+            @endpersist
         </x-slot:sidebar>
 
         <!-- The `$slot` goes here -->
@@ -50,11 +53,15 @@
 
         <!-- Footer area -->
         <x-slot:footer>
-            <x-footer />
+            @persist('footer')
+                <x-footer />
+            @endpersist
         </x-slot:footer>
     </x-app-main>
 
-    <x-bg-canvas />
+    @persist('bg-canvas')
+        <x-bg-canvas />
+    @endpersist
 
 </body>
 
