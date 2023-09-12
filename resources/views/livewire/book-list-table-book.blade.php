@@ -79,7 +79,7 @@
                 min="0"
                 max="10" />
 
-            @foreach (\App\Enums\ReadStatus::select() as $key => $val)
+            @foreach ($this->readStatusSelect as $key => $val)
                 <label for="{{ 'read-' . $key . $this->book->id }}">
                     <input
                         type="radio"

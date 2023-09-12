@@ -51,6 +51,17 @@
                     </span>
                 </x-button>
             @endif
+
+            <x-button
+                wire:click="$set('deleting', true)"
+                class="mt-2 block w-full !p-2">
+                <span wire:loading.delay>
+                    @svg('heroicon-o-arrow-path', 'w-4 h-4 animate-spin')
+                </span>
+                <span wire:loading.delay.remove>
+                    @svg('heroicon-o-trash', 'w-4 h-4')
+                </span>
+            </x-button>
         </div>
 
         @if ($this->edit)
@@ -154,7 +165,7 @@
                     min="0"
                     max="10" />
 
-                @foreach (\App\Enums\ReadStatus::select() as $key => $val)
+                @foreach ($this->readStatusSelect as $key => $val)
                     <label for="{{ 'read-' . $key . $this->book->id }}">
                         <input
                             type="radio"
@@ -168,4 +179,12 @@
         @endif
     </div>
     <hr class="absolute -inset-x-0 top-full z-20 w-[200vw] -translate-x-1/2 border-b-4 border-t-4 border-b-slate-300 dark:border-b-amber-950 dark:border-t-amber-900" role="presentation">
+
+    <x-modal wire:model="deleting" title="Hello" subtitle="Livewire example" separator>
+        Are you sure you want to delete "{{ $this->book->title }}"? This action cannot be undone and related user ratings will be lost.
+        <x-slot:actions>
+            <x-button label="Cancel" @click="$wire.deleting = false" />
+            <x-button label="Delete" class="btn-primary" wire:click="delete" />
+        </x-slot:actions>
+    </x-modal>
 </div>

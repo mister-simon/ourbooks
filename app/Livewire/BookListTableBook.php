@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Traits\HasReadStatus;
 use App\Livewire\Traits\UpdatesBook;
 use App\Livewire\Traits\UpdatesBookUser;
 use App\Models\Book;
@@ -11,7 +12,7 @@ use Livewire\Component;
 
 class BookListTableBook extends Component
 {
-    use UpdatesBook, UpdatesBookUser;
+    use HasReadStatus, UpdatesBook, UpdatesBookUser;
 
     #[Locked]
     public ?Book $nextBook = null;

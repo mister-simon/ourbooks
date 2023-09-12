@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\Shelf;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Reactive;
 
 trait HasBookList
@@ -49,6 +50,12 @@ trait HasBookList
             ->when($this->filterIds !== null, fn ($query) => $query->whereIn('id', $this->filterIds))
             ->with('bookUsers.user')
             ->get();
+    }
+
+    #[On('book-created', 'book-deleted')]
+    public function reloadShelf()
+    {
+        $this->shelf->load('books');
     }
 
     public function placeholder()

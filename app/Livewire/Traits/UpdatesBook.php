@@ -5,14 +5,17 @@ namespace App\Livewire\Traits;
 use App\Models\Book;
 use Illuminate\Support\Arr;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\Renderless;
 use Livewire\Attributes\Rule;
 
 trait UpdatesBook
 {
     #[Locked]
-    public Book $book;
+    public ?Book $book = null;
 
     public bool $edit = false;
+
+    public bool $deleting = false;
 
     #[Rule(['required', 'string'])]
     public ?string $title = null;
@@ -38,8 +41,12 @@ trait UpdatesBook
     #[Rule(['nullable', 'string'])]
     public ?string $co_author = null;
 
-    public function mountUpdatesBook(Book $book)
+    public function mountUpdatesBook(Book $book = null)
     {
+        if (! $book) {
+            return;
+        }
+
         $this->book = $book;
 
         $this->fill(
@@ -89,5 +96,18 @@ trait UpdatesBook
         $this->dispatch('book-updated', book: $this->book->id);
 
         $this->edit = false;
+    }
+
+    #[Renderless]
+    public function delete()
+    {
+        $this->authorize('delete', $this->book);
+
+        $this->book->delete();
+        $this->book = null;
+
+        $this->dispatch('book-deleted');
+
+        $this->deleting = false;
     }
 }
