@@ -16,13 +16,13 @@
         rel="stylesheet" />
 
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @livewireStyles
 </head>
 
-<body class="flex min-h-screen flex-col bg-slate-300 transition-colors duration-500 dark:bg-neutral-800 dark:text-white">
-    <x-bg-canvas class="blur-none dark:blur-none" />
+<body class="flex min-h-screen flex-col transition-colors duration-500 dark:text-white">
+    <x-bg-canvas />
+
+    @livewireScripts
 </body>
 
 </html>
