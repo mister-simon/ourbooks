@@ -28,7 +28,8 @@ Route::get('login/{user}', function (User $user) {
         return to_route('profile');
     }
 
-    return redirect('/')
+    return redirect()
+        ->intended('/')
         ->with('status', 'Successfully logged in!');
 })
     ->middleware('throttle', 'signed')
