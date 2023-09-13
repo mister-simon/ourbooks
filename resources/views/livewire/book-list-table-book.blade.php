@@ -124,29 +124,52 @@
     @endif
 
     <td class="px-6 py-2">
-        @if ($this->edit)
-            <x-button
-                wire:click="save"
-                class="block w-full !bg-success"
-                wire:loading.attr="disabled">
-                <span wire:loading.delay wire:target="save">
-                    @svg('heroicon-o-arrow-path', 'w-4 h-4 animate-spin')
-                </span>
-                <span wire:loading.delay.remove wire:target="save">
-                    @svg('heroicon-o-check', 'w-4 h-4')
-                </span>
-            </x-button>
-        @else
-            <x-button
-                wire:click="$set('edit', true)"
-                class="block w-full">
-                <span wire:loading.delay>
-                    @svg('heroicon-o-arrow-path', 'w-4 h-4 animate-spin')
-                </span>
-                <span wire:loading.delay.remove>
-                    @svg('heroicon-o-pencil-square', 'w-4 h-4')
-                </span>
-            </x-button>
-        @endif
+        <div class="flex flex-row gap-2">
+            @if ($this->edit)
+                <x-button
+                    wire:click="save"
+                    class="block !bg-success"
+                    wire:loading.attr="disabled">
+                    <span wire:loading.delay wire:target="save">
+                        @svg('heroicon-o-arrow-path', 'w-4 h-4 animate-spin')
+                    </span>
+                    <span wire:loading.delay.remove wire:target="save">
+                        @svg('heroicon-o-check', 'w-4 h-4')
+                    </span>
+                </x-button>
+            @else
+                <x-button
+                    wire:click="$set('edit', true)"
+                    class="block">
+                    <span wire:loading.delay>
+                        @svg('heroicon-o-arrow-path', 'w-4 h-4 animate-spin')
+                    </span>
+                    <span wire:loading.delay.remove>
+                        @svg('heroicon-o-pencil-square', 'w-4 h-4')
+                    </span>
+                </x-button>
+
+                <x-button
+                    wire:click="$set('deleting', true)"
+                    class="block !bg-warning">
+                    <span wire:loading.delay>
+                        @svg('heroicon-o-arrow-path', 'w-4 h-4 animate-spin')
+                    </span>
+                    <span wire:loading.delay.remove>
+                        @svg('heroicon-o-trash', 'w-4 h-4')
+                    </span>
+                </x-button>
+            @endif
+        </div>
+
+        <x-modal
+            wire:model="deleting"
+            :title="'Delete ' . $this->book->title"
+            subtitle="This action cannot be undone and related user ratings will be lost.">
+            <x-slot:actions>
+                <x-button label="Cancel" @click="$wire.deleting = false" />
+                <x-button label="Delete" class="btn-primary" wire:click="delete" />
+            </x-slot:actions>
+        </x-modal>
     </td>
 </tr>

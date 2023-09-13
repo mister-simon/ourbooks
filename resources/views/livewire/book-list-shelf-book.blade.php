@@ -1,15 +1,22 @@
 <div
     class="{{ $this->color }} relative mb-2 flex max-w-full shrink flex-row border border-b-0 shadow"
-    x-data="{ open: false }"
+    x-data="{
+        open: false,
+        set(isOpen) { this.open = isOpen },
+        toggle() { this.set(!this.open) },
+    }"
     :class="open && 'grow'">
+
+    <hr class="absolute -inset-x-0 top-full z-20 w-[200vw] -translate-x-1/2 border-b-4 border-t-4 border-b-slate-300 dark:border-b-amber-950 dark:border-t-amber-900" role="presentation">
+
     <button
         class="{{ $this->edit ? '' : 'max-h-60' }} flex items-center justify-center self-stretch bg-black/5 px-1 py-4 dark:bg-white/10"
         x-on:click="
-            open = !open
-            setTimeout(() => $el.scrollIntoView({ block: 'center', behavior: 'smooth' }), 100)
+            toggle();
+            setTimeout(() => $el.scrollIntoView({ block: 'center', behavior: 'smooth' }), 100);
         "
-        x-on:books-list-expand.window="open = true"
-        x-on:books-list-collapse.window="open = false"
+        x-on:books-list-expand.window="set(true)"
+        x-on:books-list-collapse.window="set(false)"
         wire:click="save">
         <span class="text-mode-vertical line-clamp-3 overflow-hidden text-ellipsis">
             {{ $book->title }}
@@ -118,6 +125,7 @@
             </form>
         @else
             <div>
+
                 <h3 class="font-semibold">
                     {{ $this->book->title }}
                 </h3>
@@ -178,15 +186,16 @@
             </div>
         @endif
     </div>
-    <hr class="absolute -inset-x-0 top-full z-20 w-[200vw] -translate-x-1/2 border-b-4 border-t-4 border-b-slate-300 dark:border-b-amber-950 dark:border-t-amber-900" role="presentation">
 
-    <x-modal
-        wire:model="deleting"
-        :title="'Delete ' . $this->book->title"
-        subtitle="This action cannot be undone and related user ratings will be lost.">
-        <x-slot:actions>
-            <x-button label="Cancel" @click="$wire.deleting = false" />
-            <x-button label="Delete" class="btn-primary" wire:click="delete" />
-        </x-slot:actions>
-    </x-modal>
+    <template x-if="open">
+        <x-modal
+            wire:model="deleting"
+            :title="'Delete ' . $this->book->title"
+            subtitle="This action cannot be undone and related user ratings will be lost.">
+            <x-slot:actions>
+                <x-button label="Cancel" @click="$wire.deleting = false" />
+                <x-button label="Delete" class="btn-primary" wire:click="delete" />
+            </x-slot:actions>
+        </x-modal>
+    </template>
 </div>

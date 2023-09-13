@@ -39,7 +39,7 @@
                         }"
                         @click="toggle()">
                         Ratings
-                        <span class="text-xs" x-cloak>(click to <span x-text="expand ? 'expand' : 'collapse'"></span>)</span>
+                        <span class="text-xs" x-cloak>(click to <span x-text="(expand ?? false) ? 'expand' : 'collapse'"></span>)</span>
                     </th>
                     <th scope="col" class="px-6 py-2">Actions</th>
                 </tr>
