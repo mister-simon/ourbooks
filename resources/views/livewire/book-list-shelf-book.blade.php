@@ -180,8 +180,10 @@
     </div>
     <hr class="absolute -inset-x-0 top-full z-20 w-[200vw] -translate-x-1/2 border-b-4 border-t-4 border-b-slate-300 dark:border-b-amber-950 dark:border-t-amber-900" role="presentation">
 
-    <x-modal wire:model="deleting" title="Hello" subtitle="Livewire example" separator>
-        Are you sure you want to delete "{{ $this->book->title }}"? This action cannot be undone and related user ratings will be lost.
+    <x-modal
+        wire:model="deleting"
+        :title="'Delete ' . $this->book->title"
+        subtitle="This action cannot be undone and related user ratings will be lost.">
         <x-slot:actions>
             <x-button label="Cancel" @click="$wire.deleting = false" />
             <x-button label="Delete" class="btn-primary" wire:click="delete" />

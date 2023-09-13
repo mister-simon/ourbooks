@@ -52,10 +52,26 @@ trait HasBookList
             ->get();
     }
 
-    #[On('book-created', 'book-deleted')]
+    #[On('book-created')]
     public function reloadShelf()
     {
-        $this->shelf->load('books');
+        unset($this->books);
+    }
+
+    #[On('book-delete')]
+    public function deleteBook($id)
+    {
+
+        $listBook = $this->books->find($id);
+
+        if ($listBook === null) {
+            return;
+        }
+
+        $this->authorize('delete', $listBook);
+
+        $this->books = $this->books->except($id);
+        $listBook->delete();
     }
 
     public function placeholder()

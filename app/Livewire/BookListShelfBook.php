@@ -40,4 +40,9 @@ class BookListShelfBook extends Component
     {
         return $this->colors[$this->colorIndex];
     }
+
+    public function placeholder()
+    {
+        return view('partials.loading-list-book-shelf-book');
+    }
 }

@@ -31,13 +31,14 @@
             @if (($prev = $this->books[$loop->index - 1] ?? null) === null || $book->author_surname_char !== $prev->author_surname_char)
                 <div
                     class="relative -mt-10 mb-auto flex flex-row flex-wrap self-stretch px-1 drop-shadow-[0_1px_1px_#00000030]">
-                    <span class="clip-b-arrow absolute -top-[2px] z-10 -translate-x-1/2 border border-b-transparent bg-neutral-100 px-1 pb-[5px] font-mono text-sm font-bold dark:border-neutral-900 dark:bg-neutral-950">
+                    <span class="clip-b-arrow dark:bg-neutral-950 absolute -top-[2px] z-10 -translate-x-1/2 border border-b-transparent bg-neutral-100 px-1 pb-[5px] font-mono text-sm font-bold dark:border-neutral-900">
                         {{ $book->author_surname_char }}
                     </span>
                 </div>
             @endif
 
             <livewire:book-list-shelf-book
+                {{-- :lazy="$loop->iteration > 150 ? true : false" --}}
                 :book="$book"
                 :key="$book->id" />
         @endforeach
@@ -45,7 +46,7 @@
         {{-- No books --}}
         @if ($this->books->isEmpty())
             <div class="relative -mt-10 mb-auto flex flex-row flex-wrap self-stretch drop-shadow-[0_1px_1px_#000]">
-                <span class="clip-b-arrow absolute top-0 mx-1 border border-b-transparent bg-neutral-100 px-1 pb-4 font-mono text-sm font-bold dark:border-neutral-900 dark:bg-neutral-950">
+                <span class="clip-b-arrow dark:bg-neutral-950 absolute top-0 mx-1 border border-b-transparent bg-neutral-100 px-1 pb-4 font-mono text-sm font-bold dark:border-neutral-900">
                     No books here...
                 </span>
             </div>

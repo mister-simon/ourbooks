@@ -5,7 +5,6 @@ namespace App\Livewire\Traits;
 use App\Models\Book;
 use Illuminate\Support\Arr;
 use Livewire\Attributes\Locked;
-use Livewire\Attributes\Renderless;
 use Livewire\Attributes\Rule;
 
 trait UpdatesBook
@@ -98,16 +97,9 @@ trait UpdatesBook
         $this->edit = false;
     }
 
-    #[Renderless]
     public function delete()
     {
-        $this->authorize('delete', $this->book);
-
-        $this->book->delete();
-        $this->book = null;
-
-        $this->dispatch('book-deleted');
-
         $this->deleting = false;
+        $this->dispatch('book-delete', id: $this->book->id);
     }
 }
