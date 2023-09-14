@@ -21,6 +21,7 @@
         "league/csv": "^9.0",
         "livewire/livewire": "^3.0@beta",
         "livewire/volt": "^1.0@beta",
+        "robsontenorio/mary": "^0.37.3",
         "spatie/laravel-ignition": "^2.0"
     },
     "require-dev": {
