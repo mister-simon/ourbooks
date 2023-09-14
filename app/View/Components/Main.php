@@ -4,9 +4,9 @@ namespace App\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
-use Mary\View\Components\Main as MaryMain;
+use Illuminate\View\Component;
 
-class Main extends MaryMain
+class Main extends Component
 {
     public function __construct(
 

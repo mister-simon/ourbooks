@@ -4,9 +4,9 @@ namespace App\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
-use Mary\View\Components\Card as MaryCard;
+use Illuminate\View\Component;
 
-class Card extends MaryCard
+class Card extends Component
 {
     public string $uuid;
 

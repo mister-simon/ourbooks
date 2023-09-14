@@ -4,9 +4,9 @@ namespace App\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
-use Mary\View\Components\Nav as ComponentsNav;
+use Illuminate\View\Component;
 
-class Nav extends ComponentsNav
+class Nav extends Component
 {
     public function __construct(
         public bool $sticky = false,
