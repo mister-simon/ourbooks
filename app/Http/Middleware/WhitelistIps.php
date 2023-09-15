@@ -18,8 +18,8 @@ class WhitelistIps
         $ip = request()->ip();
 
         abort_unless(
-            app()->isProduction() === false || in_array($ip, config('whitelist-ips.list')),
-            401,
+            app()->isProduction() === false && in_array($ip, config('whitelist-ips.list')),
+            403,
             "Your IP ({$ip}) is not authorized."
         );
 
