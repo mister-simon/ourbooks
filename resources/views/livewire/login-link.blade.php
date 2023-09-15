@@ -37,4 +37,10 @@ $submit = function () {
             <x-button type="submit">Send Login Link</x-button>
         </form>
     @endif
+
+    ... Or
+
+    <div class="mt-4 flex justify-center">
+        <x-google-button />
+    </div>
 </div>

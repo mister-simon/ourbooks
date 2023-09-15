@@ -10,10 +10,19 @@
     <livewire:sidebar-shelf-list />
 
     <x-menu title="User">
-        <x-app-menu-item
-            title="Profile"
-            icon="s-user-circle"
-            :link="route('profile')" />
+        @if (auth()->user()->avatar)
+            <x-app-menu-item :link="route('profile')">
+                <div class="flex flex-row items-center justify-between">
+                    <img src="{{ auth()->user()->avatar }}" alt="User Avatar" class="mr-2 h-5 w-5 rounded-full object-cover">
+                    Profile
+                </div>
+            </x-app-menu-item>
+        @else
+            <x-app-menu-item
+                title="Profile"
+                icon="s-user-circle"
+                :link="route('profile')" />
+        @endif
 
         <x-app-menu-item
             title="Logout"

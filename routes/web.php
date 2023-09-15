@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GoogleLoginController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +24,6 @@ Route::get('login/{user}', function (User $user) {
 })
     ->middleware('throttle', 'signed')
     ->name('auth.login');
+
+Route::get('auth/google', [GoogleLoginController::class, 'redirectToGoogle']);
+Route::get('auth/google/cb', [GoogleLoginController::class, 'handleGoogleCallback']);

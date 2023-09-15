@@ -7,11 +7,11 @@
         </a>
     </x-slot:brand>
 
-    <x-slot:actions class="hidden sm:block">
+    <x-slot:actions class="hidden flex-row !gap-0 sm:flex">
         @auth
             <label for="main-drawer" class="cursor-pointer p-4">
-                <x-app-icon name="o-bars-3" />
+                <x-app-icon name="o-bars-3" class="shrink-0" />
             </label>
         @endauth
     </x-slot:actions>
-    </x-nav>
+</x-app-nav>

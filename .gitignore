@@ -20,3 +20,5 @@ yarn-error.log
 database/seeders/import.csv
 _ide_helper_models.php
 _ide_helper.php
+assets/*.kra~
+resources/img/*.png~
