@@ -17,13 +17,15 @@ class WhitelistIps
     {
         $ip = request()->ip();
 
-        if (app()->isProduction()) {
+        if (app()->isProduction() && ! session('whitelisted')) {
             abort_unless(
                 in_array($ip, config('whitelist-ips.list')),
                 403,
                 "Your IP ({$ip}) is not authorized."
             );
         }
+
+        session()->put('whitelisted', true);
 
         return $next($request);
     }
