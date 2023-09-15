@@ -10,7 +10,7 @@
     <x-slot:actions class="hidden sm:block">
         @auth
             <label for="main-drawer" class="cursor-pointer p-4">
-                <x-icon name="o-bars-3" />
+                <x-app-icon name="o-bars-3" />
             </label>
         @endauth
     </x-slot:actions>
