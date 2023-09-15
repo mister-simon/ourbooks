@@ -19,7 +19,7 @@ class WhitelistIps
 
         abort_unless(
             app()->isProduction() === false || in_array($ip, config('whitelist-ips.list')),
-            403,
+            401,
             "Your IP ({$ip}) is not authorized."
         );
 
