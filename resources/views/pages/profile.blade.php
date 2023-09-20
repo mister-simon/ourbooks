@@ -50,7 +50,7 @@ $create = function () {
             <x-subtitle>Profile</x-subtitle>
 
             @if ($this->user->google_id)
-                <div class="prose max-w-prose">
+                <div class="prose">
                     <p>Your details are managed via your Google account.</p>
                     <p>
                         We only store a few things to identify you:
