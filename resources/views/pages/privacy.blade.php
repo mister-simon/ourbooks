@@ -14,11 +14,11 @@ name('privacy');
         <x-app-card class="card-bordered">
 
             <div class="prose max-w-screen-xl">
-                <h1 class="text-center"><strong>OurBooks.top - Privacy Policy</strong></h1>
+                <h1 class="text-center"><strong>OurBooks.top Privacy Policy</strong></h1>
                 <p class="text-center">Effective date: 20th day of September, 2023
                 </p>
                 <p>
-                    ourbooks.top (the "Site") is owned and operated by Simon Wheelwright. Simon Wheelwright is the data controller and can be contacted at: <br><br>ourbooks-privacy@simons.bulc.club
+                    ourbooks.top (the "Site") is owned and operated by Simon Wheelwright. Simon Wheelwright is the data controller and can be contacted at: <br><br>ourbookstop-privacy@simons.bulc.club
                 </p>
                 <p><strong><u>Purpose</u></strong><br>The purpose of this privacy policy (this "Privacy Policy") is to inform users of our Site of the following:
                 </p>
@@ -43,7 +43,7 @@ name('privacy');
                     </ol>
                     <p>When the legal basis for us processing your personal data is that you have provided your consent to that processing, you may withdraw your consent at any time. If you withdraw your consent, it will not make processing which we completed before you withdrew your consent unlawful.
                     </p>
-                    <p>You can withdraw your consent by contacting: ourbooks-privacy@simons.bulc.club, or delete your account via your user profile page.
+                    <p>You can withdraw your consent by contacting: ourbookstop-privacy@simons.bulc.club, or delete your account via your user profile page.
                     </p>
                 </div>
                 <div>
@@ -108,7 +108,7 @@ name('privacy');
                     <p><strong><u>Children</u></strong><br>The minimum age to use our website is 16 years of age. We do not knowingly collect or use personal data from children under 16 years of age. If we learn that we have collected personal data from a child under 16 years of age, the personal data will be deleted as soon as possible. If a child under 16 years of age has provided us with personal data their parent or guardian may contact our privacy officer.
                     </p>
                 </div>
-                <p><strong><u>How to Access, Modify, Delete, or Challenge the Data Collected</u></strong><br>If you would like to know if we have collected your personal data, how we have used your personal data, if we have disclosed your personal data and to who we disclosed your personal data, if you would like your data to be deleted or modified in any way, or if you would like to exercise any of your other rights under the GDPR, please contact our privacy officer here:<br><br>Simon Wheelwright<br>ourbooks-privacy@simons.bulc.club
+                <p><strong><u>How to Access, Modify, Delete, or Challenge the Data Collected</u></strong><br>If you would like to know if we have collected your personal data, how we have used your personal data, if we have disclosed your personal data and to who we disclosed your personal data, if you would like your data to be deleted or modified in any way, or if you would like to exercise any of your other rights under the GDPR, please contact our privacy officer here:<br><br>Simon Wheelwright<br>ourbookstop-privacy@simons.bulc.club
                 </p>
                 <div>
                     <p><strong><u>How to Opt-Out of Data Collection, Use or Disclosure</u></strong><br>In addition to the method(s) described in the <em>How to Access, Modify, Delete, or Challenge the Data Collected</em> section, we provide the following specific opt-out methods for the forms of collection, use, or disclosure of your personal data specified below:
@@ -131,7 +131,7 @@ name('privacy');
                 </p>
                 <p><strong><u>Complaints</u></strong><br>If you have any complaints about how we process your personal data, please contact us through the contact methods listed in the <em>Contact Information</em> section so that we can, where possible, resolve the issue. If you feel we have not addressed your concern in a satisfactory manner you may contact a supervisory authority. You also have the right to directly make a complaint to a supervisory authority. You can lodge a complaint with a supervisory authority by contacting the Information Commissioner's Office.
                 </p>
-                <p><strong><u>Contact Information</u></strong><br>If you have any questions, concerns or complaints, you can contact our privacy officer, Simon Wheelwright, at:<br><br>ourbooks-privacy@simons.bulc.club
+                <p><strong><u>Contact Information</u></strong><br>If you have any questions, concerns or complaints, you can contact our privacy officer, Simon Wheelwright, at:<br><br>ourbookstop-privacy@simons.bulc.club
                 </p>
             </div>
         </x-app-card>

@@ -30,7 +30,7 @@ We operate the website ourbooks.top (the 'Site'), as well as any other related p
 We provide a service to track books in a shared context with other users. Whether you live together, or just have friends who like to share literature, we provide you a shared bookshelf in the cloud.
 
 
-You can contact us by email at ourbooks-terms@simons.bulc.club.
+You can contact us by email at ourbookstop-terms@simons.bulc.club.
 
 
 These Legal Terms constitute a legally binding agreement made between you, whether personally or on behalf of an entity ('you'), and Simon Wheelwright, concerning your access to and use of the Services. You agree that by accessing the Services, you have read, understood, and agreed to be bound by all of these Legal Terms. IF YOU DO NOT AGREE WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE USE IMMEDIATELY.
@@ -114,7 +114,7 @@ solely for your personal, non-commercial use or internal business purpose.<br>
 Except as set out in this section or elsewhere in our Legal Terms, no part of the Services and no Content or Marks may be copied, reproduced, aggregated, republished, uploaded, posted, publicly displayed, encoded, translated, transmitted, distributed, sold, licensed, or otherwise exploited for any commercial purpose whatsoever, without our express prior written permission.
 
 
-If you wish to make any use of the Services, Content, or Marks other than as set out in this section or elsewhere in our Legal Terms, please address your request to: ourbooks-terms@simons.bulc.club. If we ever grant you the permission to post, reproduce, or publicly display any part of our Services or Content, you must identify us as the owners or licensors of the Services, Content, or Marks and ensure that any copyright or proprietary notice appears or is visible on posting, reproducing, or displaying our Content.
+If you wish to make any use of the Services, Content, or Marks other than as set out in this section or elsewhere in our Legal Terms, please address your request to: ourbookstop-terms@simons.bulc.club. If we ever grant you the permission to post, reproduce, or publicly display any part of our Services or Content, you must identify us as the owners or licensors of the Services, Content, or Marks and ensure that any copyright or proprietary notice appears or is visible on posting, reproducing, or displaying our Content.
 
 
 We reserve all rights not expressly granted to you in and to the Services, Content, and Marks.
@@ -370,7 +370,7 @@ In order to resolve a complaint regarding the Services or to receive further inf
 
 Simon Wheelwright
 __________
-ourbooks-terms@simons.bulc.club
+ourbookstop-terms@simons.bulc.club
 
 </x-markdown>
         </x-app-card>
