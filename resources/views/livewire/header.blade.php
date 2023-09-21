@@ -3,7 +3,9 @@
         <a
             class="flex items-center gap-1"
             href="{{ route('home') }}">
-            @svg('heroicon-s-book-open', 'w-5 h-5') {{ config('app.name') }}
+            <img src="{{ asset('logo.svg') }}" alt="" class="block h-10 w-10 dark:hidden">
+            <img src="{{ asset('logo-light.svg') }}" alt="" class="hidden h-10 w-10 dark:block">
+            {{ config('app.name') }}
         </a>
     </x-slot:brand>
 
