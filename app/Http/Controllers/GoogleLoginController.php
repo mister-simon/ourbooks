@@ -25,14 +25,14 @@ class GoogleLoginController extends Controller
         }
 
         // Associate an existing email address with a google account
-        $emailUser = User::query()
-            ->whereNull('google_id')
-            ->where('email', $user->getEmail())
-            ->first();
+        // $emailUser = User::query()
+        //     ->whereNull('google_id')
+        //     ->where('email', $user->getEmail())
+        //     ->first();
 
-        if ($emailUser !== null) {
-            $emailUser->update(['google_id' => $user->getId()]);
-        }
+        // if ($emailUser !== null) {
+        //     $emailUser->update(['google_id' => $user->getId()]);
+        // }
 
         $authUser = User::updateOrCreate([
             'google_id' => $user->getId(),
