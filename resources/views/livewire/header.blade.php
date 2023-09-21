@@ -3,7 +3,7 @@
         <a
             class="flex items-center gap-1"
             href="{{ route('home') }}">
-            <img src="{{ asset('logo-light.svg') }}" alt="" class="h-10 w-10 dark:invert">
+            <img src="{{ asset('logo.svg') }}" alt="" class="h-10 w-10 invert dark:invert-0">
             {{ config('app.name') }}
         </a>
     </x-slot:brand>
