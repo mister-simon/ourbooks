@@ -24,6 +24,13 @@ class GoogleLoginController extends Controller
                 ->with('status', 'Unable to process login.');
         }
 
+        // Associate an existing email address with a google account
+        User::query()
+            ->whereNull('google_id')
+            ->where('email', $user->getEmail())
+            ->first()
+            ?->update(['google_id' => $user->getId()]);
+
         $authUser = User::updateOrCreate([
             'google_id' => $user->getId(),
         ], [
@@ -35,6 +42,5 @@ class GoogleLoginController extends Controller
         Auth::login($authUser);
 
         return to_route('home');
-
     }
 }
