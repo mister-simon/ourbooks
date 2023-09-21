@@ -15,11 +15,19 @@ class WhitelistIps
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $whitelist = config('whitelist-ips.list');
+
+        // Ignore empty whitelist
+        if (count($whitelist) === 0) {
+            return $next($request);
+        }
+
+        // Otherwise check against it
         $ip = request()->ip();
 
         if (app()->isProduction() && ! session('whitelisted')) {
             abort_unless(
-                in_array($ip, config('whitelist-ips.list')),
+                in_array($ip, $whitelist),
                 403,
                 "Your IP ({$ip}) is not authorized."
             );
