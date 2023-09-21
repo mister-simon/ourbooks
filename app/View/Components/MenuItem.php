@@ -48,7 +48,7 @@ class MenuItem extends Component
                         @endif
                     >
                         @if($icon)
-                            <x-app-icon :name="$icon" />
+                            <x-icon :name="$icon" />
                         @endif
 
                             <span class="mary-hideable">{{ $title ?? $slot }}</span>

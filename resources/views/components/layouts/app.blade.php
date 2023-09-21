@@ -8,7 +8,10 @@
     <title>{{ $title ?? 'Page Title' }} | {{ config('app.name') }}</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ url(asset('favicon.ico')) }}">
+    <link rel="manifest" href="{{ asset('build/manifest.webmanifest') }}">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
+    <link rel="icon" href="{{ asset('logo.svg') }}" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon-180x180.png') }}">
 
     <!-- Fonts -->
     <link

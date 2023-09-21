@@ -26,7 +26,7 @@ class Nav extends Component
                 @endif
 
                     <header {{ $attributes->class(["bg-base-100 border-gray-100 border-b"]) }}>
-                        <div class="max-w-screen-2xl mx-auto px-6 py-5 flex items-center">
+                        <div class="max-w-screen-2xl mx-auto px-6 py-1 flex items-center">
                             <div {{ $brand->attributes->class(["flex-1 flex items-center"]) }}>
                                 {{ $brand }}
                             </div>

@@ -1,4 +1,7 @@
 <div class="mt-auto flex">
+    <x-link class="m-2 inline-flex items-center gap-2 text-xs" href="{{ route('terms') }}">Terms Of Service</x-link>
+    <x-link class="m-2 inline-flex items-center gap-2 text-xs" href="{{ route('privacy') }}">Privacy Policy</x-link>
+
     <x-link
         href="https://github.com/mister-simon/ourbooks"
         target="_blank"
