@@ -30,7 +30,9 @@ class GoogleLoginController extends Controller
             ->where('email', $user->getEmail())
             ->first();
 
-        $emailUser?->update(['google_id' => $user->getId()]);
+        if ($emailUser !== null) {
+            $emailUser->update(['google_id' => $user->getId()]);
+        }
 
         $authUser = User::updateOrCreate([
             'google_id' => $user->getId(),
