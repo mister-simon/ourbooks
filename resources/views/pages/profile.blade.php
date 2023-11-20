@@ -55,14 +55,13 @@ $create = function () {
                     <p>
                         We only store a few things to identify you:
                     <ul>
-                        <li>Email</li>
-                        <li>Nickname</li>
-                        <li>Avatar</li>
-                        <li>Google ID</li>
+                        <li>Google ID - Used to authenticate you uniquely with Google services.</li>
+                        <li>Email - Only used as an alternative login method.</li>
+                        <li>Nickname - Displayed on your shelves.</li>
+                        <li>Avatar - Used as an icon for your profile. Otherwise unused / not shared.</li>
                     </ul>
                     </p>
-                    <p>Hopefully that's cool with you.</p>
-                    <p>If you want to change any of your details you'll need to do that via Google.</p>
+                    <p>You may update your profile via your <a href="{{ url()->away('https://myaccount.google.com/') }}" target="_blank" rel="noopener noreferrer">Google account manager</a>.</p>
                 </div>
             @else
                 @if ($this->success)
@@ -86,7 +85,6 @@ $create = function () {
                     <x-button type="submit">Save</x-button>
                 </form>
             @endif
-
         </x-app-card>
     @endvolt
 </x-layouts.app>

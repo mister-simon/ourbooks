@@ -4,6 +4,11 @@ import { refreshPaths } from "laravel-vite-plugin";
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+    server: {
+        watch: {
+            ignored: ['**/vendor/**']
+        }
+    },
     plugins: [
         VitePWA({
             scope: '/',
