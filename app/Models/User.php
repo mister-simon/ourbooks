@@ -3,7 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -15,6 +19,7 @@ class User extends Authenticatable
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
+    use HasUlids;
     use Notifiable;
     use TwoFactorAuthenticatable;
 
@@ -58,4 +63,27 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function shelves(): BelongsToMany
+    {
+        return $this->belongsToMany(Shelf::class);
+    }
+
+    public function bookUsers(): HasMany
+    {
+        return $this->hasMany(BookUser::class);
+    }
+
+    public function books(): BelongsToMany
+    {
+        return $this->belongsToMany(Book::class)
+            ->withPivot(['read', 'rating'])
+            ->withTimestamps()
+            ->using(BookUser::class);
+    }
+
+    public function getReadableAttribute()
+    {
+        return $this->name ?? str($this->email)->limit(15);
+    }
 }

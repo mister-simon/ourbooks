@@ -35,7 +35,7 @@
         @endif
 
         <!-- Page Content -->
-        <main class="grow">
+        <main class="flex grow flex-col">
             {{ $slot }}
         </main>
     </div>
