@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex shrink-0 items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('shelves.index') }}">
                         <x-application-mark class="block h-9 w-auto" />
                     </a>
                 </div>
@@ -13,8 +13,8 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @auth
-                        <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                            {{ __('Dashboard') }}
+                        <x-nav-link href="{{ route('shelves.index') }}" :active="request()->routeIs('shelves.index')">
+                            {{ __('Shelves') }}
                         </x-nav-link>
                     @else
                         <x-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">
@@ -151,8 +151,8 @@
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="space-y-1 pb-3 pt-2">
             @auth
-                <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                    {{ __('Dashboard') }}
+                <x-responsive-nav-link href="{{ route('shelves.index') }}" :active="request()->routeIs('shelves.index')">
+                    {{ __('Shelves') }}
                 </x-responsive-nav-link>
             @else
                 <x-responsive-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">

@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\ShelfController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     if (auth()->check()) {
-        return to_route('dashboard');
+        return to_route('shelves.index');
     }
 
     return view('welcome');
@@ -15,7 +16,9 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('shelves', [ShelfController::class, 'index'])
+        ->name('shelves.index');
+
+    Route::get('shelves/{shelf}', [ShelfController::class, 'show'])
+        ->name('shelves.show');
 });
