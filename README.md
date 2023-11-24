@@ -15,3 +15,19 @@ Personal Goals:
 - Create an organised project
 - Use modern tooling
 - Experiment with new systems / framework features  
+
+Todo:
+
+- [ ] Create new shelf
+- [ ] Add users to shelf
+  - [ ] Shelf invites list / notifications
+- [ ] Make livewire shelf show
+  - [ ] Add filter controls
+- [ ] Show book view
+  - [ ] User ratings
+  - [ ] User comments
+  - [ ] Who added the book / when
+  - [ ] Other books from this author
+- [ ] Create book view
+- [ ] Edit book view
+- [ ] Delete book button w/ confirmation
