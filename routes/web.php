@@ -19,6 +19,9 @@ Route::middleware([
     Route::get('shelves', [ShelfController::class, 'index'])
         ->name('shelves.index');
 
+    Route::get('shelves/create', [ShelfController::class, 'create'])
+        ->name('shelves.create');
+
     Route::get('shelves/{shelf}', [ShelfController::class, 'show'])
         ->name('shelves.show');
 });
