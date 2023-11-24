@@ -8,7 +8,7 @@
     </x-page-header>
 
     <x-page-card class="card-compact">
-        <table class="table table-zebra table-pin-rows table-sm">
+        <table class="table table-zebra table-pin-rows">
             <thead>
                 <tr class="[&>th]:after:absolute [&>th]:after:inset-x-0 [&>th]:after:bottom-0 [&>th]:after:block [&>th]:after:h-[1px] [&>th]:after:bg-neutral-700">
                     <th scope="col">Forename</th>
