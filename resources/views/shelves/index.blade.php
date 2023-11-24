@@ -22,7 +22,7 @@
                             <li class="italic">{{ trans_choice(':count book|:count books', $shelf->books_count) }}</li>
                             <li>{{ trans_choice(':count author|:count authors', $authorCounts[$shelf->id]) }}</li>
                         </ul>
-                        <a href="{{ route('shelves.show', $shelf->id) }}" class="absolute inset-0">
+                        <a href="{{ route('shelves.show', $shelf->id) }}" class="absolute inset-0 focus-visible:outline-none">
                             <span class="sr-only">{{ __('View shelf') }}</span>
                         </a>
                     </div>
