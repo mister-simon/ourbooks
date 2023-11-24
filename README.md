@@ -31,3 +31,4 @@ Todo:
 - [ ] Create book view
 - [ ] Edit book view
 - [ ] Delete book button w/ confirmation
+- [ ] Fix database session driver causing csrf issues
