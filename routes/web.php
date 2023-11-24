@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ShelfController;
+use App\Livewire\ShelfCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,7 +20,7 @@ Route::middleware([
     Route::get('shelves', [ShelfController::class, 'index'])
         ->name('shelves.index');
 
-    Route::get('shelves/create', [ShelfController::class, 'create'])
+    Route::get('shelves/create', ShelfCreate::class)
         ->name('shelves.create');
 
     Route::get('shelves/{shelf}', [ShelfController::class, 'show'])

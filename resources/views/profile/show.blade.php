@@ -1,9 +1,7 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+    <x-page-header>
+        {{ __('Profile') }}
+    </x-page-header>
 
     <div class="bg-gray-100">
         <div class="mx-auto max-w-7xl py-10 sm:px-6 lg:px-8">
@@ -29,10 +27,12 @@
                 <x-section-border />
             @endif
 
+            {{-- Temporarily hiding this because the database driver is causing me CSRF issues --}}
+            {{--
             <div class="mt-10 sm:mt-0">
                 @livewire('profile.logout-other-browser-sessions-form')
             </div>
-
+ --}}
             @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
                 <x-section-border />
 

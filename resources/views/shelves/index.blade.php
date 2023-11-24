@@ -1,10 +1,11 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight">
-            {{ __('Shelves') }}
-        </h2>
-        <a href="{{ route('shelves.create') }}" class="btn btn-primary">New Shelf</a>
-    </x-slot>
+    <x-page-header>
+        {{ __('Shelves') }}
+
+        <x-slot name="actions">
+            <a href="{{ route('shelves.create') }}" class="btn btn-primary">New Shelf</a>
+        </x-slot>
+    </x-page-header>
 
     <div class="grow bg-gray-100 py-12">
         <div class="mx-auto grid max-w-7xl sm:grid-cols-2 sm:px-6 lg:grid-cols-3 lg:px-8">

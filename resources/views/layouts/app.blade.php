@@ -6,7 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @csrf
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>
+        {{ config('app.name', 'OurBookstop') }}
+        @if ($title ?? false)
+            - {{ $title }}
+        @endif
+    </title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -24,15 +29,6 @@
 
     <div class="flex min-h-full flex-col bg-base-100 text-base-content">
         @livewire('navigation-menu')
-
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-base-100 shadow">
-                <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-6 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endif
 
         <!-- Page Content -->
         <main class="flex grow flex-col">
