@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ShelfController;
+use App\Livewire\BookCreate;
 use App\Livewire\ShelfCreate;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +26,7 @@ Route::middleware([
 
     Route::get('shelves/{shelf}', [ShelfController::class, 'show'])
         ->name('shelves.show');
+
+    Route::get('shelves/{shelf}/book/create', BookCreate::class)
+        ->name('shelves.book.create');
 });

@@ -1,9 +1,11 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight">
-            {{ __('Shelf - :shelf', ['shelf' => $shelf->title]) }}
-        </h2>
-    </x-slot>
+    <x-page-header>
+        {{ __('Shelf - :shelf', ['shelf' => $shelf->title]) }}
+
+        <x-slot name="actions">
+            <a href="{{ route('shelves.book.create', ['shelf' => $shelf]) }}" class="btn btn-primary">Add Book</a>
+        </x-slot>
+    </x-page-header>
 
     <x-page-card>
         <table class="table table-zebra table-pin-rows table-sm">
