@@ -35,10 +35,16 @@ class DatabaseSeeder extends Seeder
             $this->command->info('Importing from csv');
 
             User::factory()
-                ->create(['email' => 'simon@example.com']);
+                ->create([
+                    'email' => 'simon@example.com',
+                    'name' => 'Simon',
+                ]);
 
             User::factory()
-                ->create(['email' => 'tone@example.com']);
+                ->create([
+                    'email' => 'tone@example.com',
+                    'name' => 'Tone',
+                ]);
 
             (new CsvImporter($importCsv))->import();
         }
