@@ -31,6 +31,24 @@
                     </div>
                 </div>
             @endforeach
+            <div class="card z-0 bg-primary text-primary-content shadow-xl transition-transform focus-within:scale-110 hover:z-10 hover:scale-110">
+                <div class="card-body">
+                    <h2 class="card-title not-sr-only grow">{{ __('Create a New Shelf') }}</h2>
+                    <div class="flex flex-row gap-2">
+                        <li class="badge badge-neutral h-auto">{{ Auth::user()->readable }}</li>
+                    </div>
+                    <ul>
+                        <li class="italic">{{ trans_choice(':count book|:count books', 0) }}</li>
+                        <li>{{ trans_choice(':count author|:count authors', 0) }}</li>
+                    </ul>
+                    <a
+                        href="{{ route('shelves.create') }}"
+                        class="absolute inset-0 focus-visible:outline-none"
+                        wire:navigate>
+                        <span class="sr-only">{{ __('Create A New Shelf') }}</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </x-app-layout>
