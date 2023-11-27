@@ -38,14 +38,14 @@
             </thead>
             <tbody>
                 @forelse ($books as $book)
-                    @if (($prevBook ?? null) && $book->author_surname_char !== $prevBook->author_surname_char)
+                    @if (($prevBook ?? null) === null || $book->author_surname_char !== $prevBook->author_surname_char)
                         {{-- This is kinda jank but it interjects the surname character, which sticks underneath the header row --}}
             </tbody>
-            <thead>
-                <tr class="top-6 z-20 bg-transparent">
-                    <th class=""></th>
-                    <th class="-translate-x-1 translate-y-2 py-0">
-                        <span class="badge badge-lg w-full rounded-b-lg rounded-t-none border-none px-1">{{ $book->author_surname_char }}</span>
+            <thead class="border-y">
+                <tr class="pointer-events-none -top-1 z-20 border-b-0 bg-transparent">
+                    <th></th>
+                    <th class="-translate-x-1 text-right">
+                        <span class="badge aspect-square px-1 text-base-content/60">{{ $book->author_surname_char }}</span>
                     </th>
                 </tr>
             </thead>
