@@ -11,7 +11,7 @@
     </x-page-header>
 
     <div class="grow bg-gray-100 py-12">
-        <div class="mx-auto grid max-w-7xl gap-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-3 lg:px-8">
+        <div class="container mx-auto grid gap-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-3 lg:px-8">
             @foreach ($shelves as $shelf)
                 <div class="card z-0 bg-base-100 shadow-xl transition-transform focus-within:scale-110 hover:z-10 hover:scale-110">
                     <div class="card-body">
