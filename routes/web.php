@@ -29,4 +29,7 @@ Route::middleware([
 
     Route::get('shelves/{shelf}/book/create', BookCreate::class)
         ->name('shelves.book.create');
+
+    Route::get('shelves/{shelf}/user/create', BookCreate::class) // Placeholder
+        ->name('shelves.user.create');
 });

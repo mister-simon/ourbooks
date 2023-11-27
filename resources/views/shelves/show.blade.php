@@ -2,8 +2,24 @@
     <x-page-header>
         {{ __('Shelf - :shelf', ['shelf' => $shelf->title]) }}
 
+        <x-slot name="subtitle">
+            <h3 class="sr-only">Users</h3>
+            <ul class="flex flex-row gap-2">
+                @foreach ($shelf->users as $user)
+                    <li class="badge badge-neutral badge-sm h-auto">{{ $user->readable }}</li>
+                @endforeach
+                <li>
+                    <a
+                        href="{{ route('shelves.user.create', ['shelf' => $shelf]) }}"
+                        class="btn btn-secondary btn-xs rounded-badge">+ Invite User</a>
+                </li>
+            </ul>
+        </x-slot>
+
         <x-slot name="actions">
-            <a href="{{ route('shelves.book.create', ['shelf' => $shelf]) }}" class="btn btn-primary">Add Book</a>
+            <a
+                href="{{ route('shelves.book.create', ['shelf' => $shelf]) }}"
+                class="btn btn-primary">Add Book</a>
         </x-slot>
     </x-page-header>
 

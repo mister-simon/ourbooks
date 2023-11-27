@@ -21,6 +21,7 @@ Todo:
 - [x] Create new shelf
 - [ ] Add users to shelf
   - [ ] Shelf invites list / notifications
+  - [ ] User privacy options?
 - [ ] Make livewire shelf show
   - [ ] Add filter controls
 - [ ] Show book view
