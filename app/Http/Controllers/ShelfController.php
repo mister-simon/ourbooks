@@ -11,6 +11,8 @@ class ShelfController extends Controller
 {
     public function index()
     {
+        $this->authorize('viewAny', Shelf::class);
+
         $user = Auth::user();
 
         $shelves = $user
@@ -29,7 +31,7 @@ class ShelfController extends Controller
 
     public function show(Shelf $shelf)
     {
-        $user = Auth::user();
+        $this->authorize('view', $shelf);
 
         $books = $shelf
             ->books()
