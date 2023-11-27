@@ -18,7 +18,7 @@ Personal Goals:
 
 Todo:
 
-- [ ] Create new shelf
+- [x] Create new shelf
 - [ ] Add users to shelf
   - [ ] Shelf invites list / notifications
 - [ ] Make livewire shelf show
