@@ -2,8 +2,8 @@
     <x-page-header>
         {{ __('Create Shelf') }}
     </x-page-header>
-    <x-page-card>
 
+    <x-page-card>
         <x-form-section submit="create">
             <x-slot name="title">
                 {{ __('New Shelf') }}

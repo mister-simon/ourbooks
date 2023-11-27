@@ -3,6 +3,7 @@
 use App\Http\Controllers\ShelfController;
 use App\Livewire\BookCreate;
 use App\Livewire\ShelfCreate;
+use App\Livewire\ShelfInviteCreate;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,6 +31,6 @@ Route::middleware([
     Route::get('shelves/{shelf}/book/create', BookCreate::class)
         ->name('shelves.book.create');
 
-    Route::get('shelves/{shelf}/user/create', BookCreate::class) // Placeholder
+    Route::get('shelves/{shelf}/user/create', ShelfInviteCreate::class)
         ->name('shelves.user.create');
 });

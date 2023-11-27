@@ -83,6 +83,11 @@ class User extends Authenticatable implements MustVerifyEmail
             ->using(BookUser::class);
     }
 
+    public function invites(): HasMany
+    {
+        return $this->hasMany(ShelfInvite::class);
+    }
+
     public function getReadableAttribute()
     {
         return $this->name ?? str($this->email)->limit(15);

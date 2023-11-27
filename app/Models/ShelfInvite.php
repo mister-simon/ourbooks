@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ShelfInvite extends Model
+class ShelfInvite extends Pivot
 {
-    use HasFactory;
+    use HasFactory, HasUlids;
+
+    protected $table = 'shelf_invites';
 
     protected $fillable = [
         'shelf_id',

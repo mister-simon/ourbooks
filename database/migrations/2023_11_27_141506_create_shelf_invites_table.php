@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('shelf_invites', function (Blueprint $table) {
-            $table->ulid();
+            $table->ulid('id')->primary();
             $table->timestamps();
 
             $table->foreignUlid('shelf_id')

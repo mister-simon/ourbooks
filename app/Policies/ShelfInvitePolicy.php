@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use App\Models\Shelf;
 use App\Models\ShelfInvite;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ShelfInvitePolicy
 {
@@ -27,9 +27,9 @@ class ShelfInvitePolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Shelf $shelf): bool
     {
-        //
+        return $user->exists && $shelf->users->contains($user);
     }
 
     /**

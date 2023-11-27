@@ -3,7 +3,9 @@
 namespace App\Livewire;
 
 use App\Actions\Shelf\CreateShelf;
+use App\Models\Shelf;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -20,6 +22,8 @@ class ShelfCreate extends Component
 
     public function create(CreateShelf $createShelf)
     {
+        Gate::authorize('create', Shelf::class);
+
         $this->resetErrorBag();
 
         $shelf = $createShelf->create(
@@ -33,7 +37,6 @@ class ShelfCreate extends Component
             return redirect()
                 ->route('shelves.show', ['shelf' => $shelf]);
         }
-
     }
 
     public function render()

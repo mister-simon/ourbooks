@@ -28,6 +28,11 @@ class Shelf extends Model
         return $this->hasMany(Book::class);
     }
 
+    public function invites(): HasMany
+    {
+        return $this->hasMany(ShelfInvite::class);
+    }
+
     public function userListString()
     {
         return $this->users
