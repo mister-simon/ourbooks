@@ -34,6 +34,8 @@ class ShelfInviteCreate extends Component
             return;
         }
 
+        Gate::authorize('delete', $this->confirmingInvite);
+
         $this->confirmingInvite->delete();
         $this->confirmingInvite = null;
         $this->confirmingInviteDeletion = false;

@@ -21,7 +21,16 @@ class ShelfInvitePolicy
      */
     public function delete(User $user, ShelfInvite $shelfInvite): bool
     {
-        return $shelfInvite->user()->is($user);
+        $isAuthUser = fn () => $shelfInvite
+            ->user()
+            ->is($user);
+
+        $isShelfAdmin = fn () => $shelfInvite
+            ->shelf
+            ->users
+            ->contains($user);
+
+        return $isAuthUser() || $isShelfAdmin();
     }
 
     public function confirm(User $user, ShelfInvite $shelfInvite): bool
