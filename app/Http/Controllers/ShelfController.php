@@ -21,10 +21,16 @@ class ShelfController extends Controller
             ->tap(new ShelfBookCount)
             ->get();
 
-        $shelfAuthorCounts = Shelf::getShelfAuthors($shelves->modelKeys());
+        $invites = $user
+            ->invites()
+            ->with(['shelf' => fn ($query) => $query->tap(new ShelfBookCount)])
+            ->get();
+
+        $shelfAuthorCounts = Shelf::getShelfAuthors([...$shelves->modelKeys(), ...$invites->pluck('shelf_id')->all()]);
 
         return view('shelves.index', [
             'shelves' => $shelves,
+            'invites' => $invites,
             'authorCounts' => $shelfAuthorCounts,
         ]);
     }

@@ -95,6 +95,8 @@ namespace App\Models{
  * @property string $title
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
  * @property-read int|null $books_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ShelfInvite> $invites
+ * @property-read int|null $invites_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
  * @method static \Database\Factories\ShelfFactory factory($count = null, $state = [])
@@ -107,6 +109,38 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Shelf whereUpdatedAt($value)
  */
 	class Shelf extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ShelfInvite
+ *
+ * @property string $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $shelf_id
+ * @property string|null $user_id
+ * @property string|null $invited_by_id
+ * @property string|null $name
+ * @property string|null $email
+ * @property-read \App\Models\User|null $invitedBy
+ * @property-read \App\Models\Shelf $shelf
+ * @property-read \App\Models\User|null $user
+ * @property-read \App\Models\User|null $userByEmail
+ * @method static \Database\Factories\ShelfInviteFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|ShelfInvite newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ShelfInvite newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ShelfInvite query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ShelfInvite whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ShelfInvite whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ShelfInvite whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ShelfInvite whereInvitedById($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ShelfInvite whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ShelfInvite whereShelfId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ShelfInvite whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ShelfInvite whereUserId($value)
+ */
+	class ShelfInvite extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -131,6 +165,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Book> $books
  * @property-read int|null $books_count
  * @property-read mixed $readable
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ShelfInvite> $invites
+ * @property-read int|null $invites_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read string $profile_photo_url
@@ -156,6 +192,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
-	class User extends \Eloquent {}
+	class User extends \Eloquent implements \Illuminate\Contracts\Auth\MustVerifyEmail {}
 }
 

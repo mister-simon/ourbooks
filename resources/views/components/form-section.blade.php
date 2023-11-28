@@ -12,6 +12,8 @@
                 <div class="grid grid-cols-6 gap-6">
                     {{ $form }}
                 </div>
+
+                {{ $slot }}
             </div>
 
             @if (isset($actions))

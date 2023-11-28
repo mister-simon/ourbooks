@@ -13,9 +13,31 @@ class ShelfInviteCreate extends Component
 {
     public Shelf $shelf;
 
+    public $confirmingInviteDeletion = false;
+
+    public $confirmingInvite = null;
+
     public $state = [
+        'name' => '',
         'email' => '',
     ];
+
+    public function confirmInviteDeletion(ShelfInvite $invite)
+    {
+        $this->confirmingInviteDeletion = true;
+        $this->confirmingInvite = $invite;
+    }
+
+    public function deleteInvite()
+    {
+        if ($this->confirmingInvite === null) {
+            return;
+        }
+
+        $this->confirmingInvite->delete();
+        $this->confirmingInvite = null;
+        $this->confirmingInviteDeletion = false;
+    }
 
     public function create(CreateShelfInvite $createShelfInvite)
     {

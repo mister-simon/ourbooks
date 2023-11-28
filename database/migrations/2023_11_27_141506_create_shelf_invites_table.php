@@ -24,6 +24,15 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
 
+            $table->foreignUlid('invited_by_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
+
+            $table
+                ->string('name')
+                ->nullable();
+
             $table
                 ->string('email')
                 ->nullable();
