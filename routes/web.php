@@ -3,6 +3,7 @@
 use App\Http\Controllers\ShelfController;
 use App\Livewire\BookCreate;
 use App\Livewire\ShelfCreate;
+use App\Livewire\ShelfInviteConfirm;
 use App\Livewire\ShelfInviteCreate;
 use App\Models\ShelfInvite;
 use App\Notifications\InvitedToShelf;
@@ -37,6 +38,9 @@ Route::middleware([
 
     Route::get('shelves/{shelf}/user/create', ShelfInviteCreate::class)
         ->name('shelves.user.create');
+
+    Route::get('shelves/{invite}/confirm', ShelfInviteConfirm::class)
+        ->name('shelves.invite.confirm');
 });
 
 if (config('app.debug')) {

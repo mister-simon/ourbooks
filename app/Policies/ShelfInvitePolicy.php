@@ -9,22 +9,6 @@ use App\Models\User;
 class ShelfInvitePolicy
 {
     /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, ShelfInvite $shelfInvite): bool
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can create models.
      */
     public function create(User $user, Shelf $shelf): bool
@@ -33,34 +17,15 @@ class ShelfInvitePolicy
     }
 
     /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, ShelfInvite $shelfInvite): bool
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can delete the model.
      */
     public function delete(User $user, ShelfInvite $shelfInvite): bool
     {
-        //
+        return $shelfInvite->user()->is($user);
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, ShelfInvite $shelfInvite): bool
+    public function confirm(User $user, ShelfInvite $shelfInvite): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, ShelfInvite $shelfInvite): bool
-    {
-        //
+        return $shelfInvite->user()->is($user);
     }
 }

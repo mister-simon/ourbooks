@@ -6,14 +6,8 @@ use App\Actions\Shelf\CreateShelf;
 use App\Models\Shelf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[
-    Layout('layouts.app', [
-        'title' => 'Hello!',
-    ])
-]
 class ShelfCreate extends Component
 {
     public $state = [
@@ -41,6 +35,9 @@ class ShelfCreate extends Component
 
     public function render()
     {
-        return view('livewire.shelf-create');
+        return view('livewire.shelf-create')
+            ->layout('layouts.app', [
+                'title' => __('Create Shelf'),
+            ]);
     }
 }

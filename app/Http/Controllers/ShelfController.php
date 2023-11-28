@@ -19,6 +19,7 @@ class ShelfController extends Controller
             ->shelves()
             ->tap(new OrderByTitle)
             ->tap(new ShelfBookCount)
+            ->with(['users' => fn ($query) => $query->select('name')])
             ->get();
 
         $invites = $user
@@ -26,7 +27,10 @@ class ShelfController extends Controller
             ->with(['shelf' => fn ($query) => $query->tap(new ShelfBookCount)])
             ->get();
 
-        $shelfAuthorCounts = Shelf::getShelfAuthors([...$shelves->modelKeys(), ...$invites->pluck('shelf_id')->all()]);
+        $shelfAuthorCounts = Shelf::getShelfAuthors([
+            ...$shelves->modelKeys(),
+            ...$invites->pluck('shelf_id')->all(),
+        ]);
 
         return view('shelves.index', [
             'shelves' => $shelves,
@@ -37,6 +41,10 @@ class ShelfController extends Controller
 
     public function show(Shelf $shelf)
     {
+        if ($invite = $shelf->invites->firstWhere('user_id', Auth::id())) {
+            return to_route('shelves.invite.confirm', ['invite' => $invite->id]);
+        }
+
         $this->authorize('view', $shelf);
 
         $books = $shelf

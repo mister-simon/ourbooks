@@ -68,4 +68,11 @@ class ShelfInvite extends Pivot
             $this->email => $this->name,
         ])->notify($invite);
     }
+
+    public function confirm()
+    {
+        $this->shelf
+            ->users()
+            ->syncWithoutDetaching($this->user);
+    }
 }
