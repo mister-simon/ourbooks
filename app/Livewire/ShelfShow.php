@@ -64,6 +64,11 @@ class ShelfShow extends Component
         return $searchIds;
     }
 
+    public function placeholder()
+    {
+        return view('partials.loading', ['message' => 'Loading so many books']);
+    }
+
     public function render()
     {
         return view('livewire.shelf-show')

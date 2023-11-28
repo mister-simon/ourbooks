@@ -25,16 +25,31 @@
 
     <x-page-card class="card-compact">
         <form wire:submit="filter">
-            <label class="form-control w-full max-w-xs">
-                <div class="label">
-                    <span class="label-text sr-only">Search</span>
+            <label class="form-control w-full">
+                <div class="label sr-only">
+                    <span class="label-text">Search</span>
                 </div>
                 <x-input
+                    class="input-primary"
                     placeholder="Search"
                     wire:model.live.debounce="state.search" />
             </label>
+
             <x-button class="sr-only">Submit</x-button>
         </form>
+
+        @if ($this->state['search'])
+            <div class="flex justify-between" wire:loading.remove>
+                <p class="px-4">{{ $this->filteredBooks->count() }} results for search "{{ $this->state['search'] }}".</p>
+                <button
+                    class="btn btn-outline btn-primary btn-sm"
+                    wire:click="$set('state.search', '')">Clear Search</button>
+            </div>
+        @else
+            <div class="flex justify-between" wire:loading.remove>
+                <p class="px-4">{{ $this->filteredBooks->count() }} books on the shelf.</p>
+            </div>
+        @endif
 
         <table class="table table-zebra table-pin-rows">
             <thead>
