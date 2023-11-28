@@ -38,28 +38,4 @@ class ShelfController extends Controller
             'authorCounts' => $shelfAuthorCounts,
         ]);
     }
-
-    public function show(Shelf $shelf)
-    {
-        if ($invite = $shelf->invites->firstWhere('user_id', Auth::id())) {
-            return to_route('shelves.invite.confirm', ['invite' => $invite->id]);
-        }
-
-        $this->authorize('view', $shelf);
-
-        $books = $shelf
-            ->books()
-            ->orderBy('author_surname')
-            ->orderBy('author_forename')
-            ->orderBy('series')
-            ->orderBy('series_index')
-            ->orderBy('title')
-            ->with('bookUsers.user')
-            ->get();
-
-        return view('shelves.show', [
-            'shelf' => $shelf,
-            'books' => $books,
-        ]);
-    }
 }

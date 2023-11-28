@@ -1,4 +1,4 @@
-<x-app-layout>
+<div class="flex grow flex-col">
     <x-page-header>
         {{ __('Shelf - :shelf', ['shelf' => $shelf->title]) }}
 
@@ -24,6 +24,18 @@
     </x-page-header>
 
     <x-page-card class="card-compact">
+        <form wire:submit="filter">
+            <label class="form-control w-full max-w-xs">
+                <div class="label">
+                    <span class="label-text sr-only">Search</span>
+                </div>
+                <x-input
+                    placeholder="Search"
+                    wire:model.live.debounce="state.search" />
+            </label>
+            <x-button class="sr-only">Submit</x-button>
+        </form>
+
         <table class="table table-zebra table-pin-rows">
             <thead>
                 <tr class="z-10">
@@ -37,7 +49,7 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($books as $book)
+                @forelse ($this->filteredBooks as $book)
                     @if (($prevBook ?? null) === null || $book->author_surname_char !== $prevBook->author_surname_char)
                         {{-- This is kinda jank but it interjects the surname character, which sticks underneath the header row --}}
             </tbody>
@@ -53,7 +65,7 @@
                 @endif
 
                 {{-- Continue with book records --}}
-                <tr>
+                <tr wire:key="{{ $book->id }}">
                     <td>{{ $book->author_forename }}</td>
                     <td>{{ $book->author_surname }}</td>
                     <td>{{ $book->series_text }}</td>
@@ -74,5 +86,4 @@
             </tbody>
         </table>
     </x-page-card>
-
-</x-app-layout>
+</div>

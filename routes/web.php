@@ -5,6 +5,7 @@ use App\Livewire\BookCreate;
 use App\Livewire\ShelfCreate;
 use App\Livewire\ShelfInviteConfirm;
 use App\Livewire\ShelfInviteCreate;
+use App\Livewire\ShelfShow;
 use App\Models\ShelfInvite;
 use App\Notifications\InvitedToShelf;
 use Illuminate\Support\Facades\App;
@@ -30,7 +31,7 @@ Route::middleware([
     Route::get('shelves/create', ShelfCreate::class)
         ->name('shelves.create');
 
-    Route::get('shelves/{shelf}', [ShelfController::class, 'show'])
+    Route::get('shelves/{shelf}', ShelfShow::class)
         ->name('shelves.show');
 
     Route::get('shelves/{shelf}/book/create', BookCreate::class)
