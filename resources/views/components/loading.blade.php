@@ -1,6 +1,7 @@
 <div
     {{ $attributes->merge([
-        'class' => 'alert alert-info',
+        'class' => 'alert indicator w-auto',
     ]) }}>
-    <span class="loading"></span> {{ $slot->isEmpty() ? 'Loading' : $slot }}
+    <x-loading-indicator class="indicator-center border-4 text-base-300" />
+    {{ $slot->isEmpty() ? 'Loading' : $slot }}
 </div>

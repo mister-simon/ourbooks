@@ -23,8 +23,13 @@
         </x-slot>
     </x-page-header>
 
-    <x-page-card class="card-compact">
-        <form wire:submit="filter">
+    <x-page-card class="card-compact relative">
+        <div class="indicator w-auto">
+            <x-loading-indicator
+                class="border-1 badge-success badge-outline indicator-center bg-base-100"
+                wire:loading.delay
+                wire:target="state.search" />
+
             <label class="form-control w-full">
                 <div class="label sr-only">
                     <span class="label-text">Search</span>
@@ -36,18 +41,22 @@
             </label>
 
             <x-button class="sr-only">Submit</x-button>
-        </form>
+        </div>
 
         @if ($this->state['search'])
-            <div class="flex justify-between" wire:loading.remove>
-                <p class="px-4">{{ $this->filteredBooks->count() }} results for search "{{ $this->state['search'] }}".</p>
+            <div class="flex justify-between">
+                <p class="px-4">
+                    {{ trans_choice(':count result for search ":search".|:count results for search ":search".', $this->filteredBooksCount, ['search' => $this->state['search']]) }}
+                </p>
                 <button
                     class="btn btn-outline btn-primary btn-sm"
-                    wire:click="$set('state.search', '')">Clear Search</button>
+                    wire:click="$set('state.search', '')">{{ __('Clear Search') }}</button>
             </div>
         @else
-            <div class="flex justify-between" wire:loading.remove>
-                <p class="px-4">{{ $this->filteredBooks->count() }} books on the shelf.</p>
+            <div class="flex justify-between">
+                <p class="px-4">
+                    {{ trans_choice(':count book on the shelf.|:count books on the shelf.', $this->filteredBooksCount) }}
+                </p>
             </div>
         @endif
 

@@ -64,9 +64,19 @@ class ShelfShow extends Component
         return $searchIds;
     }
 
-    public function placeholder()
+    #[Computed]
+    public function filteredBooksCount()
     {
-        return view('partials.loading', ['message' => 'Loading so many books']);
+        return $this->filteredBooks->count();
+    }
+
+    public function placeholder(array $params = [])
+    {
+        return view('partials.loading-page', [
+            'title' => __('Shelf - :shelf', ['shelf' => $params['shelf']->title]),
+            'message' => 'Loading all your books',
+            ...$params,
+        ]);
     }
 
     public function render()

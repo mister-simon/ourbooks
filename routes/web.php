@@ -11,6 +11,7 @@ use App\Notifications\InvitedToShelf;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
+use Illuminate\View\ComponentSlot;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -67,4 +68,6 @@ if (config('app.debug')) {
 
         return Notification::sentNotifications();
     });
+
+    Route::get('debug/loading', fn () => view('layouts.app', ['slot' => new ComponentSlot(view('partials.loading-page'))]));
 }
