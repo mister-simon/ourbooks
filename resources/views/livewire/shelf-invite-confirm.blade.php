@@ -5,7 +5,7 @@
     </x-page-header>
 
     <x-page-card>
-        <x-form-section submit="submit" class="md:grid-cols-1">
+        <x-form-section submit="submit" class="md:!grid-cols-1">
             <x-slot name="title">
                 {{ __('Confirm Invitation') }}
             </x-slot>

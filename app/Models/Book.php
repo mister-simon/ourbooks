@@ -69,7 +69,7 @@ class Book extends Model
 
     public function getAuthorNameAttribute()
     {
-        return implode(' ', $this->only('author_forename', 'author_surname'));
+        return trim(implode(' ', $this->only('author_forename', 'author_surname')));
     }
 
     public function getAuthorSurnameCharAttribute()
