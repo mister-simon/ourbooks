@@ -3,6 +3,7 @@
 use App\Http\Controllers\ShelfController;
 use App\Livewire\BookCreate;
 use App\Livewire\ShelfCreate;
+use App\Livewire\ShelfEdit;
 use App\Livewire\ShelfInviteConfirm;
 use App\Livewire\ShelfInviteCreate;
 use App\Livewire\ShelfShow;
@@ -34,6 +35,9 @@ Route::middleware([
 
     Route::get('shelves/{shelf}', ShelfShow::class)
         ->name('shelves.show');
+
+    Route::get('shelves/{shelf}/edit', ShelfEdit::class)
+        ->name('shelves.edit');
 
     Route::get('shelves/{shelf}/book/create', BookCreate::class)
         ->name('shelves.book.create');

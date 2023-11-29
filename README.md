@@ -19,18 +19,19 @@ Personal Goals:
 Todo:
 
 - [x] Create new shelf
+- [x] Edit shelf
 - [x] Add users to shelf
   - [x] Shelf invites list / notifications
   - [ ] User privacy options?
 - [x] Make livewire shelf show
-  - [ ] Add search
+  - [x] Add search
   - [ ] Add filter controls
+- [ ] Create book view
+- [ ] Edit book view
 - [ ] Show book view
   - [ ] User ratings
   - [ ] User comments
   - [ ] Who added the book / when
   - [ ] Other books from this author
-- [ ] Create book view
-- [ ] Edit book view
 - [ ] Delete book button w/ confirmation
 - [ ] Fix database session driver causing csrf issues

@@ -1,12 +1,12 @@
 <div class="flex grow flex-col">
     <x-page-header>
-        {{ __('Create Shelf') }}
+        {{ $title ?? __('Create Shelf') }}
     </x-page-header>
 
     <x-page-card>
         <x-form-section submit="create">
             <x-slot name="title">
-                {{ __('New Shelf') }}
+                {{ $subtitle ?? __('New Shelf') }}
             </x-slot>
 
             <x-slot name="description">

@@ -18,6 +18,9 @@
 
         <x-slot name="actions">
             <a
+                href="{{ route('shelves.edit', ['shelf' => $shelf]) }}"
+                class="btn btn-primary ml-auto">Edit Shelf</a>
+            <a
                 href="{{ route('shelves.book.create', ['shelf' => $shelf]) }}"
                 class="btn btn-primary">Add Book</a>
         </x-slot>
