@@ -26,7 +26,7 @@ Todo:
 - [x] Make livewire shelf show
   - [x] Add search
   - [ ] Add filter controls
-- [ ] Create book view
+- [x] Create book view
 - [ ] Edit book view
 - [ ] Show book view
   - [ ] User ratings

@@ -25,25 +25,34 @@ class BookCreate extends Component
         'edition' => '',
     ];
 
-    public function create(CreateBook $createBook)
+    public function create(CreateBook $createBook, $addAnother = false)
     {
         Gate::authorize('create', [Book::class, $this->shelf]);
 
         $this->resetErrorBag();
 
-        $book = $createBook->create(
+        $createBook->create(
             Auth::user(),
             $this->shelf,
             $this->state
         );
 
-        $this->reset('state');
         $this->dispatch('saved');
+
+        if ($addAnother) {
+            $this->resetState();
+            $this->resetErrorBag();
+
+            return;
+        }
+
+        return to_route('shelves.show', ['shelf' => $this->shelf]);
     }
 
     public function resetState()
     {
         $this->reset('state');
+        $this->resetErrorBag();
     }
 
     public function fillBook(Book $book)

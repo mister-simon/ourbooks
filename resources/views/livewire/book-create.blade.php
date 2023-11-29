@@ -13,7 +13,7 @@
                 <p>{{ __('Add a new book to your shelf.') }}</p>
                 @if ($this->search)
                     <p>{{ __('Similar books currently on your shelf:') }}</p>
-                    <p><small>"{{ $this->search }}"</small></p>
+                    <p><small>{{ __('Searching for ":search"', ['search' => $this->search]) }}</small></p>
                     <ul class="mt-4 list-disc ps-6">
                         @forelse ($this->similarBooks as $book)
                             <li wire:key="{{ $book->id }}">
@@ -86,6 +86,7 @@
                     <x-input
                         id="title"
                         class="mt-1 block w-full"
+                        required
                         wire:model.live.debounce="state.title" />
                     <x-input-error
                         for="title"
@@ -159,6 +160,10 @@
 
                 <x-button class="ms-3">
                     {{ __('Save') }}
+                </x-button>
+
+                <x-button class="ms-3" wire:click="create(true)" type="button">
+                    {{ __('Save and Add Another') }}
                 </x-button>
             </x-slot>
         </x-form-section>
