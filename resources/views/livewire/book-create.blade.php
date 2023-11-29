@@ -4,58 +4,65 @@
     </x-page-header>
 
     <x-page-card>
-        <x-form-section submit="create" class="">
+        <x-form-section submit="create">
             <x-slot name="title">
                 {{ $subtitle ?? __('New Book') }}
             </x-slot>
 
             <x-slot name="description">
-                <div class="prose">
-                    <p class="my-0">{{ __('Add a new book to your shelf.') }}</p>
-                    <p class="my-0">{{ __('Similar books currently on your shelf:') }}</p>
-                    <p><small>{{ $this->search }}</small></p>
-                    <ul>
+                <p>{{ __('Add a new book to your shelf.') }}</p>
+                @if ($this->search)
+                    <p>{{ __('Similar books currently on your shelf:') }}</p>
+                    <p><small>"{{ $this->search }}"</small></p>
+                    <ul class="mt-4 list-disc ps-6">
                         @forelse ($this->similarBooks as $book)
-                            <li>
-                                {{ $book->title }}
-                                @if ($book->author_name)
-                                    - {{ $book->author_name }}
-                                @endif
-                                @if ($book->series_text)
-                                    - {{ $book->series_text }}
-                                @endif
+                            <li wire:key="{{ $book->id }}">
+                                <div class="flex flex-row items-start gap-1">
+                                    <button
+                                        class="link"
+                                        wire:click="fillBook('{{ $book->id }}')">Use</button> -
+                                    <div class="grow">
+                                        @if ($book->series_text)
+                                            {{ $book->series_text }} -
+                                        @endif
+                                        {{ $book->title }}
+                                        @if ($book->author_name)
+                                            - {{ $book->author_name }}
+                                        @endif
+                                    </div>
+                                </div>
                             </li>
                         @empty
                             <li>{{ __('None found') }}</li>
                         @endforelse
                     </ul>
-                </div>
+                @endif
             </x-slot>
 
             <x-slot name="form">
                 <div class="col-span-6 md:col-span-3 lg:col-span-2">
                     <x-label
-                        for="forename"
+                        for="author_forename"
                         value="{{ __('Author Forename') }}" />
                     <x-input
-                        id="forename"
+                        id="author_forename"
                         class="join-item mt-1 block w-full"
-                        wire:model="state.forename" />
+                        wire:model.live.debounce="state.author_forename" />
                     <x-input-error
-                        for="forename"
+                        for="author_forename"
                         class="mt-2" />
                 </div>
 
                 <div class="col-span-6 md:col-span-3 lg:col-span-2">
                     <x-label
-                        for="surname"
+                        for="author_surname"
                         value="{{ __('Author Surname') }}" />
                     <x-input
-                        id="surname"
+                        id="author_surname"
                         class="join-item mt-1 block w-full"
-                        wire:model="state.surname" />
+                        wire:model.live.debounce="state.author_surname" />
                     <x-input-error
-                        for="surname"
+                        for="author_surname"
                         class="mt-2" />
                 </div>
 
@@ -66,7 +73,7 @@
                     <x-input
                         id="co_author"
                         class="mt-1 block w-full"
-                        wire:model="state.co_author" />
+                        wire:model.live.debounce="state.co_author" />
                     <x-input-error
                         for="co_author"
                         class="mt-2" />
@@ -79,7 +86,7 @@
                     <x-input
                         id="title"
                         class="mt-1 block w-full"
-                        wire:model="state.title" />
+                        wire:model.live.debounce="state.title" />
                     <x-input-error
                         for="title"
                         class="mt-2" />
@@ -92,7 +99,7 @@
                     <x-input
                         name="series"
                         class="mt-1 block w-full"
-                        wire:model="state.series" />
+                        wire:model.live.debounce="state.series" />
                     <x-input-error
                         for="series"
                         class="mt-2" />
@@ -146,7 +153,11 @@
                     {{ __('Saved.') }}
                 </x-action-message>
 
-                <x-button>
+                <button wire:click="resetState" class="btn btn-outline" type="button">
+                    {{ __('Reset') }}
+                </button>
+
+                <x-button class="ms-3">
                     {{ __('Save') }}
                 </x-button>
             </x-slot>

@@ -15,12 +15,12 @@ class BookCreate extends Component
     public Shelf $shelf;
 
     public $state = [
-        'author_surname' => '',
         'author_forename' => '',
+        'author_surname' => '',
         'co_author' => '',
+        'title' => '',
         'series' => '',
         'series_index' => '',
-        'title' => '',
         'genre' => '',
         'edition' => '',
     ];
@@ -41,17 +41,39 @@ class BookCreate extends Component
         $this->dispatch('saved');
     }
 
+    public function resetState()
+    {
+        $this->reset('state');
+    }
+
+    public function fillBook(Book $book)
+    {
+        $this->state = $book->only(array_keys($this->state));
+    }
+
+    #[Computed]
+    public function searchableState()
+    {
+        return collect($this->state)
+            ->except('series_index', 'edition', 'genre')
+            ->filter(fn ($attr) => trim($attr) !== '')
+            ->unique();
+    }
+
     #[Computed]
     public function search()
     {
-        return collect($this->state)
-            ->join(' or ');
+        return $this->searchableState->join(', ', __(', or '));
     }
 
     #[Computed]
     public function filterIds()
     {
-        $searchIds = collect($this->state)
+        if ($this->search === '') {
+            return [];
+        }
+
+        return $this->searchableState
             ->map(
                 fn ($searchPart) => Book::search($searchPart)
                     ->where('shelf_id', $this->shelf->id)
@@ -59,8 +81,6 @@ class BookCreate extends Component
             )
             ->flatten()
             ->unique();
-
-        return $searchIds;
     }
 
     #[Computed]

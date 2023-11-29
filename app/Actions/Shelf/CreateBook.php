@@ -8,30 +8,6 @@ use Illuminate\Support\Facades\Validator;
 
 class CreateBook
 {
-    #[Rule([])]
-    public ?string $title = null;
-
-    #[Rule([])]
-    public ?string $series = null;
-
-    #[Rule([])]
-    public ?int $series_index = null;
-
-    #[Rule([])]
-    public ?string $author_surname = null;
-
-    #[Rule([])]
-    public ?string $author_forename = null;
-
-    #[Rule([])]
-    public ?string $genre = null;
-
-    #[Rule([])]
-    public ?string $edition = null;
-
-    #[Rule([])]
-    public ?string $co_author = null;
-
     public function create(User $user, Shelf $shelf, array $input)
     {
         $data = Validator::make(

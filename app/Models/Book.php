@@ -64,7 +64,7 @@ class Book extends Model
 
     public function getSeriesTextAttribute()
     {
-        return implode(' ', $this->only('series', 'series_index'));
+        return trim(implode(' ', $this->only('series', 'series_index')));
     }
 
     public function getAuthorNameAttribute()
