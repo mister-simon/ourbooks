@@ -35,3 +35,4 @@ Todo:
   - [ ] Other books from this author
 - [ ] Delete book button w/ confirmation
 - [ ] Fix database session driver causing csrf issues
+- [ ] Sharable invite links
