@@ -6,12 +6,14 @@ use App\Models\Book;
 use App\Models\Shelf;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class ShelfShow extends Component
 {
     public Shelf $shelf;
 
+    #[Url('q', true)]
     public $state = ['search' => ''];
 
     public function mount()
@@ -53,6 +55,8 @@ class ShelfShow extends Component
 
         $searchIds = str($this->state['search'])
             ->explode(' or ')
+            ->unique()
+            ->take(10)
             ->map(
                 fn ($searchPart) => Book::search($searchPart)
                     ->where('shelf_id', $this->shelf->id)

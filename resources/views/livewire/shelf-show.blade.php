@@ -29,7 +29,7 @@
     <x-page-card class="card-compact relative">
         <div class="indicator w-auto">
             <x-loading-indicator
-                class="border-1 badge-success badge-outline indicator-center bg-base-100"
+                class="border-1 indicator-center badge-success badge-outline bg-base-100"
                 wire:loading.delay
                 wire:target="state.search" />
 
@@ -99,7 +99,9 @@
                     <td>{{ $book->author_forename }}</td>
                     <td>{{ $book->author_surname }}</td>
                     <td>{{ $book->series_text }}</td>
-                    <td>{{ $book->title }}</td>
+                    <td>
+                        {{ $book->title }}
+                    </td>
                     <td>{{ $book->genre }}</td>
                     <td>{{ $book->edition }}</td>
                     <td>{{ $book->co_author }}</td>
