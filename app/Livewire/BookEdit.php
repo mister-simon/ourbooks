@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Actions\Shelf\CreateBook;
+use App\Actions\Shelf\UpdateBook;
 use App\Models\Book;
 use App\Models\Shelf;
 use Illuminate\Support\Facades\Auth;
@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-class BookCreate extends Component
+class BookEdit extends Component
 {
     public Shelf $shelf;
+
+    public Book $book;
 
     public $state = [
         'author_forename' => '',
@@ -25,33 +27,30 @@ class BookCreate extends Component
         'edition' => '',
     ];
 
-    public function create(CreateBook $createBook, $addAnother = false)
+    public function mount()
     {
-        Gate::authorize('create', [Book::class, $this->shelf]);
+        $this->fillBook($this->book);
+    }
+
+    public function create(UpdateBook $updateBook)
+    {
+        Gate::authorize('update', [$this->shelf, $this->book]);
 
         $this->resetErrorBag();
 
-        $createBook->create(
+        $updateBook->update(
             Auth::user(),
             $this->shelf,
+            $this->book,
             $this->state
         );
 
         $this->dispatch('saved');
-
-        if ($addAnother) {
-            $this->state['title'] = '';
-            $this->resetErrorBag();
-
-            return;
-        }
-
-        return to_route('shelves.show', ['shelf' => $this->shelf]);
     }
 
     public function resetState()
     {
-        $this->reset('state');
+        $this->fillBook($this->book);
         $this->resetErrorBag();
     }
 
@@ -104,15 +103,21 @@ class BookCreate extends Component
             ->orderBy('series_index')
             ->orderBy('title')
             ->when($this->filterIds !== null, fn ($query) => $query->whereIn('id', $this->filterIds))
+            ->where('id', '!=', $this->book->id)
             ->limit(10)
             ->get();
     }
 
     public function render()
     {
-        return view('livewire.book-create')
+        $title = __('Shelf - :shelf', ['shelf' => $this->shelf->title]).' - '.$this->book->title;
+
+        return view('livewire.book-create', [
+            'title' => $title,
+            'subtitle' => 'Edit Book',
+        ])
             ->layout('layouts.app', [
-                'title' => __('Shelf - :shelf', ['shelf' => $this->shelf->title]).__(' - Create Book'),
+                'title' => $title,
             ]);
     }
 }

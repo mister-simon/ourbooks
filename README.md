@@ -27,7 +27,8 @@ Todo:
   - [x] Add search
   - [ ] Add filter controls
 - [x] Create book view
-- [ ] Edit book view
+- [x] Edit book view
+- [ ] Navigation Breadcrumbs
 - [ ] Show book view
   - [ ] User ratings
   - [ ] User comments

@@ -38,8 +38,10 @@
                     <span class="label-text">Search</span>
                 </div>
                 <x-input
-                    class="input-primary"
+                    id="search"
+                    type="search"
                     placeholder="Search"
+                    class="input-primary"
                     wire:model.live.debounce="state.search" />
             </label>
 
@@ -63,7 +65,7 @@
             </div>
         @endif
 
-        <table class="table table-zebra table-pin-rows">
+        <table class="table table-pin-rows table-zebra">
             <thead>
                 <tr class="z-10">
                     <th scope="col">Forename</th>
@@ -73,6 +75,7 @@
                     <th scope="col">Genre</th>
                     <th scope="col">Edition</th>
                     <th scope="col">CoAuthor</th>
+                    <th scope="col" class="sr-only">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -92,7 +95,7 @@
                 @endif
 
                 {{-- Continue with book records --}}
-                <tr wire:key="{{ $book->id }}">
+                <tr wire:key="{{ $book->id }}" class="hover cursor-pointer" @click="$refs.edit.click()" x-data>
                     <td>{{ $book->author_forename }}</td>
                     <td>{{ $book->author_surname }}</td>
                     <td>{{ $book->series_text }}</td>
@@ -100,6 +103,9 @@
                     <td>{{ $book->genre }}</td>
                     <td>{{ $book->edition }}</td>
                     <td>{{ $book->co_author }}</td>
+                    <td class="sr-only">
+                        <a href="{{ route('shelves.book.edit', ['shelf' => $shelf->id, 'book' => $book->id]) }}" x-ref="edit">Edit</a>
+                    </td>
                 </tr>
                 @php($prevBook = $book)
             @empty

@@ -27,9 +27,9 @@ class BookPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Book $book): bool
+    public function update(User $user, Shelf $shelf, Book $book): bool
     {
-        //
+        return $user->exists && $shelf->users->contains($user);
     }
 
     /**

@@ -10,24 +10,27 @@
             </x-slot>
 
             <x-slot name="description">
-                <p>{{ __('Add a new book to your shelf.') }}</p>
+                @if ($book ?? null)
+                @else
+                    <p>{{ __('Add a new book to your shelf.') }}</p>
+                @endif
                 @if ($this->search)
                     <p>{{ __('Similar books currently on your shelf:') }}</p>
                     <p><small>{{ __('Searching for ":search"', ['search' => $this->search]) }}</small></p>
                     <ul class="mt-4 list-disc ps-6">
-                        @forelse ($this->similarBooks as $book)
-                            <li wire:key="{{ $book->id }}">
+                        @forelse ($this->similarBooks as $similarBook)
+                            <li wire:key="{{ $similarBook->id }}">
                                 <div class="flex flex-row items-start gap-1">
                                     <button
                                         class="link"
-                                        wire:click="fillBook('{{ $book->id }}')">Use</button> -
+                                        wire:click="fillBook('{{ $similarBook->id }}')">Use</button> -
                                     <div class="grow">
-                                        @if ($book->series_text)
-                                            {{ $book->series_text }} -
+                                        @if ($similarBook->series_text)
+                                            {{ $similarBook->series_text }} -
                                         @endif
-                                        {{ $book->title }}
-                                        @if ($book->author_name)
-                                            - {{ $book->author_name }}
+                                        {{ $similarBook->title }}
+                                        @if ($similarBook->author_name)
+                                            - {{ $similarBook->author_name }}
                                         @endif
                                     </div>
                                 </div>
@@ -47,7 +50,9 @@
                     <x-input
                         id="author_forename"
                         class="join-item mt-1 block w-full"
-                        wire:model.live.debounce="state.author_forename" />
+                        wire:model.live.debounce="state.author_forename"
+                        x-data
+                        x-on:saved.window="$el.focus()" />
                     <x-input-error
                         for="author_forename"
                         class="mt-2" />
@@ -98,7 +103,8 @@
                         for="series"
                         value="{{ __('Series') }}" />
                     <x-input
-                        name="series"
+                        id="series"
+                        name="genre"
                         class="mt-1 block w-full"
                         wire:model.live.debounce="state.series" />
                     <x-input-error
@@ -112,6 +118,7 @@
                         value="{{ __('Series Index') }}" />
                     <x-input
                         name="series_index"
+                        id="series_index"
                         type="number"
                         class="mt-1 block w-full"
                         min="0"
@@ -141,6 +148,7 @@
                         value="{{ __('Edition') }}" />
                     <x-input
                         name="edition"
+                        id="edition"
                         class="mt-1 block w-full"
                         wire:model="state.edition" />
                     <x-input-error
@@ -162,9 +170,11 @@
                     {{ __('Save') }}
                 </x-button>
 
-                <x-button class="ms-3" wire:click="create(true)" type="button">
-                    {{ __('Save and Add Another') }}
-                </x-button>
+                @unless ($book ?? null)
+                    <x-button class="ms-3" wire:click="create(true)" type="button">
+                        {{ __('Save and Add Another') }}
+                    </x-button>
+                @endunless
             </x-slot>
         </x-form-section>
     </x-page-card>
