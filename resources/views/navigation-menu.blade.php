@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex shrink-0 items-center">
-                    <a lire:navigate href="{{ route('shelves.index') }}">
+                    <a lire:navigate href="{{ url('/') }}">
                         <x-application-mark class="block h-9 w-auto" width="36" />
                     </a>
                 </div>

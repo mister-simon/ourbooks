@@ -1,12 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "./base.css";
 
-[x-cloak] {
-    display: none;
-}
+@import "tailwindcss/components";
+@import "./welcome-book.css";
 
-html,
-body {
-    @apply h-full;
-}
+@import "tailwindcss/utilities";
+@import "./utilities.css";
