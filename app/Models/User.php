@@ -33,6 +33,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'profile_photo_path',
     ];
 
     /**
@@ -45,6 +46,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        'profile_photo_path',
     ];
 
     /**

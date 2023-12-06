@@ -10,9 +10,9 @@
         </x-slot>
 
         <x-slot name="breadcrumbs">
-            <ul>
-                <li>{{ __('Home') }}</li>
-            </ul>
+            <ol>
+                <li><a href="#" aria-current="page">{{ __('Home') }}</a></li>
+            </ol>
         </x-slot>
     </x-page-header>
 
@@ -27,14 +27,16 @@
                         <h2 class="card-title grow">{{ $shelf->title }}</h2>
                         <div class="flex flex-row flex-wrap gap-2">
                             @foreach ($shelf->users as $user)
-                                <li class="badge badge-neutral h-auto">{{ $user->readable }}</li>
+                                <x-avatar-badge :user="$user" />
                             @endforeach
                         </div>
                         <ul>
                             <li class="italic">{{ trans_choice(':count book|:count books', $shelf->books_count) }}</li>
                             <li>{{ trans_choice(':count author|:count authors', $authorCounts[$shelf->id] ?? 0) }}</li>
                         </ul>
-                        <a href="{{ route('shelves.show', $shelf->id) }}" class="absolute inset-0 focus-visible:outline-none">
+                        <a
+                            href="{{ route('shelves.show', $shelf->id) }}"
+                            class="absolute inset-0 focus-visible:outline-none">
                             <span class="sr-only">{{ __('View shelf') }}</span>
                         </a>
                     </div>
@@ -47,24 +49,27 @@
                         <h2 class="card-title grow">{{ $shelf->title }}</h2>
                         <div class="flex flex-row flex-wrap gap-2">
                             @foreach ($shelf->users as $user)
-                                <li class="badge badge-neutral h-auto">{{ $user->readable }}</li>
+                                <x-avatar-badge :user="$user" />
                             @endforeach
                         </div>
                         <ul>
                             <li class="italic">{{ trans_choice(':count book|:count books', $shelf->books_count) }}</li>
                             <li>{{ trans_choice(':count author|:count authors', $authorCounts[$shelf->id] ?? 0) }}</li>
                         </ul>
-                        <a href="{{ route('shelves.show', $shelf->id) }}" class="absolute inset-0 focus-visible:outline-none">
+                        <a
+                            href="{{ route('shelves.show', $shelf->id) }}"
+                            class="absolute inset-0 focus-visible:outline-none">
                             <span class="sr-only">{{ __('View shelf') }}</span>
                         </a>
                     </div>
                 </div>
             @endforeach
+
             <div class="card z-0 bg-primary text-primary-content shadow-xl transition-transform focus-within:scale-110 hover:z-10 hover:scale-110">
                 <div class="card-body">
                     <h2 class="card-title not-sr-only grow">{{ __('Create a New Shelf') }}</h2>
                     <div class="flex flex-row gap-2">
-                        <li class="badge badge-neutral h-auto">{{ Auth::user()->readable }}</li>
+                        <x-avatar-badge :user="Auth::user()" />
                     </div>
                     <ul>
                         <li class="italic">{{ trans_choice(':count book|:count books', 0) }}</li>

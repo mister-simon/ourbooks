@@ -6,7 +6,7 @@
             <h3 class="sr-only">Users</h3>
             <ul class="flex flex-row gap-2">
                 @foreach ($shelf->users as $user)
-                    <li class="badge badge-neutral badge-sm h-auto">{{ $user->readable }}</li>
+                    <x-avatar-badge :user="$user" />
                 @endforeach
                 <li>
                     <a
@@ -26,10 +26,10 @@
         </x-slot>
 
         <x-slot name="breadcrumbs">
-            <ul>
+            <ol>
                 <li><a href="{{ url('/') }}">{{ __('Home') }}</a></li>
-                <li>{{ str($shelf->title)->limit(15) }}</li>
-            </ul>
+                <li><a href="#" aria-current="page">{{ str($shelf->title)->limit(15) }}</a></li>
+            </ol>
         </x-slot>
     </x-page-header>
 

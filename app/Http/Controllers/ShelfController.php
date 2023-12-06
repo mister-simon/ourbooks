@@ -19,7 +19,7 @@ class ShelfController extends Controller
             ->shelves()
             ->tap(new OrderByTitle)
             ->tap(new ShelfBookCount)
-            ->with(['users' => fn ($query) => $query->select('name')])
+            ->with(['users' => fn ($query) => $query->select('name', 'profile_photo_path')])
             ->get();
 
         $invites = $user
