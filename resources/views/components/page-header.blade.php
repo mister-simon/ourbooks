@@ -13,9 +13,9 @@
     @if ($breadcrumbs->isNotEmpty())
         <div class="bg-gray-100">
             <div class="container mx-auto">
-                <div {{ $breadcrumbs->attributes->class('breadcrumbs rounded-b-box bg-base-100 mx-4 sm:mx-6 lg:mx-8 px-4 pt-0 w-max text-sm') }}>
+                <nav {{ $breadcrumbs->attributes->class('breadcrumbs rounded-b-box bg-base-100 mx-4 sm:mx-6 lg:mx-8 px-4 pt-0 w-max text-sm')->merge(['aria-label' => 'Breadcrumb']) }}>
                     {{ $breadcrumbs }}
-                </div>
+                </nav>
             </div>
         </div>
     @endif

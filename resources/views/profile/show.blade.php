@@ -3,10 +3,10 @@
         {{ __('Profile') }}
 
         <x-slot name="breadcrumbs">
-            <ul>
+            <ol>
                 <li><a href="{{ url('/') }}">{{ __('Home') }}</a></li>
-                <li>{{ __('Profile') }}</li>
-            </ul>
+                <li><a href="#" aria-current="page">{{ __('Profile') }}</a></li>
+            </ol>
         </x-slot>
     </x-page-header>
     <x-page-card>

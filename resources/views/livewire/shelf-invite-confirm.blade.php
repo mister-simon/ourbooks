@@ -4,11 +4,11 @@
         - {{ __('Confirm Invitation') }}
 
         <x-slot name="breadcrumbs">
-            <ul>
+            <ol>
                 <li><a href="{{ url('/') }}">{{ __('Home') }}</a></li>
                 <li><a href="{{ route('shelves.show', ['shelf' => $shelf]) }}">{{ str($shelf->title)->limit(15) }}</a></li>
-                <li>{{ __('Invite User') }}</li>
-            </ul>
+                <li><a href="#" aria-current="page">{{ __('Invite User') }}</a></li>
+            </ol>
         </x-slot>
     </x-page-header>
 
