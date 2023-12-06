@@ -1,6 +1,6 @@
 <div class="flex grow flex-col">
     <x-page-header>
-        {{ __('Shelf - :shelf', ['shelf' => $shelf->title]) }}
+        {{ $shelf->title }}
 
         <x-slot name="subtitle">
             <h3 class="sr-only">Users</h3>
@@ -81,10 +81,13 @@
                         <th scope="col">Forename</th>
                         <th scope="col">Surname</th>
                         <th scope="col">Series</th>
-                        <th scope="col">Title <span class="text-xs font-normal">(Click to edit)</span></th>
+                        <th scope="col">Title</th>
                         <th scope="col">Genre</th>
                         <th scope="col">Edition</th>
                         <th scope="col">Co-Author</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col">Read</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -104,30 +107,76 @@
                     @endif
 
                     {{-- Continue with book records --}}
-                    <tr wire:key="{{ $book->id }}" class="hover" x-data>
+                    <tr wire:key="{{ $book->id }}" class="group hover" x-data>
                         <td>{{ $book->author_forename }}</td>
                         <td>{{ $book->author_surname }}</td>
                         <td>{{ $book->series_text }}</td>
-                        <td @click="$refs.edit.click()" class="cursor-pointer">
-                            <a href="{{ route('shelves.book.edit', ['shelf' => $shelf->id, 'book' => $book->id]) }}" x-ref="edit">
-                                {{ $book->title }}
-                            </a>
-                        </td>
+                        <td>{{ $book->title }}</td>
                         <td>{{ $book->genre }}</td>
                         <td>{{ $book->edition }}</td>
                         <td>{{ $book->co_author }}</td>
-                    </tr>
-                    @php($prevBook = $book)
-                @empty
-                    <tr>
-                        <td colspan="100%" class="text-center">
-                            No books yet -
-                            <a href="{{ route('shelves.book.create', ['shelf' => $shelf]) }}" class="link">Add A Book</a>.
+                        <td>
+                            @if ($book->book_user_avg_rating)
+                                {{ $book->book_user_avg_rating }}
+                            @else
+                                <span class="opacity-50">{{ __('N/A') }}</span>
+                            @endif
+                        </td>
+                        <td class="[&_.badge]:aspect-square [&_.badge]:text-opacity-0 [&_.badge]:group-hover:text-opacity-75">
+                            <span class="tooltip" data-tip="{{ $book->was_read->trans() }}">
+                                @switch($book->was_read)
+                                    @case(App\Enums\ReadStatus::YES)
+                                        <span class="badge badge-success">
+                                            {{ $book->was_read->transShort() }}
+                                        </span>
+                                    @break
+
+                                    @case(App\Enums\ReadStatus::NO)
+                                        <span class="badge badge-error">
+                                            {{ $book->was_read->transShort() }}
+                                        </span>
+                                    @break
+
+                                    @case(App\Enums\ReadStatus::PARTIAL)
+                                        <span class="badge badge-warning">
+                                            {{ $book->was_read->transShort() }}
+                                        </span>
+                                    @break
+
+                                    @case(App\Enums\ReadStatus::UNKNOWN)
+                                        <span class="badge badge-ghost badge-outline">
+                                            {{ $book->was_read->transShort() }}
+                                        </span>
+                                    @break
+                                @endswitch
+                            </span>
+                        </td>
+                        <td>
+                            <div class="inline-flex flex-row gap-2">
+                                <a
+                                    href="{{ route('shelves.book.show', ['shelf' => $shelf->id, 'book' => $book->id]) }}"
+                                    class="btn btn-primary btn-xs">
+                                    {{ __('View') }}
+                                </a>
+                                <a
+                                    href="{{ route('shelves.book.edit', ['shelf' => $shelf->id, 'book' => $book->id]) }}"
+                                    class="btn btn-secondary btn-xs">
+                                    {{ __('Edit') }}
+                                </a>
+                            </div>
                         </td>
                     </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </x-page-card>
-</div>
+                    @php($prevBook = $book)
+                    @empty
+                        <tr>
+                            <td colspan="100%" class="text-center">
+                                {{ __('No books yet') }} -
+                                <a href="{{ route('shelves.book.create', ['shelf' => $shelf]) }}" class="link">{{ __('Add A Book') }}</a>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </x-page-card>
+    </div>
