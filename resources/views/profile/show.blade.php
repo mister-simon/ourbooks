@@ -1,6 +1,13 @@
 <x-app-layout>
     <x-page-header>
         {{ __('Profile') }}
+
+        <x-slot name="breadcrumbs">
+            <ul>
+                <li><a href="{{ url('/') }}">{{ __('Home') }}</a></li>
+                <li>{{ __('Profile') }}</li>
+            </ul>
+        </x-slot>
     </x-page-header>
     <x-page-card>
         @if (Laravel\Fortify\Features::canUpdateProfileInformation())

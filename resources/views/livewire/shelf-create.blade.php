@@ -1,6 +1,15 @@
 <div class="flex grow flex-col">
     <x-page-header>
         {{ $title ?? __('Create Shelf') }}
+        <x-slot name="breadcrumbs">
+            <ul>
+                <li><a href="{{ url('/') }}">{{ __('Home') }}</a></li>
+                @if ($shelf ?? false)
+                    <li><a href="{{ route('shelves.show', ['shelf' => $shelf]) }}">{{ str($shelf->title)->limit(15) }}</a></li>
+                @endif
+                <li>{{ str($subtitle ?? __('New Shelf'))->limit(25) }}</li>
+            </ul>
+        </x-slot>
     </x-page-header>
 
     <x-page-card>

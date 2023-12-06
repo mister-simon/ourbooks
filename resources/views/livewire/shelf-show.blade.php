@@ -24,12 +24,19 @@
                 href="{{ route('shelves.book.create', ['shelf' => $shelf]) }}"
                 class="btn btn-primary">Add Book</a>
         </x-slot>
+
+        <x-slot name="breadcrumbs">
+            <ul>
+                <li><a href="{{ url('/') }}">{{ __('Home') }}</a></li>
+                <li>{{ str($shelf->title)->limit(15) }}</li>
+            </ul>
+        </x-slot>
     </x-page-header>
 
-    <x-page-card class="card-compact relative">
+    <x-page-card class="card-compact relative w-full overflow-x-auto lg:overflow-visible">
         <div class="indicator w-auto">
             <x-loading-indicator
-                class="border-1 indicator-center badge-success badge-outline bg-base-100"
+                class="border-1 badge-success badge-outline indicator-center bg-base-100"
                 wire:loading.delay
                 wire:target="state.search" />
 
@@ -65,60 +72,61 @@
             </div>
         @endif
 
-        <table class="table table-pin-rows table-zebra">
-            <thead>
-                <tr class="z-10">
-                    <th scope="col">Forename</th>
-                    <th scope="col">Surname</th>
-                    <th scope="col">Series</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Genre</th>
-                    <th scope="col">Edition</th>
-                    <th scope="col">CoAuthor</th>
-                    <th scope="col" class="sr-only">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($this->filteredBooks as $book)
-                    @if (($prevBook ?? null) === null || $book->author_surname_char !== $prevBook->author_surname_char)
-                        {{-- This is kinda jank but it interjects the surname character, which sticks underneath the header row --}}
-            </tbody>
-            <thead class="border-y">
-                <tr class="pointer-events-none -top-1 z-20 border-b-0 bg-transparent">
-                    <th></th>
-                    <th class="-translate-x-1 text-right">
-                        <span class="badge aspect-square px-1 text-base-content/60">{{ $book->author_surname_char }}</span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @endif
+        <div class="">
 
-                {{-- Continue with book records --}}
-                <tr wire:key="{{ $book->id }}" class="hover cursor-pointer" @click="$refs.edit.click()" x-data>
-                    <td>{{ $book->author_forename }}</td>
-                    <td>{{ $book->author_surname }}</td>
-                    <td>{{ $book->series_text }}</td>
-                    <td>
-                        {{ $book->title }}
-                    </td>
-                    <td>{{ $book->genre }}</td>
-                    <td>{{ $book->edition }}</td>
-                    <td>{{ $book->co_author }}</td>
-                    <td class="sr-only">
-                        <a href="{{ route('shelves.book.edit', ['shelf' => $shelf->id, 'book' => $book->id]) }}" x-ref="edit">Edit</a>
-                    </td>
-                </tr>
-                @php($prevBook = $book)
-            @empty
-                <tr>
-                    <td colspan="100%" class="text-center">
-                        No books yet -
-                        <a href="{{ route('shelves.book.create', ['shelf' => $shelf]) }}" class="link">Add A Book</a>.
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+            <table class="table table-pin-rows table-zebra">
+                <thead>
+                    <tr class="z-10">
+                        <th scope="col">Forename</th>
+                        <th scope="col">Surname</th>
+                        <th scope="col">Series</th>
+                        <th scope="col">Title <span class="text-xs font-normal">(Click to edit)</span></th>
+                        <th scope="col">Genre</th>
+                        <th scope="col">Edition</th>
+                        <th scope="col">Co-Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($this->filteredBooks as $book)
+                        @if (($prevBook ?? null) === null || $book->author_surname_char !== $prevBook->author_surname_char)
+                            {{-- This is kinda jank but it interjects the surname character, which sticks underneath the header row --}}
+                </tbody>
+                <thead class="border-y">
+                    <tr class="pointer-events-none -top-1 z-20 border-b-0 bg-transparent">
+                        <th></th>
+                        <th class="-translate-x-1 text-right">
+                            <span class="badge aspect-square px-1 text-base-content/60">{{ $book->author_surname_char }}</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @endif
+
+                    {{-- Continue with book records --}}
+                    <tr wire:key="{{ $book->id }}" class="hover" x-data>
+                        <td>{{ $book->author_forename }}</td>
+                        <td>{{ $book->author_surname }}</td>
+                        <td>{{ $book->series_text }}</td>
+                        <td @click="$refs.edit.click()" class="cursor-pointer">
+                            <a href="{{ route('shelves.book.edit', ['shelf' => $shelf->id, 'book' => $book->id]) }}" x-ref="edit">
+                                {{ $book->title }}
+                            </a>
+                        </td>
+                        <td>{{ $book->genre }}</td>
+                        <td>{{ $book->edition }}</td>
+                        <td>{{ $book->co_author }}</td>
+                    </tr>
+                    @php($prevBook = $book)
+                @empty
+                    <tr>
+                        <td colspan="100%" class="text-center">
+                            No books yet -
+                            <a href="{{ route('shelves.book.create', ['shelf' => $shelf]) }}" class="link">Add A Book</a>.
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </x-page-card>
 </div>

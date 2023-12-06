@@ -8,6 +8,12 @@
                 class="btn btn-primary"
                 wire:navigate>New Shelf</a>
         </x-slot>
+
+        <x-slot name="breadcrumbs">
+            <ul>
+                <li>{{ __('Home') }}</li>
+            </ul>
+        </x-slot>
     </x-page-header>
 
     <div class="grow bg-gray-100 py-12">
@@ -17,7 +23,7 @@
                 @php($shelf = $invite->shelf)
                 <div class="card indicator z-0 w-auto bg-base-100 shadow-xl transition-transform focus-within:z-10 focus-within:scale-110 hover:z-10 hover:scale-110">
                     <div class="card-body">
-                        <div class="badge indicator-item badge-secondary indicator-center">New Invite</div>
+                        <div class="indicator-center badge indicator-item badge-secondary">New Invite</div>
                         <h2 class="card-title grow">{{ $shelf->title }}</h2>
                         <div class="flex flex-row flex-wrap gap-2">
                             @foreach ($shelf->users as $user)

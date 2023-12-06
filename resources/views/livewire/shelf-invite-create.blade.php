@@ -1,7 +1,15 @@
 <div class="flex grow flex-col">
     <x-page-header>
         {{ __('Shelf - :shelf', ['shelf' => $shelf->title]) }}
-        {{ __(' - Invite User') }}
+        - {{ __('Invite User') }}
+
+        <x-slot name="breadcrumbs">
+            <ul>
+                <li><a href="{{ url('/') }}">{{ __('Home') }}</a></li>
+                <li><a href="{{ route('shelves.show', ['shelf' => $shelf]) }}">{{ str($shelf->title)->limit(15) }}</a></li>
+                <li>{{ __('Invite User') }}</li>
+            </ul>
+        </x-slot>
     </x-page-header>
 
     <x-page-card>
