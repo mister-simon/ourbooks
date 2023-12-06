@@ -3,7 +3,7 @@
 
     <div class="flex grow flex-col items-center overflow-hidden bg-gray-100 pt-6 sm:justify-center sm:pt-0">
         <div
-            class="welcome-book my-8 w-full"
+            class="welcome-book my-8"
             :class="{ 'active': open }"
             :style="{
                 '--x': x,
@@ -13,7 +13,7 @@
             x-data="welcomeBook"
             x-bind="bindings">
             <div class="front-cover">
-                <div class="flex flex-col items-center justify-center gap-4">
+                <div class="flex flex-col items-center justify-center gap-4 text-center">
                     <x-authentication-card-logo alt="OurBooks.top logo" />
                     <h2 class="heading text-2xl">Welcome To OurBookstop</h2>
                 </div>

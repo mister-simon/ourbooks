@@ -2,16 +2,28 @@
     transform-style: preserve-3d;
     perspective: 2000px;
 
-    --x: 0;
+    --x: 10;
     --y: 0;
     --z: 0;
+    --scale: 1.2;
+    --xOffset: -25%;
+    --xOffsetOpen: -25%;
+
+    @screen md {
+        --scale: 0.9;
+        --xOffset: -25%;
+        --xOffsetOpen: 0%;
+    }
+
+    @apply w-[150%];
+    @apply md:w-full;
 
     @apply grid grid-cols-2 aspect-[16/5] origin-center;
     @apply transition-transform duration-75;
 
     transform: rotateX(calc(var(--x, 0) * 1deg))
         rotateY(calc(var(--y, 0) * 1deg)) rotateZ(calc(var(--z, 0) * 1deg))
-        scale(0.9) translateX(-25%);
+        scale(var(--scale)) translateX(var(--xOffset));
 
     & > * {
         @apply row-start-1 col-span-1 row-span-1;
@@ -19,7 +31,6 @@
         @apply grid place-items-center;
         @apply transition-transform duration-1000;
         grid-area: 1 / 1;
-
         transform-style: preserve-3d;
         backface-visibility: hidden;
     }
@@ -39,13 +50,13 @@
     &.active {
         transform: rotateX(calc(var(--x, 0) * 1deg))
             rotateY(calc(var(--y, 0) * 1deg)) rotateZ(calc(var(--z, 0) * 1deg))
-            scale(0.9) translateX(0%);
+            scale(var(--scale)) translateX(var(--xOffsetOpen));
 
         .front-cover {
-            transform: rotateY(-180deg);
+            transform: rotateY(-180deg) scaleX(0.94);
         }
         .inner-left {
-            transform: rotateY(10deg);
+            transform: rotateY(10deg) scaleX(0.94);
         }
         .inner-right {
             transform: rotateY(-5deg);
