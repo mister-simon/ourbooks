@@ -8,12 +8,6 @@
                 class="btn btn-primary"
                 wire:navigate>New Shelf</a>
         </x-slot>
-
-        <x-slot name="breadcrumbs">
-            <ol>
-                <li><a href="#" aria-current="page">{{ __('Home') }}</a></li>
-            </ol>
-        </x-slot>
     </x-page-header>
 
     <div class="grow bg-gray-100 py-12">

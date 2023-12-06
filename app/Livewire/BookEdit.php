@@ -110,7 +110,7 @@ class BookEdit extends Component
 
     public function render()
     {
-        $title = __('Shelf - :shelf', ['shelf' => $this->shelf->title]).' - '.$this->book->title;
+        $title = $this->shelf->title.' - '.$this->book->title;
 
         return view('livewire.book-create', [
             'title' => $title,

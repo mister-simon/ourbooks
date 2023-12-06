@@ -112,7 +112,7 @@ class BookCreate extends Component
     {
         return view('livewire.book-create')
             ->layout('layouts.app', [
-                'title' => __('Shelf - :shelf', ['shelf' => $this->shelf->title]).__(' - Create Book'),
+                'title' => $this->shelf->title.' - '.__('Create Book'),
             ]);
     }
 }

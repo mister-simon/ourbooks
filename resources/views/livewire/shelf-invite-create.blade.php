@@ -1,6 +1,6 @@
 <div class="flex grow flex-col">
     <x-page-header>
-        {{ __('Shelf - :shelf', ['shelf' => $shelf->title]) }}
+        {{ $shelf->title }}
         - {{ __('Invite User') }}
 
         <x-slot name="breadcrumbs">

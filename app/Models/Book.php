@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ReadStatus;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -89,7 +90,9 @@ class Book extends Model
     {
         return $this->bookUsers
             ->pluck('read')
-            ->dd();
+            ->keyBy(fn (ReadStatus $status) => $status->rank())
+            ->sortKeysDesc()
+            ->first(default: ReadStatus::UNKNOWN);
     }
 
     public function getBookUserAvgRatingAttribute()
