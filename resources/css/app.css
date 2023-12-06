@@ -3,6 +3,7 @@
 
 @import "tailwindcss/components";
 @import "./welcome-book.css";
+@import "./table-rating.css";
 
 @import "tailwindcss/utilities";
 @import "./utilities.css";

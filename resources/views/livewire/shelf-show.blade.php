@@ -115,12 +115,8 @@
                         <td>{{ $book->genre }}</td>
                         <td>{{ $book->edition }}</td>
                         <td>{{ $book->co_author }}</td>
-                        <td>
-                            @if ($book->book_user_avg_rating)
-                                {{ $book->book_user_avg_rating }}
-                            @else
-                                <span class="opacity-50">{{ __('N/A') }}</span>
-                            @endif
+                        <td class="text-center">
+                            <x-table-rating :rating="$book->book_user_avg_rating" />
                         </td>
                         <td class="[&_.badge]:aspect-square [&_.badge]:text-opacity-0 [&_.badge]:group-hover:text-opacity-75">
                             <span class="tooltip" data-tip="{{ $book->was_read->trans() }}">

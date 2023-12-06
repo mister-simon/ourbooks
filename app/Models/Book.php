@@ -97,7 +97,6 @@ class Book extends Model
 
     public function getBookUserAvgRatingAttribute()
     {
-        return $this->bookUsers
-            ->avg('rating');
+        return $this->bookUsers->avg('rating');
     }
 }
