@@ -33,10 +33,12 @@
         </x-slot>
     </x-page-header>
 
-    <x-page-card class="card-compact relative w-full overflow-x-auto lg:overflow-visible">
+    <x-page-card class="card-compact relative w-full">
+        <x-slot name="container" class="!block"></x-slot>
+
         <div class="indicator w-auto">
             <x-loading-indicator
-                class="border-1 badge-success badge-outline indicator-center bg-base-100"
+                class="border-1 indicator-center badge-success badge-outline bg-base-100"
                 wire:loading.delay
                 wire:target="state.search" />
 
@@ -72,8 +74,7 @@
             </div>
         @endif
 
-        <div class="">
-
+        <div class="max-h-[80svh] overflow-x-auto lg:max-h-none lg:overflow-x-visible">
             <table class="table table-pin-rows table-zebra">
                 <thead>
                     <tr class="z-10">
