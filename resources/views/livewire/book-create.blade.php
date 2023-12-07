@@ -60,7 +60,7 @@
                         value="{{ __('Author Forename') }}" />
                     <x-input
                         id="author_forename"
-                        class="join-item mt-1 block w-full"
+                        class="mt-1 block w-full"
                         wire:model.live.debounce="state.author_forename"
                         x-data
                         x-on:saved.window="$el.focus()" />
@@ -75,7 +75,7 @@
                         value="{{ __('Author Surname') }}" />
                     <x-input
                         id="author_surname"
-                        class="join-item mt-1 block w-full"
+                        class="mt-1 block w-full"
                         wire:model.live.debounce="state.author_surname" />
                     <x-input-error
                         for="author_surname"
