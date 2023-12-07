@@ -75,22 +75,75 @@
             </div>
         @endif
 
-        <div class="max-h-[80svh] overflow-x-auto lg:max-h-none lg:overflow-x-visible">
-            <table class="table table-pin-rows table-zebra table-sm [&_.middle]:py-0 [&_.middle]:text-center [&_.middle]:align-middle" x-data>
+        <div
+            class="max-h-[80svh] overflow-x-auto lg:max-h-none lg:overflow-x-visible"
+            x-data="{
+                selected: {},
+                rating: 5,
+                read: true,
+                get onlySelected() {
+                    return Object.entries(this.selected)
+                        .filter(([, v]) => v)
+                        .map(([k]) => k);
+                }
+            }">
+
+            <div class="join join-horizontal" x-cloak>
+                <div class="join-item flex flex-col items-center justify-start rounded-b-none rounded-t-box border p-4">
+                    <p>Bulk Actions</p>
+                    <p x-text="`{{ __('${onlySelected.length} currently selected') }}`"></p>
+                </div>
+
+                <div
+                    class="join-item flex items-center justify-start gap-4 rounded-b-none rounded-t-box border p-4"
+                    x-bind:disabled="onlySelected.length === 0">
+                    <label class="form-control">
+                        <div class="label sr-only">
+                            <span class="label-text">{{ __('Rating') }}</span>
+                        </div>
+                        <select
+                            name="rating"
+                            id="rating"
+                            class="select select-bordered select-sm"
+                            x-model="rating">
+                            @foreach (range(1, 10) as $rating)
+                                <option value="{{ $rating }}">{{ $rating }}</option>
+                            @endforeach
+                        </select>
+                    </label>
+                    <button type="submit" class="btn btn-sm"
+                        @click.prevent="onlySelected.length && $wire.rateMany(onlySelected, rating)">Save rating</button>
+                </div>
+
+                <div
+                    class="join-item flex items-center justify-start gap-4 rounded-b-none rounded-t-box border p-4"
+                    x-bind:disabled="onlySelected.length === 0">
+                    <label class="label w-min cursor-pointer gap-4">
+                        <span class="label-text sr-only">Read</span>
+                        <input
+                            type="checkbox"
+                            class="toggle toggle-primary"
+                            x-model="read" />
+                    </label>
+                    <button type="submit" class="btn btn-sm"
+                        @click.prevent="onlySelected.length && $wire.readMany(onlySelected, read)">Save read status</button>
+                </div>
+            </div>
+
+            <table
+                class="table table-pin-rows table-zebra table-sm [&_.middle]:py-0 [&_.middle]:text-center [&_.middle]:align-middle">
                 <thead>
                     <tr class="z-10">
                         <th scope="col" class="relative">
                             <label for="check_all" class="absolute inset-0 grid place-content-center">
                                 <span class="sr-only">Check all books</span>
                                 <input
-                                    wire:loading.attr="disabled"
                                     type="checkbox"
                                     name="check_all"
                                     id="check_all"
                                     class="checkbox checkbox-xs"
                                     x-on:change="$dispatch('select-all', $el.checked)"
-                                    x-on:search-change.window="$el.checked = false"
-                                    wire:change="checkAll($el.checked)" />
+                                    x-on:search-change.window="$el.checked = false" />
                             </label>
                         </th>
                         <th scope="col">Forename</th>
@@ -114,17 +167,15 @@
                     <tr class="-top-1 z-20 border-b-0 bg-transparent">
                         <th scope="col" class="relative">
                             <label for="check{{ $book->author_surname_char }}" class="absolute inset-0 grid place-content-center">
-                                <span class="sr-only">Check all books</span>
+                                <span class="sr-only">Check all '{{ $book->author_surname_char }}'</span>
                                 <input
-                                    wire:loading.attr="disabled"
                                     type="checkbox"
                                     name="check{{ $book->author_surname_char }}"
                                     id="check{{ $book->author_surname_char }}"
                                     class="checkbox checkbox-xs"
                                     x-on:change="$dispatch('select-letter', { char: '{{ $book->author_surname_char }}', checked: $el.checked })"
                                     x-on:select-all.window="$el.checked = $event.detail"
-                                    x-on:search-change.window="$el.checked = false"
-                                    wire:change="checkLetter('{{ $book->author_surname_char }}', $el.checked)" />
+                                    x-on:search-change.window="$el.checked = false" />
                             </label>
                         </th>
                         <th class="-translate-x-1 text-right">
@@ -138,20 +189,18 @@
                     {{-- Continue with book records --}}
                     <tr wire:key="{{ $book->id }}" class="group hover" x-data>
                         <th scope="row" class="relative">
-                            <label for="{{ $book->id }}" class="absolute inset-0 grid place-content-center">
+                            <label for="selected_{{ $book->id }}" class="absolute inset-0 grid place-content-center">
                                 <span class="sr-only">Select row</span>
                                 <input
-                                    {{-- wire:loading.attr="disabled" --}}
                                     type="checkbox"
-                                    name="checkedBooks"
-                                    id="{{ $book->id }}"
-                                    value="{{ $book->id }}"
-                                    wire:model.live="checkedBooks"
+                                    name="selected"
+                                    id="selected_{{ $book->id }}"
                                     class="checkbox checkbox-xs"
-                                    x-on:select-all.window="$el.checked = $event.detail"
+                                    x-model="selected['{{ $book->id }}']"
+                                    x-on:select-all.window="selected['{{ $book->id }}'] = $event.detail"
                                     x-on:select-letter.window="
                                         $event.detail.char === '{{ $book->author_surname_char }}'
-                                            ? $el.checked = $event.detail.checked
+                                            ? selected['{{ $book->id }}'] = $event.detail.checked
                                             : null
                                     " />
                             </label>

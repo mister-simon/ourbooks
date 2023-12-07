@@ -6,7 +6,7 @@
     background-position: var(--rating-pos, 0) center;
 
     &-1 {
-        --rating-pos: -10%;
+        --rating-pos: 0%;
     }
     &-2 {
         --rating-pos: 10%;

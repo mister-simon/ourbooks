@@ -2,10 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Enums\ReadStatus;
 use App\Models\Book;
 use App\Models\Shelf;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -35,32 +37,66 @@ class ShelfShow extends Component
         $this->authorize('view', $this->shelf);
     }
 
-    public function checkAll($checked)
+    public function rateMany(array $books, $rating)
     {
-        $keys = $this->filteredBooks->modelKeys();
+        // Do validation
 
-        if ($checked) {
-            $this->checkedBooks = $this->checkedBooks->union($keys);
+        // Do update
 
-            return;
-        }
+        DB::transaction(function () use ($books, $rating) {
+            $user = Auth::user();
 
-        $this->checkedBooks = $this->checkedBooks->diff($keys);
+            // Add any missing UserRating pivot models
+            $existingRatings = $user->bookUsers()
+                ->whereIn('book_id', $books)
+                ->pluck('book_id');
+
+            $missingBooks = collect($books)
+                ->diff($existingRatings);
+
+            $user->bookUsers()
+                ->createMany(
+                    $missingBooks->map(
+                        fn ($id) => ['book_id' => $id]
+                    )
+                );
+
+            // Update all relevant UserRating models
+            $existingRatings = $user->bookUsers()
+                ->whereIn('book_id', $books)
+                ->update(['rating' => $rating]);
+        });
+
     }
 
-    public function checkLetter($letter, $checked)
+    public function readMany(array $books, $readStatus)
     {
-        $keys = $this->filteredBooks()
-            ->where('author_surname_char', $letter)
-            ->modelKeys();
+        // Do validation
 
-        if ($checked) {
-            $this->checkedBooks = $this->checkedBooks->union($keys);
+        // Do update
+        DB::transaction(function () use ($books, $readStatus) {
+            $user = Auth::user();
 
-            return;
-        }
+            // Add any missing UserRating pivot models
+            $existingRatings = $user->bookUsers()
+                ->whereIn('book_id', $books)
+                ->pluck('book_id');
 
-        $this->checkedBooks = $this->checkedBooks->diff($keys);
+            $missingBooks = collect($books)
+                ->diff($existingRatings);
+
+            $user->bookUsers()
+                ->createMany(
+                    $missingBooks->map(
+                        fn ($id) => ['book_id' => $id]
+                    )
+                );
+
+            // Update all relevant UserRating models
+            $existingRatings = $user->bookUsers()
+                ->whereIn('book_id', $books)
+                ->update(['read' => $readStatus ? ReadStatus::YES : ReadStatus::NO]);
+        });
     }
 
     #[Computed]

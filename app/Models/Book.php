@@ -89,6 +89,7 @@ class Book extends Model
     public function getWasReadAttribute()
     {
         return $this->bookUsers
+            ->whereNotNull('read')
             ->pluck('read')
             ->keyBy(fn (ReadStatus $status) => $status->rank())
             ->sortKeysDesc()
