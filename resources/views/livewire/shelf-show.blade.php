@@ -38,9 +38,9 @@
 
         <div class="indicator w-auto">
             <x-loading-indicator
-                class="border-1 indicator-center badge-success badge-outline bg-base-100"
+                class="border-1 badge-success badge-outline indicator-center bg-base-100"
                 wire:loading.delay
-                wire:target="state.search" />
+                wire:target="search" />
 
             <label class="form-control w-full">
                 <div class="label sr-only">
@@ -51,20 +51,21 @@
                     type="search"
                     placeholder="Search"
                     class="input-primary"
-                    wire:model.live.debounce="state.search" />
+                    wire:model.live.debounce="search"
+                    x-on:change="$dispatch('search-change');" />
             </label>
 
             <x-button class="sr-only">Submit</x-button>
         </div>
 
-        @if ($this->state['search'])
+        @if ($this->search)
             <div class="flex justify-between">
                 <p class="px-4">
-                    {{ trans_choice(':count result for search ":search".|:count results for search ":search".', $this->filteredBooksCount, ['search' => $this->state['search']]) }}
+                    {{ trans_choice(':count result for search ":search".|:count results for search ":search".', $this->filteredBooksCount, ['search' => $this->search]) }}
                 </p>
                 <button
                     class="btn btn-outline btn-primary btn-sm"
-                    wire:click="$set('state.search', '')">{{ __('Clear Search') }}</button>
+                    wire:click="$set('search', '')">{{ __('Clear Search') }}</button>
             </div>
         @else
             <div class="flex justify-between">
@@ -75,9 +76,23 @@
         @endif
 
         <div class="max-h-[80svh] overflow-x-auto lg:max-h-none lg:overflow-x-visible">
-            <table class="table table-pin-rows table-zebra">
+            <table class="table table-pin-rows table-zebra table-sm [&_.middle]:py-0 [&_.middle]:text-center [&_.middle]:align-middle" x-data>
                 <thead>
                     <tr class="z-10">
+                        <th scope="col" class="relative">
+                            <label for="check_all" class="absolute inset-0 grid place-content-center">
+                                <span class="sr-only">Check all books</span>
+                                <input
+                                    wire:loading.attr="disabled"
+                                    type="checkbox"
+                                    name="check_all"
+                                    id="check_all"
+                                    class="checkbox checkbox-xs"
+                                    x-on:change="$dispatch('select-all', $el.checked)"
+                                    x-on:search-change.window="$el.checked = false"
+                                    wire:change="checkAll($el.checked)" />
+                            </label>
+                        </th>
                         <th scope="col">Forename</th>
                         <th scope="col">Surname</th>
                         <th scope="col">Series</th>
@@ -85,8 +100,8 @@
                         <th scope="col">Genre</th>
                         <th scope="col">Edition</th>
                         <th scope="col">Co-Author</th>
-                        <th scope="col">Rating</th>
-                        <th scope="col">Read</th>
+                        <th scope="col" class="middle">Rating</th>
+                        <th scope="col" class="middle">Read</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -96,8 +111,22 @@
                             {{-- This is kinda jank but it interjects the surname character, which sticks underneath the header row --}}
                 </tbody>
                 <thead class="border-y">
-                    <tr class="pointer-events-none -top-1 z-20 border-b-0 bg-transparent">
-                        <th></th>
+                    <tr class="-top-1 z-20 border-b-0 bg-transparent">
+                        <th scope="col" class="relative">
+                            <label for="check{{ $book->author_surname_char }}" class="absolute inset-0 grid place-content-center">
+                                <span class="sr-only">Check all books</span>
+                                <input
+                                    wire:loading.attr="disabled"
+                                    type="checkbox"
+                                    name="check{{ $book->author_surname_char }}"
+                                    id="check{{ $book->author_surname_char }}"
+                                    class="checkbox checkbox-xs"
+                                    x-on:change="$dispatch('select-letter', { char: '{{ $book->author_surname_char }}', checked: $el.checked })"
+                                    x-on:select-all.window="$el.checked = $event.detail"
+                                    x-on:search-change.window="$el.checked = false"
+                                    wire:change="checkLetter('{{ $book->author_surname_char }}', $el.checked)" />
+                            </label>
+                        </th>
                         <th class="-translate-x-1 text-right">
                             <span class="badge aspect-square px-1 text-base-content/60">{{ $book->author_surname_char }}</span>
                         </th>
@@ -108,6 +137,25 @@
 
                     {{-- Continue with book records --}}
                     <tr wire:key="{{ $book->id }}" class="group hover" x-data>
+                        <th scope="row" class="relative">
+                            <label for="{{ $book->id }}" class="absolute inset-0 grid place-content-center">
+                                <span class="sr-only">Select row</span>
+                                <input
+                                    {{-- wire:loading.attr="disabled" --}}
+                                    type="checkbox"
+                                    name="checkedBooks"
+                                    id="{{ $book->id }}"
+                                    value="{{ $book->id }}"
+                                    wire:model.live="checkedBooks"
+                                    class="checkbox checkbox-xs"
+                                    x-on:select-all.window="$el.checked = $event.detail"
+                                    x-on:select-letter.window="
+                                        $event.detail.char === '{{ $book->author_surname_char }}'
+                                            ? $el.checked = $event.detail.checked
+                                            : null
+                                    " />
+                            </label>
+                        </th>
                         <td>{{ $book->author_forename }}</td>
                         <td>{{ $book->author_surname }}</td>
                         <td>{{ $book->series_text }}</td>
@@ -115,10 +163,10 @@
                         <td>{{ $book->genre }}</td>
                         <td>{{ $book->edition }}</td>
                         <td>{{ $book->co_author }}</td>
-                        <td class="text-center">
+                        <td class="middle">
                             <x-table-rating :rating="$book->book_user_avg_rating" />
                         </td>
-                        <td class="[&_.badge]:aspect-square [&_.badge]:text-opacity-0 [&_.badge]:group-hover:text-opacity-75">
+                        <td class="middle [&_.badge]:aspect-square [&_.badge]:text-opacity-0 [&_.badge]:group-hover:text-opacity-75">
                             <span class="tooltip" data-tip="{{ $book->was_read->trans() }}">
                                 @switch($book->was_read)
                                     @case(App\Enums\ReadStatus::YES)

@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Book;
 use App\Models\Shelf;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
@@ -14,7 +15,9 @@ class ShelfShow extends Component
     public Shelf $shelf;
 
     #[Url('q', true)]
-    public $state = ['search' => ''];
+    public $search = '';
+
+    public Collection $checkedBooks;
 
     public function mount()
     {
@@ -27,7 +30,37 @@ class ShelfShow extends Component
             return to_route('shelves.invite.confirm', ['invite' => $invite->id]);
         }
 
+        $this->checkedBooks = collect([]);
+
         $this->authorize('view', $this->shelf);
+    }
+
+    public function checkAll($checked)
+    {
+        $keys = $this->filteredBooks->modelKeys();
+
+        if ($checked) {
+            $this->checkedBooks = $this->checkedBooks->union($keys);
+
+            return;
+        }
+
+        $this->checkedBooks = $this->checkedBooks->diff($keys);
+    }
+
+    public function checkLetter($letter, $checked)
+    {
+        $keys = $this->filteredBooks()
+            ->where('author_surname_char', $letter)
+            ->modelKeys();
+
+        if ($checked) {
+            $this->checkedBooks = $this->checkedBooks->union($keys);
+
+            return;
+        }
+
+        $this->checkedBooks = $this->checkedBooks->diff($keys);
     }
 
     #[Computed]
@@ -49,11 +82,11 @@ class ShelfShow extends Component
     #[Computed]
     public function filterIds()
     {
-        if (! $this->state['search']) {
+        if (! $this->search) {
             return null;
         }
 
-        $searchIds = str($this->state['search'])
+        $searchIds = str($this->search)
             ->explode(' or ')
             ->unique()
             ->take(10)
