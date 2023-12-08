@@ -164,8 +164,8 @@
                         <th scope="col">Genre</th>
                         <th scope="col">Edition</th>
                         <th scope="col">Co-Author</th>
-                        <th scope="col" class="middle">Rating</th>
-                        <th scope="col" class="middle">Read</th>
+                        <th scope="col" class="middle">Avg. Rating</th>
+                        <th scope="col" class="middle">Any Read</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -230,25 +230,25 @@
                             <span class="tooltip" data-tip="{{ $book->was_read->trans() }}">
                                 @switch($book->was_read)
                                     @case(App\Enums\ReadStatus::YES)
-                                        <span class="badge badge-success">
+                                        <span class="badge badge-success badge-lg aspect-square rounded-full border-base-content text-sm">
                                             {{ $book->was_read->transShort() }}
                                         </span>
                                     @break
 
                                     @case(App\Enums\ReadStatus::NO)
-                                        <span class="badge badge-error">
+                                        <span class="badge badge-error badge-lg aspect-square rounded-full border-base-content text-sm">
                                             {{ $book->was_read->transShort() }}
                                         </span>
                                     @break
 
                                     @case(App\Enums\ReadStatus::PARTIAL)
-                                        <span class="badge badge-warning">
+                                        <span class="badge badge-warning badge-lg aspect-square rounded-full border-base-content text-sm">
                                             {{ $book->was_read->transShort() }}
                                         </span>
                                     @break
 
                                     @case(App\Enums\ReadStatus::UNKNOWN)
-                                        <span class="badge badge-ghost badge-outline">
+                                        <span class="badge badge-ghost badge-outline badge-lg aspect-square rounded-full text-sm">
                                             {{ $book->was_read->transShort() }}
                                         </span>
                                     @break
