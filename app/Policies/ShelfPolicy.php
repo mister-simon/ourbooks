@@ -46,4 +46,19 @@ class ShelfPolicy
     {
         return $shelf->users->contains($user);
     }
+
+    public function rateBooks(User $user, Shelf $shelf): bool
+    {
+        return $shelf->users->contains($user);
+    }
+
+    public function readBooks(User $user, Shelf $shelf): bool
+    {
+        return $shelf->users->contains($user);
+    }
+
+    public function commentBooks(User $user, Shelf $shelf): bool
+    {
+        return $shelf->users->contains($user);
+    }
 }

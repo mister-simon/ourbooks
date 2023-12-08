@@ -8,6 +8,8 @@ use App\Models\Shelf;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -37,15 +39,25 @@ class ShelfShow extends Component
         $this->authorize('view', $this->shelf);
     }
 
-    public function rateMany(array $books, $rating)
+    public function rateMany(array $books, Shelf $shelf, $rating)
     {
-        // Do validation
+        // Auth
+        $user = Auth::user();
+        Gate::authorize('rateBooks', $shelf);
+
+        // Validation
+        validator([
+            'books' => collect($books)->map(fn ($id) => ['id' => $id])->all(),
+        ], [
+            'books' => ['array'],
+            'books.*.id' => [
+                Rule::exists(Book::class)
+                    ->where('shelf_id', $shelf->id),
+            ],
+        ])->validate();
 
         // Do update
-
-        DB::transaction(function () use ($books, $rating) {
-            $user = Auth::user();
-
+        DB::transaction(function () use ($user, $books, $rating) {
             // Add any missing UserRating pivot models
             $existingRatings = $user->bookUsers()
                 ->whereIn('book_id', $books)
@@ -69,14 +81,27 @@ class ShelfShow extends Component
 
     }
 
-    public function readMany(array $books, $readStatus)
+    public function readMany(array $books, Shelf $shelf, $readStatus)
     {
+        // Auth
+        $user = Auth::user();
+        Gate::authorize('readBooks', $shelf);
+
         // Do validation
+        validator([
+            'books' => collect($books)->map(fn ($id) => ['id' => $id])->all(),
+            'read' => $readStatus,
+        ], [
+            'books' => ['array'],
+            'books.*.id' => [
+                Rule::exists(Book::class)
+                    ->where('shelf_id', $shelf->id),
+            ],
+            'read' => [Rule::enum(ReadStatus::class)],
+        ])->validate();
 
         // Do update
-        DB::transaction(function () use ($books, $readStatus) {
-            $user = Auth::user();
-
+        DB::transaction(function () use ($user, $books, $readStatus) {
             // Add any missing UserRating pivot models
             $existingRatings = $user->bookUsers()
                 ->whereIn('book_id', $books)
@@ -95,7 +120,7 @@ class ShelfShow extends Component
             // Update all relevant UserRating models
             $existingRatings = $user->bookUsers()
                 ->whereIn('book_id', $books)
-                ->update(['read' => $readStatus ? ReadStatus::YES : ReadStatus::NO]);
+                ->update(['read' => $readStatus]);
         });
     }
 

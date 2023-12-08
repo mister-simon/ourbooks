@@ -78,9 +78,10 @@
         <div
             class="max-h-[80svh] overflow-x-auto lg:max-h-none lg:overflow-x-visible"
             x-data="{
+                shelfId: '{{ $shelf->id }}',
                 selected: {},
                 rating: 5,
-                read: true,
+                read: '{{ App\Enums\ReadStatus::YES->value }}',
                 get onlySelected() {
                     return Object.entries(this.selected)
                         .filter(([, v]) => v)
@@ -111,8 +112,10 @@
                             @endforeach
                         </select>
                     </label>
-                    <button type="submit" class="btn btn-sm"
-                        @click.prevent="onlySelected.length && $wire.rateMany(onlySelected, rating)">Save rating</button>
+                    <button
+                        type="submit"
+                        class="btn btn-sm"
+                        @click.prevent="onlySelected.length && $wire.rateMany(onlySelected, shelfId, rating)">Save rating</button>
                 </div>
 
                 <div
@@ -120,13 +123,21 @@
                     x-bind:disabled="onlySelected.length === 0">
                     <label class="label w-min cursor-pointer gap-4">
                         <span class="label-text sr-only">Read</span>
-                        <input
-                            type="checkbox"
-                            class="toggle toggle-primary"
-                            x-model="read" />
+
+                        <select
+                            name="read"
+                            id="read"
+                            class="select select-bordered select-sm"
+                            x-model="read">
+                            @foreach (App\Enums\ReadStatus::select() as $status => $trans)
+                                <option value="{{ $status }}">{{ $trans }}</option>
+                            @endforeach
+                        </select>
                     </label>
-                    <button type="submit" class="btn btn-sm"
-                        @click.prevent="onlySelected.length && $wire.readMany(onlySelected, read)">Save read status</button>
+                    <button
+                        type="submit"
+                        class="btn btn-sm"
+                        @click.prevent="onlySelected.length && $wire.readMany(onlySelected, shelfId, read)">Save read status</button>
                 </div>
             </div>
 

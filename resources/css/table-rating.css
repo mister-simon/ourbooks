@@ -3,36 +3,5 @@
     @apply bg-gradient-to-r from-error via-warning to-success to-90%;
     @apply bg-[length:1000%_2em] bg-repeat-y;
 
-    background-position: var(--rating-pos, 0) center;
-
-    &-1 {
-        --rating-pos: 0%;
-    }
-    &-2 {
-        --rating-pos: 10%;
-    }
-    &-3 {
-        --rating-pos: 20%;
-    }
-    &-4 {
-        --rating-pos: 30%;
-    }
-    &-5 {
-        --rating-pos: 40%;
-    }
-    &-6 {
-        --rating-pos: 50%;
-    }
-    &-7 {
-        --rating-pos: 60%;
-    }
-    &-8 {
-        --rating-pos: 70%;
-    }
-    &-9 {
-        --rating-pos: 80%;
-    }
-    &-10 {
-        --rating-pos: 90%;
-    }
+    background-position: var(--rating-pos, 0%) center;
 }
