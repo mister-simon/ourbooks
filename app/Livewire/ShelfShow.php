@@ -2,14 +2,12 @@
 
 namespace App\Livewire;
 
-use App\Enums\ReadStatus;
+use App\Actions\Shelf\BulkBookActions;
 use App\Models\Book;
 use App\Models\Shelf;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -20,8 +18,6 @@ class ShelfShow extends Component
 
     #[Url('q', true)]
     public $search = '';
-
-    public Collection $checkedBooks;
 
     public function mount()
     {
@@ -34,98 +30,58 @@ class ShelfShow extends Component
             return to_route('shelves.invite.confirm', ['invite' => $invite->id]);
         }
 
-        $this->checkedBooks = collect([]);
-
         $this->authorize('view', $this->shelf);
     }
 
-    public function rateMany(array $books, Shelf $shelf, $rating)
+    public function rateMany(array $books, Shelf $shelf, $rating, BulkBookActions $bookActions)
     {
         // Auth
         $user = Auth::user();
         Gate::authorize('rateBooks', $shelf);
 
-        // Validation
-        validator([
-            'books' => collect($books)->map(fn ($id) => ['id' => $id])->all(),
-        ], [
-            'books' => ['array'],
-            'books.*.id' => [
-                Rule::exists(Book::class)
-                    ->where('shelf_id', $shelf->id),
-            ],
-        ])->validate();
+        $this->validateShelfHasBooks($books, $shelf);
+        $bookActions->rate($books, $user, $rating);
 
-        // Do update
-        DB::transaction(function () use ($user, $books, $rating) {
-            // Add any missing UserRating pivot models
-            $existingRatings = $user->bookUsers()
-                ->whereIn('book_id', $books)
-                ->pluck('book_id');
-
-            $missingBooks = collect($books)
-                ->diff($existingRatings);
-
-            $user->bookUsers()
-                ->createMany(
-                    $missingBooks->map(
-                        fn ($id) => ['book_id' => $id]
-                    )
-                );
-
-            // Update all relevant UserRating models
-            $existingRatings = $user->bookUsers()
-                ->whereIn('book_id', $books)
-                ->update(['rating' => $rating]);
-        });
-
+        $this->dispatch('saved');
     }
 
-    public function readMany(array $books, Shelf $shelf, $readStatus)
+    public function readMany(array $books, Shelf $shelf, $readStatus, BulkBookActions $bookActions)
     {
         // Auth
         $user = Auth::user();
         Gate::authorize('readBooks', $shelf);
 
-        // Do validation
-        validator([
-            'books' => collect($books)->map(fn ($id) => ['id' => $id])->all(),
-            'read' => $readStatus,
-        ], [
-            'books' => ['array'],
-            'books.*.id' => [
-                Rule::exists(Book::class)
-                    ->where('shelf_id', $shelf->id),
-            ],
-            'read' => [Rule::enum(ReadStatus::class)],
-        ])->validate();
+        $this->validateShelfHasBooks($books, $shelf);
+        $bookActions->read($books, $user, $readStatus);
 
-        // Do update
-        DB::transaction(function () use ($user, $books, $readStatus) {
-            // Add any missing UserRating pivot models
-            $existingRatings = $user->bookUsers()
-                ->whereIn('book_id', $books)
-                ->pluck('book_id');
+        $this->dispatch('saved');
+    }
 
-            $missingBooks = collect($books)
-                ->diff($existingRatings);
+    protected function validateShelfHasBooks(array $books, Shelf $shelf)
+    {
+        $bookCount = $shelf->books()
+            ->whereIn('id', $books)
+            ->count();
 
-            $user->bookUsers()
-                ->createMany(
-                    $missingBooks->map(
-                        fn ($id) => ['book_id' => $id]
-                    )
-                );
-
-            // Update all relevant UserRating models
-            $existingRatings = $user->bookUsers()
-                ->whereIn('book_id', $books)
-                ->update(['read' => $readStatus]);
-        });
+        throw_unless(
+            $bookCount === count($books),
+            ValidationException::withMessages([
+                'books' => __(
+                    'The selected :attribute are invalid.',
+                    ['attribute' => __('books')]
+                ),
+            ])
+        );
     }
 
     #[Computed]
-    protected function filteredBooks()
+    public function filteredBooksByAuthor()
+    {
+        return $this->filteredBooks->groupBy('author_surname_char');
+    }
+
+    #[Computed]
+    public function filteredBooks()
     {
         return $this
             ->shelf
