@@ -46,7 +46,17 @@ class DatabaseSeeder extends Seeder
                     'name' => 'Tone',
                 ]);
 
-            (new CsvImporter($importCsv))->import();
+            (new CsvImporter(
+                path: $importCsv,
+                shelf: Shelf::factory()
+                    ->create(['title' => 'Our Books'])
+            ))->import();
+
+            (new CsvImporter(
+                path: $importCsv,
+                shelf: Shelf::factory()
+                    ->create(['title' => 'Our Books - 100'])
+            ))->import(count: 100);
         }
     }
 }

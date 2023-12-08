@@ -28,10 +28,10 @@ final class CsvImporter
 
     protected $users;
 
-    protected $shelf;
-
-    public function __construct(string $path)
-    {
+    public function __construct(
+        string $path,
+        protected ?Shelf $shelf = null
+    ) {
         $this->fillable = (new Book)->getFillable();
 
         $this->reader = Reader::createFromPath($path, 'r')
@@ -41,7 +41,7 @@ final class CsvImporter
         $this->users = $this->getUsers();
     }
 
-    public function import()
+    public function import($count = INF)
     {
         if ($this->users->isEmpty()) {
             return;
@@ -50,6 +50,10 @@ final class CsvImporter
         $this->shelf = $this->addUsersToShelf();
 
         foreach ($this->reader->getRecords() as $i => $record) {
+            if ($i > $count) {
+                break;
+            }
+
             $data = $this->normaliseRecord($record);
 
             $book = $this->addBook($data);
@@ -85,11 +89,14 @@ final class CsvImporter
 
     protected function addUsersToShelf()
     {
+        $shelf = $this->shelf;
 
-        // Create a shelf + add the users to it
-        $shelf = Shelf::create([
-            'title' => 'Our Books',
-        ]);
+        if ($shelf === null) {
+            // Create a shelf + add the users to it
+            $shelf = Shelf::create([
+                'title' => 'Our Books',
+            ]);
+        }
 
         $shelf
             ->users()
