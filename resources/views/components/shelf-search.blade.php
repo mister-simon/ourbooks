@@ -27,7 +27,9 @@
         </p>
         <button
             class="btn btn-outline btn-primary btn-sm"
-            wire:click="$set('search', '')">{{ __('Clear Search') }}</button>
+            wire:click="$set('search', '')">
+            {{ __('Clear Search') }}
+        </button>
     </div>
 @else
     <div class="flex justify-between">
