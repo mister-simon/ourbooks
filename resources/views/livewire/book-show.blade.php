@@ -103,9 +103,10 @@
                                 <dt class="inline-block origin-left -translate-x-1 -rotate-6 text-xl font-semibold leading-none">
                                     {{ __('Rating') }}
                                 </dt>
-                                <dd class="-mt-4 grow rounded-box p-4 px-4 font-light">
+                                <dd class="-mt-4 flex grow items-center gap-4 rounded-box p-4 px-4 font-light">
                                     @if ($bookUser->rating)
                                         {{ $bookUser->rating }} / 10
+                                        <x-table-rating :rating="$bookUser->rating" />
                                     @else
                                         {{ __('N/A') }}
                                     @endif
@@ -116,8 +117,9 @@
                                 <dt class="inline-block origin-left -translate-x-1 -rotate-6 text-xl font-semibold leading-none">
                                     {{ __('Read') }}
                                 </dt>
-                                <dd class="-mt-4 grow rounded-box p-4 px-4 font-light">
+                                <dd class="-mt-4 flex grow items-center gap-4 rounded-box p-4 px-4 font-light">
                                     {{ $bookUser->read->trans() }}
+                                    <x-table-read :read="$bookUser->read" />
                                 </dd>
                             </div>
 
@@ -125,7 +127,7 @@
                                 <dt class="inline-block origin-left -translate-x-1 -rotate-6 text-xl font-semibold leading-none">
                                     {{ __('Comments') }}
                                 </dt>
-                                <dd class="-mt-4 grow rounded-box p-4 px-4 font-light">
+                                <dd class="-mt-4 flex grow items-center gap-4 rounded-box p-4 px-4 font-light">
                                     {{ empty($book->comments) ? __('N/A') : $book->comments }}
                                 </dd>
                             </div>
