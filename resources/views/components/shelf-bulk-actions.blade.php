@@ -1,6 +1,6 @@
 <div class="flex flex-row gap-4">
     <div
-        class="dropdown-bottom dropdown"
+        class="dropdown dropdown-bottom"
         x-data="{ isOpen: false }"
         x-cloak>
         <div
@@ -26,7 +26,7 @@
                             id="rating"
                             class="select select-bordered select-sm"
                             x-model="rating">
-                            @foreach (range(1, 10) as $rating)
+                            @foreach (range(0, 10) as $rating)
                                 <option value="{{ $rating }}">{{ $rating }}</option>
                             @endforeach
                         </select>

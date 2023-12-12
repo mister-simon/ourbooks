@@ -20,7 +20,7 @@ class BulkBookActions
             'rating' => $rating,
         ], [
             'books' => ['required', 'array', 'min:1'],
-            'rating' => ['integer', 'between:1,10'],
+            'rating' => ['numeric', 'between:0,10'],
         ])->validate();
 
         $this->validateBooksExist($books);

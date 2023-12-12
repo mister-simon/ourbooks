@@ -12,6 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('book_user', function (Blueprint $table) {
+            $table->ulid('id')->primary();
+
             $table->foreignUlid('book_id')
                 ->constrained('books')
                 ->cascadeOnDelete();
@@ -19,8 +21,6 @@ return new class extends Migration
             $table->foreignUlid('user_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
-
-            $table->primary(['book_id', 'user_id']);
 
             $table->char('read', 1)
                 ->nullable()
@@ -34,6 +34,8 @@ return new class extends Migration
                 ->nullable();
 
             $table->timestamps();
+
+            $table->unique(['book_id', 'user_id']);
         });
     }
 
