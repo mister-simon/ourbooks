@@ -47,6 +47,9 @@ class BookUser extends Pivot
             return '';
         }
 
-        return $comments->markdown(['html_input' => 'strip']);
+        return $comments->markdown([
+            'html_input' => 'strip',
+            'allow_unsafe_links' => false,
+        ]);
     }
 }
