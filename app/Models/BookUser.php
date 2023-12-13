@@ -38,4 +38,15 @@ class BookUser extends Pivot
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getCommentsMarkdownAttribute()
+    {
+        $comments = str($this->comments)->trim();
+
+        if ($comments->isEmpty()) {
+            return '';
+        }
+
+        return $comments->markdown(['html_input' => 'strip']);
+    }
 }

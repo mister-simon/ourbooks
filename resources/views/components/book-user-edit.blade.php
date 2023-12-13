@@ -2,7 +2,7 @@
 
 <div class="card card-compact overflow-hidden shadow sm:card-side">
     @if ($profilePhotos)
-        <div class="flex flex-wrap items-center justify-start gap-2 bg-neutral p-4 text-center text-neutral-content sm:w-3/12 sm:justify-evenly md:w-2/12">
+        <div class="flex items-center gap-4 bg-neutral p-4 text-center text-neutral-content sm:w-3/12 sm:flex-col md:w-2/12">
             <img class="rounded-full object-cover" src="{{ $bookUser->user->profile_photo_url }}" alt="" />
             <div>{{ $bookUser->user->readable }}</div>
         </div>
@@ -74,14 +74,23 @@
                         class="textarea textarea-bordered w-full"
                         wire:model="state.comments"
                         x-data="{
+                            autoHeight: 100,
                             resize() {
-                                $el.style.height = 0;
-                                $el.style.height = `${Math.max(100, $el.scrollHeight)}px`;
+                                const te = document.createElement('textarea');
+                                te.className = this.$el.className;
+                                te.style.height = 0;
+                                te.value = this.$el.value;
+                        
+                                this.$el.parentElement.prepend(te);
+                        
+                                this.autoHeight = `${Math.max(100, te.scrollHeight + 10)}px`;
+                        
+                                te.remove();
                             }
                         }"
                         x-init="resize"
                         @input="resize"
-                        @saved="resize">
+                        x-bind:style="{ height: autoHeight }">
                     </textarea>
                     <x-input-error
                         for="comments"

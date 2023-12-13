@@ -2,13 +2,25 @@
 
 <div class="card card-compact overflow-hidden shadow sm:card-side">
     @if ($profilePhotos)
-        <div class="flex flex-wrap items-center justify-start gap-2 bg-neutral p-4 text-center text-neutral-content sm:w-3/12 sm:justify-evenly md:w-2/12">
-            <img class="rounded-full object-cover" src="{{ $bookUser->user->profile_photo_url }}" alt="" />
+        <div class="bg-neutral p-4 text-center text-neutral-content sm:w-3/12 md:w-2/12">
+            <img class="mx-auto mb-2 rounded-full object-cover" src="{{ $bookUser->user->profile_photo_url }}" alt="" />
             <div>{{ $bookUser->user->readable }}</div>
         </div>
     @endif
 
-    <div class="card-body shrink">
+    <div
+        class="card-body shrink"
+        x-data="{
+            truncated: true,
+            noTruncate: false,
+            shouldTruncate() {
+                return this.$el.scrollHeight !== this.$el.offsetHeight;
+            },
+            init() {
+                this.$nextTick(() => this.truncated = this.shouldTruncate())
+                this.$nextTick(() => this.noTruncate = this.shouldTruncate() === false)
+            }
+        }">
         <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-2">
             <dl>
                 <dt class="text-xl font-semibold">
@@ -39,10 +51,20 @@
                 <dt class="text-xl font-semibold">
                     {{ __('Comments') }}
                 </dt>
-                <dd class="truncate font-light">{!! empty(trim($bookUser->comments))
-                    ? __('N/A')
-                    : str(e($bookUser->comments))->squish()->replace("\n", '<br>') !!}</dd>
+                <dd
+                    class="prose prose-sm font-light"
+                    x-cloak
+                    x-ref="comment"
+                    x-bind:class="{ 'max-h-40 clip-b-gradient-50 -mb-10': truncated }">
+                    {!! $bookUser->comments_markdown !!}
+                </dd>
             </dl>
+            <button
+                x-show="noTruncate === false"
+                class="btn btn-ghost isolate sm:col-span-2"
+                @click="truncated = !truncated"
+                x-text="truncated ? '{{ __('Show more') }}' : '{{ __('Show less') }}'">
+            </button>
         </div>
     </div>
 </div>
