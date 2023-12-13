@@ -8,13 +8,13 @@
         </div>
     @endif
 
-    <div class="card-body">
+    <div class="card-body shrink">
         <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-2">
             <dl>
-                <dt class="inline-block origin-left -translate-x-1 -rotate-6 text-xl font-semibold leading-none">
+                <dt class="text-xl font-semibold">
                     {{ __('Rating') }}
                 </dt>
-                <dd class="-mt-4 flex grow items-center gap-4 rounded-box p-4 px-4 font-light">
+                <dd class="flex grow items-center gap-4 font-light">
                     @if ($bookUser->rating)
                         <x-table-rating
                             :rating="$bookUser->rating" />
@@ -25,23 +25,23 @@
             </dl>
 
             <dl>
-                <dt class="inline-block origin-left -translate-x-1 -rotate-6 text-xl font-semibold leading-none">
+                <dt class="text-xl font-semibold">
                     {{ __('Read') }}
                 </dt>
-                <dd class="-mt-4 flex grow items-center gap-4 rounded-box p-4 px-4 font-light">
+                <dd class="flex grow items-center gap-4 font-light">
                     <x-table-read
-                        :read="$bookUser->read" />
-                    {{ $bookUser->read->trans() }}
+                        :read="$bookUser->read_or_unknown" />
+                    {{ $bookUser->read_or_unknown->trans() }}
                 </dd>
             </dl>
 
             <dl class="sm:col-span-2">
-                <dt class="inline-block origin-left -translate-x-1 -rotate-6 text-xl font-semibold leading-none">
+                <dt class="text-xl font-semibold">
                     {{ __('Comments') }}
                 </dt>
-                <dd class="-mt-4 flex grow items-center gap-4 rounded-box p-4 px-4 font-light">
-                    {{ empty($book->comments) ? __('N/A') : $book->comments }}
-                </dd>
+                <dd class="truncate font-light">{!! empty(trim($bookUser->comments))
+                    ? __('N/A')
+                    : str(e($bookUser->comments))->squish()->replace("\n", '<br>') !!}</dd>
             </dl>
         </div>
     </div>

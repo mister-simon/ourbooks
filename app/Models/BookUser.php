@@ -24,6 +24,11 @@ class BookUser extends Pivot
         'read' => ReadStatus::class,
     ];
 
+    public function getReadOrUnknownAttribute()
+    {
+        return $this->read ?? ReadStatus::UNKNOWN;
+    }
+
     public function book(): BelongsTo
     {
         return $this->belongsTo(Book::class);

@@ -11,31 +11,32 @@
     <div class="card-body !p-0">
         <x-form-section submit="editBookUser" x-data="{ rating: {{ $this->state['rating'] }} }">
             <x-slot name="form">
-                <div class="col-span-6 sm:col-span-3">
+                <div class="col-span-6 flex flex-col sm:col-span-3">
                     <x-label
                         for="rating"
                         value="{{ __('Rating') }}"
-                        class="origin-left -translate-x-1 -rotate-6 text-xl font-semibold leading-none" />
-                    <div class="flex flex-row gap-4">
-                        <div class="grow">
+                        class="mb-auto text-xl font-semibold" />
+                    <div class="my-auto flex flex-row items-center gap-4">
+                        <div class="relative flex grow items-center">
                             <input
                                 id="rating"
                                 type="range"
                                 min="0"
                                 max="10"
                                 step="0.5"
-                                class="range"
+                                class="bg-rating range relative z-[1]"
                                 wire:model="state.rating"
                                 x-model="rating" />
                             <x-input-range-measure
                                 :min="0"
                                 :max="10"
                                 :step="0.5"
-                                class="-mt-4 px-3 text-xl font-bold [&>span:nth-child(1)]:text-error [&>span:nth-child(11)]:text-warning [&>span:nth-child(21)]:text-success [&>span:nth-child(even)]:opacity-10" />
+                                class="absolute top-full -translate-y-1 px-3 font-bold leading-none [&>span:nth-child(even)]:opacity-10" />
                         </div>
                         <x-table-rating
                             :rating="$this->state['rating']"
-                            x-text="rating" x-bind:style="{ '--rating-pos': `${(rating) * 10}%` }" />
+                            x-text="rating"
+                            x-bind:style="{ '--rating-pos': `${(rating) * 10}%` }" />
                     </div>
                     <x-input-error
                         for="rating"
@@ -46,7 +47,7 @@
                     <x-label
                         for="read"
                         value="{{ __('Read') }}"
-                        class="origin-left -translate-x-1 -rotate-6 text-xl font-semibold leading-none" />
+                        class="text-xl font-semibold" />
                     <select
                         name="read"
                         id="read"
@@ -65,13 +66,22 @@
                     <x-label
                         for="comments"
                         value="{{ __('Comments') }}"
-                        class="origin-left -translate-x-1 -rotate-6 text-xl font-semibold leading-none" />
+                        class="text-xl font-semibold" />
 
                     <textarea
                         name="comments"
                         id="comments"
                         class="textarea textarea-bordered w-full"
-                        wire:model="state.comments">
+                        wire:model="state.comments"
+                        x-data="{
+                            resize() {
+                                $el.style.height = 0;
+                                $el.style.height = `${Math.max(100, $el.scrollHeight)}px`;
+                            }
+                        }"
+                        x-init="resize"
+                        @input="resize"
+                        @saved="resize">
                     </textarea>
                     <x-input-error
                         for="comments"

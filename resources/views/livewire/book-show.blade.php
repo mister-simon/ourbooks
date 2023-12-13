@@ -18,12 +18,12 @@
     </x-page-header>
 
     <x-page-card>
-        <dl class="grid grid-flow-dense flex-wrap sm:grid-cols-2 sm:gap-2 md:grid-cols-3 md:gap-4 2xl:grid-cols-6">
-            <div class="flex flex-col">
-                <dt class="origin-left -translate-x-1 translate-y-1 -rotate-6 self-start text-4xl font-semibold leading-none text-accent">
+        <dl class="grid grid-flow-dense flex-wrap gap-2 sm:grid-cols-2 md:grid-cols-3 md:gap-4 2xl:grid-cols-6">
+            <div class="flex flex-col rounded-box border p-4">
+                <dt class="self-start text-xl font-light">
                     {{ trans_choice('Author|Authors', (!empty($book->author_name) && !empty($book->co_author)) + 1) }}
                 </dt>
-                <dd class="-mt-4 mb-4 grow rounded-box border p-4 px-4 text-xl font-light">
+                <dd class="text-xl font-semibold">
                     {{ empty($book->author_name) ? __('N/A') : $book->author_name }}
                     @if ($book->co_author)
                         <br>
@@ -32,38 +32,38 @@
                 </dd>
             </div>
 
-            <div class="flex flex-col">
-                <dt class="origin-left -translate-x-1 translate-y-1 -rotate-6 self-start text-4xl font-semibold leading-none text-accent">
+            <div class="flex flex-col rounded-box border p-4">
+                <dt class="self-start text-xl font-light">
                     {{ __('Edition') }}
                 </dt>
-                <dd class="-mt-4 mb-4 grow rounded-box border p-4 px-4 text-xl font-light">
+                <dd class="text-xl font-semibold">
                     {{ $book->edition }}
                 </dd>
             </div>
 
-            <div class="flex flex-col">
-                <dt class="origin-left -translate-x-1 translate-y-1 -rotate-6 self-start text-4xl font-semibold leading-none text-accent">
+            <div class="flex flex-col rounded-box border p-4">
+                <dt class="self-start text-xl font-light">
                     {{ __('Series') }}
                 </dt>
-                <dd class="-mt-4 mb-4 grow rounded-box border p-4 px-4 text-xl font-light">
+                <dd class="text-xl font-semibold">
                     {{ empty($book->series_text) ? __('N/A') : $book->series_text }}
                 </dd>
             </div>
 
-            <div class="flex flex-col">
-                <dt class="origin-left -translate-x-1 translate-y-1 -rotate-6 self-start text-4xl font-semibold leading-none text-accent">
+            <div class="flex flex-col rounded-box border p-4">
+                <dt class="self-start text-xl font-light">
                     {{ __('Genre') }}
                 </dt>
-                <dd class="-mt-4 mb-4 grow rounded-box border p-4 px-4 text-xl font-light">
+                <dd class="text-xl font-semibold">
                     {{ empty($book->genre) ? __('N/A') : $book->genre }}
                 </dd>
             </div>
 
-            <div class="flex flex-col">
-                <dt class="origin-left -translate-x-1 translate-y-1 -rotate-6 self-start text-4xl font-semibold leading-none text-accent">
+            <div class="flex flex-col rounded-box border p-4">
+                <dt class="self-start text-xl font-light">
                     {{ __('Avg. Rating') }}
                 </dt>
-                <dd class="-mt-4 mb-4 inline-flex grow items-center justify-between rounded-box border p-4 px-4 text-xl font-light">
+                <dd class="inline-flex items-center justify-between text-xl font-semibold">
                     @if ($book->book_user_avg_rating)
                         <x-table-rating :rating="$book->book_user_avg_rating" />
                     @else
@@ -72,21 +72,23 @@
                 </dd>
             </div>
 
-            <div class="flex flex-col">
-                <dt class="origin-left -translate-x-1 translate-y-1 -rotate-6 self-start text-4xl font-semibold leading-none text-accent">
+            <div class="flex flex-col rounded-box border p-4">
+                <dt class="self-start text-xl font-light">
                     {{ __('Any Read') }}
                 </dt>
-                <dd class="-mt-4 mb-4 inline-flex grow items-center justify-between rounded-box border p-4 px-4 text-xl font-light">
+                <dd class="inline-flex items-center justify-start gap-2 text-xl font-semibold">
                     <x-table-read :read="$book->was_read" />
                     {{ $book->was_read->trans() }}
                 </dd>
             </div>
         </dl>
 
-        <div class="flex flex-col gap-8">
+        <div class="mt-4 flex flex-col gap-8">
             <x-book-user-edit :book-user="$this->bookUser" />
 
-            @foreach ($book->bookUsers as $bookUser)
+            <x-section-border>{{ __('Other Users') }}</x-section-border>
+
+            @foreach ($book->book_users_with_missing as $bookUser)
                 @if ($bookUser->user()->isNot(Auth::user()))
                     <x-book-user-show :book-user="$bookUser" />
                 @endif

@@ -100,4 +100,24 @@ class Book extends Model
     {
         return $this->bookUsers->avg('rating');
     }
+
+    public function getBookUsersWithMissingAttribute()
+    {
+        $users = $this->shelf->users;
+
+        return $users->map(
+            function ($user) {
+                $bookUser = $this->bookUsers
+                    ->firstWhere('user_id', $user->id);
+
+                if ($bookUser === null) {
+                    $bookUser = new BookUser();
+                    $bookUser->user()->associate($user);
+                    $bookUser->book()->associate($this);
+                }
+
+                return $bookUser;
+            }
+        );
+    }
 }

@@ -12,7 +12,7 @@
             id="search"
             type="search"
             placeholder="Search"
-            class="input-primary"
+            class="input-primary input-sm md:input-md"
             wire:model.live.debounce="search"
             x-on:change="$dispatch('search-change');" />
     </label>

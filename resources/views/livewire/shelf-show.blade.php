@@ -46,6 +46,7 @@
                     .map(([k]) => k);
             }
         }">
+        <x-slot name="container" class="!block"></x-slot>
         <x-shelf-search />
         <x-shelf-bulk-actions />
         <x-shelf-table :shelf="$shelf" />
