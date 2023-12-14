@@ -80,4 +80,6 @@ if (config('app.debug')) {
     });
 
     Route::get('debug/loading', fn () => view('layouts.app', ['slot' => new ComponentSlot(view('partials.loading-page'))]));
+
+    Route::view('test', 'test');
 }

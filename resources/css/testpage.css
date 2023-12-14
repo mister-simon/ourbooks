@@ -1,0 +1,71 @@
+.testpage {
+    /* Ensure full screen coverage */
+    &,
+    body {
+        min-height: 100vh;
+    }
+
+    body {
+        /* Grid stuff */
+        display: grid;
+    }
+}
+
+.content-grid {
+    display: grid;
+
+    grid-template-columns:
+        [full-width-start]
+        minmax(0, 1rem)
+        [full-width-content-start]
+        minmax(0rem, 0.25fr)
+        [breakout-start left-breakout-start]
+        minmax(0rem, 0.75fr)
+        [content-start left-start]
+        min(50% - 1rem, 40ch)
+        [left-end left-breakout-end right-start right-breakout-start]
+        min(50% - 1rem, 40ch)
+        [content-end right-end]
+        minmax(0rem, 0.75fr)
+        [breakout-end right-breakout-end]
+        minmax(0rem, 0.25fr)
+        [full-width-content-end]
+        minmax(0, 1rem)
+        [full-width-end];
+
+    & > * {
+        grid-column: content;
+    }
+
+    & > .full-width {
+        grid-column: full-width;
+    }
+
+    & > .breakout {
+        grid-column: breakout;
+    }
+
+    & > .breakout-left {
+        grid-column: left-breakout / content-end;
+    }
+    & > .breakout-right {
+        grid-column: content-start / right-breakout-end;
+    }
+
+    @screen sm {
+        & > .left {
+            grid-column: left;
+
+            &.breakout {
+                grid-column: left-breakout;
+            }
+        }
+        & > .right {
+            grid-column: right;
+
+            &.breakout {
+                grid-column: right-breakout;
+            }
+        }
+    }
+}
