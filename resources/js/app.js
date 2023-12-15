@@ -3,6 +3,8 @@ function clamp(min, max, val) {
 }
 
 function mouseListener(e) {
+    console.log(e);
+
     // Element details
     const { width, height } = this.$el.getBoundingClientRect();
     const t = this.$el.offsetTop;
@@ -31,12 +33,16 @@ document.addEventListener('alpine:init', () => {
         x: 5,
         y: 0,
         z: 0,
+        timeout: null,
         bindings: {
-            ['@mousemove.window']: mouseListener,
-            ['@click']() { this.open = !this.open },
+            ['@click']() {
+                this.open = !this.open;
+                clearTimeout(this.timeout);
+            },
+            'draggable': "false"
         },
         init() {
-            setTimeout(() => this.open = true, 2000)
+            this.timeout = setTimeout(() => this.open = true, 2000);
         }
     }));
 });

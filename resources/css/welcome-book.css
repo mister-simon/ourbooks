@@ -8,6 +8,8 @@
     --scale: 1.2;
     --xOffset: -25%;
     --xOffsetOpen: -25%;
+    --opennessLeft: 10deg;
+    --opennessRight: 0deg;
 
     @screen md {
         --scale: 0.9;
@@ -37,29 +39,21 @@
 
     .front-cover {
         @apply col-start-2 origin-left pointer-events-none;
-        transform: rotateY(-10deg) scaleX(0.94);
+        transform: rotateY(calc(var(--opennessLeft) * -1)) scaleX(0.94);
     }
     .inner-left {
         @apply col-start-1 origin-right;
-        transform: rotateY(180deg) scaleX(0.94);
+        transform: rotateY(calc((var(--opennessLeft) + 180deg) * -1))
+            scaleX(0.94);
     }
     .inner-right {
         @apply col-start-2 origin-left;
+        transform: rotateY(calc(var(--opennessRight) * -1));
     }
 
     &.active {
-        transform: rotateX(calc(var(--x, 0) * 1deg))
-            rotateY(calc(var(--y, 0) * 1deg)) rotateZ(calc(var(--z, 0) * 1deg))
-            scale(var(--scale)) translateX(var(--xOffsetOpen));
-
-        .front-cover {
-            transform: rotateY(-180deg) scaleX(0.94);
-        }
-        .inner-left {
-            transform: rotateY(10deg) scaleX(0.94);
-        }
-        .inner-right {
-            transform: rotateY(-5deg);
-        }
+        --opennessLeft: 170deg;
+        --opennessRight: 5deg;
+        --xOffset: var(--xOffsetOpen);
     }
 }

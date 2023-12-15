@@ -18,10 +18,15 @@
                     <h2 class="heading text-2xl">Welcome To OurBookstop</h2>
                 </div>
             </div>
-            <div class="inner-left">
-                Well Hello There
+            <div class="inner-left p-4">
+                <div class="prose">
+                    <p class="text-center"><strong>Once upon a time...</strong></p>
+                    <p>I made a giant spreadsheet of all my books. That was a good day.</p>
+                    <p>However, over time all was not well; It was cumbersome to add books on my phone. Conditional formatting became janky and unmanageable. It was difficult to search and sort to find what I wanted.</p>
+                    <p>So, after many hours and rounds of prototyping from fresh, here we are! Welcome!</p>
+                </div>
             </div>
-            <div class="inner-right">
+            <div class="inner-right p-4">
                 <div class="prose">
                     <p class="text-center"><strong>What can OurBookstop do for you?</strong></p>
                     <ul>
