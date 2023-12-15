@@ -33,11 +33,35 @@
                 <h2>First heading</h2>
                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa porro fugiat nihil cumque, odio soluta. Cumque quod non fugiat. Doloremque distinctio, nostrum ipsum incidunt deleniti alias dignissimos cumque quas eveniet.</p>
 
+                <div class="tile-test not-prose">
+                    <div>
+                        <img src="{{ asset('img/shelf-invite-example.png') }}" alt="" srcset="">
+                    </div>
+                    <div>
+                        <img src="{{ asset('img/books-list-example.png') }}" alt="" srcset="">
+                    </div>
+                    <div>
+                        <img src="{{ asset('img/shelf-search-example.png') }}" alt="" srcset="">
+                    </div>
+                </div>
+
                 <blockquote class="full-width content-grid bg-neutral text-neutral-content">
                     <p class="breakout">
                         This is a wide blockquote. This is a wide blockquote. This is a wide blockquote. This is a wide blockquote.
                     </p>
                 </blockquote>
+
+                <div class="not-prose isolate grid aspect-video grid-cols-4 grid-rows-1 overflow-hidden rounded-box border-8">
+                    <div class="col-start-1 col-end-3 row-start-1 row-end-3 overflow-hidden drop-shadow">
+                        <img src="{{ asset('img/shelf-invite-example.png') }}" alt="" srcset="" class="mask mask-half-2 mask-parallelogram h-full w-full object-cover">
+                    </div>
+                    <div class="col-start-1 col-end-5 row-start-1 overflow-hidden">
+                        <img src="{{ asset('img/shelf-search-example.png') }}" alt="" srcset="" class="h-full w-full object-cover">
+                    </div>
+                    <div class="col-start-3 col-end-5 row-start-1 overflow-hidden drop-shadow">
+                        <img src="{{ asset('img/books-list-example.png') }}" alt="" srcset="" class="mask-fade-x mask mask-half-1 mask-triangle h-full w-full object-cover object-left">
+                    </div>
+                </div>
 
                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa porro fugiat nihil cumque, odio soluta. Cumque quod non fugiat. Doloremque distinctio, nostrum ipsum incidunt deleniti alias dignissimos cumque quas eveniet.</p>
 

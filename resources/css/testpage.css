@@ -69,3 +69,49 @@
         }
     }
 }
+
+.tile-test {
+    grid-template-columns:
+        [i1-start]
+        1fr
+        [i2-start i3-start]
+        1fr
+        [i1-end]
+        2fr
+        [i2-end i3-end];
+
+    grid-template-rows:
+        [i1-start i2-start]
+        1fr
+        [i2-end i3-start]
+        1fr
+        [i1-end i3-end];
+
+    @apply grid aspect-video isolate;
+
+    & > * {
+        @apply overflow-hidden grid relative;
+        img {
+            @apply absolute inset-0 h-full w-full object-cover;
+        }
+    }
+
+    & > :nth-child(1) {
+        grid-area: i1;
+        z-index: 3;
+
+        clip-path: polygon(0 0, 100% 0, 50% 100%, 0 100%);
+    }
+    & > :nth-child(2) {
+        grid-area: i2;
+        z-index: 2;
+
+        /* clip-path: polygon(33.33% 0%, 100% 0%, 100% 100%, 16.66% 100%); */
+    }
+    & > :nth-child(3) {
+        grid-area: i3;
+        z-index: 1;
+
+        /* clip-path: polygon(16.66% 0%, 100% 0%, 100% 100%, 0% 100%); */
+    }
+}
