@@ -3,7 +3,7 @@
 
     <div class="flex grow flex-col items-center overflow-hidden bg-gray-100 pt-6 sm:justify-center sm:pt-0">
         <div
-            class="welcome-book my-8"
+            class="welcome-book my-auto"
             :class="{ 'active': open }"
             :style="{
                 '--x': x,
@@ -35,6 +35,12 @@
                         <li>Share your list with friends and family</li>
                         <li>Collaboratively rate and review your books</li>
                     </ul>
+                    <a
+                        wire:navigate
+                        href="{{ route('login') }}"
+                        class="btn btn-primary mx-auto flex">
+                        {{ __('Login') }}
+                    </a>
                 </div>
             </div>
         </div>

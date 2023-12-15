@@ -51,9 +51,14 @@
         transform: rotateY(calc(var(--opennessRight) * -1));
     }
 
-    &.active {
+    &.active,
+    &:focus-within {
         --opennessLeft: 170deg;
         --opennessRight: 5deg;
         --xOffset: var(--xOffsetOpen);
+    }
+
+    &:not(.active, :focus-within) a {
+        @apply pointer-events-none;
     }
 }

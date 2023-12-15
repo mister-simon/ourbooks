@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex shrink-0 items-center">
-                    <a lire:navigate href="{{ url('/') }}">
+                    <a wire:navigate href="{{ url('/') }}">
                         <x-application-mark class="block h-9 w-auto" width="36" />
                     </a>
                 </div>
@@ -13,14 +13,14 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @auth
-                        <x-nav-link lire:navigate href="{{ route('shelves.index') }}" :active="request()->routeIs('shelves.index')">
+                        <x-nav-link wire:navigate href="{{ route('shelves.index') }}" :active="request()->routeIs('shelves.index')">
                             {{ __('Shelves') }}
                         </x-nav-link>
                     @else
-                        <x-nav-link lire:navigate href="{{ route('login') }}" :active="request()->routeIs('login')">
+                        <x-nav-link wire:navigate href="{{ route('login') }}" :active="request()->routeIs('login')">
                             {{ __('Login') }}
                         </x-nav-link>
-                        <x-nav-link lire:navigate href="{{ route('register') }}" :active="request()->routeIs('register')">
+                        <x-nav-link wire:navigate href="{{ route('register') }}" :active="request()->routeIs('register')">
                             {{ __('Register') }}
                         </x-nav-link>
                     @endauth
@@ -53,12 +53,12 @@
                                         </div>
 
                                         <!-- Team Settings -->
-                                        <x-dropdown-link lire:navigate href="{{ route('teams.show', Auth::user()->currentTeam->id) }}">
+                                        <x-dropdown-link wire:navigate href="{{ route('teams.show', Auth::user()->currentTeam->id) }}">
                                             {{ __('Team Settings') }}
                                         </x-dropdown-link>
 
                                         @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
-                                            <x-dropdown-link lire:navigate href="{{ route('teams.create') }}">
+                                            <x-dropdown-link wire:navigate href="{{ route('teams.create') }}">
                                                 {{ __('Create New Team') }}
                                             </x-dropdown-link>
                                         @endcan
@@ -115,12 +115,12 @@
                                     {{ __('Manage Account') }}
                                 </div>
 
-                                <x-dropdown-link lire:navigate href="{{ route('profile.show') }}">
+                                <x-dropdown-link wire:navigate href="{{ route('profile.show') }}">
                                     {{ __('Profile') }}
                                 </x-dropdown-link>
 
                                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                    <x-dropdown-link lire:navigate href="{{ route('api-tokens.index') }}">
+                                    <x-dropdown-link wire:navigate href="{{ route('api-tokens.index') }}">
                                         {{ __('API Tokens') }}
                                     </x-dropdown-link>
                                 @endif
@@ -159,14 +159,14 @@
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="space-y-1 pb-3 pt-2">
             @auth
-                <x-responsive-nav-link lire:navigate href="{{ route('shelves.index') }}" :active="request()->routeIs('shelves.index')">
+                <x-responsive-nav-link wire:navigate href="{{ route('shelves.index') }}" :active="request()->routeIs('shelves.index')">
                     {{ __('Shelves') }}
                 </x-responsive-nav-link>
             @else
-                <x-responsive-nav-link lire:navigate href="{{ route('login') }}" :active="request()->routeIs('login')">
+                <x-responsive-nav-link wire:navigate href="{{ route('login') }}" :active="request()->routeIs('login')">
                     {{ __('Login') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link lire:navigate href="{{ route('register') }}" :active="request()->routeIs('register')">
+                <x-responsive-nav-link wire:navigate href="{{ route('register') }}" :active="request()->routeIs('register')">
                     {{ __('Register') }}
                 </x-responsive-nav-link>
             @endauth
@@ -190,12 +190,12 @@
 
                 <div class="mt-3 space-y-1">
                     <!-- Account Management -->
-                    <x-responsive-nav-link lire:navigate href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
+                    <x-responsive-nav-link wire:navigate href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
 
                     @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                        <x-responsive-nav-link lire:navigate href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">
+                        <x-responsive-nav-link wire:navigate href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">
                             {{ __('API Tokens') }}
                         </x-responsive-nav-link>
                     @endif
@@ -204,7 +204,7 @@
                     <form method="POST" action="{{ route('logout') }}" x-data>
                         @csrf
 
-                        <x-responsive-nav-link lire:navigate href="{{ route('logout') }}"
+                        <x-responsive-nav-link wire:navigate href="{{ route('logout') }}"
                             @click.prevent="$root.submit();">
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>
@@ -219,12 +219,12 @@
                         </div>
 
                         <!-- Team Settings -->
-                        <x-responsive-nav-link lire:navigate href="{{ route('teams.show', Auth::user()->currentTeam->id) }}" :active="request()->routeIs('teams.show')">
+                        <x-responsive-nav-link wire:navigate href="{{ route('teams.show', Auth::user()->currentTeam->id) }}" :active="request()->routeIs('teams.show')">
                             {{ __('Team Settings') }}
                         </x-responsive-nav-link>
 
                         @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
-                            <x-responsive-nav-link lire:navigate href="{{ route('teams.create') }}" :active="request()->routeIs('teams.create')">
+                            <x-responsive-nav-link wire:navigate href="{{ route('teams.create') }}" :active="request()->routeIs('teams.create')">
                                 {{ __('Create New Team') }}
                             </x-responsive-nav-link>
                         @endcan

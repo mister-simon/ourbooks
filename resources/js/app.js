@@ -35,6 +35,7 @@ document.addEventListener('alpine:init', () => {
         z: 0,
         timeout: null,
         bindings: {
+            ['@mousemove.window']: mouseListener,
             ['@click']() {
                 this.open = !this.open;
                 clearTimeout(this.timeout);
