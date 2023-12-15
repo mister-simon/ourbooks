@@ -73,11 +73,11 @@
 .tile-test {
     grid-template-columns:
         [i1-start]
-        1fr
+        1.5fr
         [i2-start i3-start]
-        1fr
+        1.5fr
         [i1-end]
-        2fr
+        1.5fr
         [i2-end i3-end];
 
     grid-template-rows:
@@ -87,7 +87,47 @@
         1fr
         [i1-end i3-end];
 
-    @apply grid aspect-video isolate;
+    @apply grid aspect-video isolate transition-all;
+
+    &:has(div:nth-child(1):hover) {
+        grid-template-columns:
+            [i1-start]
+            1fr
+            [i2-start i3-start]
+            1fr
+            [i1-end]
+            0fr
+            [i2-end i3-end];
+    }
+
+    &:has(div:nth-child(2):hover, div:nth-child(3):hover) {
+        grid-template-columns:
+            [i1-start]
+            0.5fr
+            [i2-start i3-start]
+            1.5fr
+            [i1-end]
+            3fr
+            [i2-end i3-end];
+    }
+
+    &:has(div:nth-child(2):hover) {
+        grid-template-rows:
+            [i1-start i2-start]
+            3fr
+            [i2-end i3-start]
+            1fr
+            [i1-end i3-end];
+    }
+
+    &:has(div:nth-child(3):hover) {
+        grid-template-rows:
+            [i1-start i2-start]
+            1fr
+            [i2-end i3-start]
+            3fr
+            [i1-end i3-end];
+    }
 
     & > * {
         @apply overflow-hidden grid relative;

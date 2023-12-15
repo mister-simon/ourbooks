@@ -38,10 +38,10 @@
                         <img src="{{ asset('img/shelf-invite-example.png') }}" alt="" srcset="">
                     </div>
                     <div>
-                        <img src="{{ asset('img/books-list-example.png') }}" alt="" srcset="">
+                        <img src="{{ asset('img/shelf-search-example.png') }}" alt="" srcset="">
                     </div>
                     <div>
-                        <img src="{{ asset('img/shelf-search-example.png') }}" alt="" srcset="">
+                        <img src="{{ asset('img/books-list-example.png') }}" alt="" srcset="">
                     </div>
                 </div>
 
@@ -53,13 +53,13 @@
 
                 <div class="not-prose isolate grid aspect-video grid-cols-4 grid-rows-1 overflow-hidden rounded-box border-8">
                     <div class="col-start-1 col-end-3 row-start-1 row-end-3 overflow-hidden drop-shadow">
-                        <img src="{{ asset('img/shelf-invite-example.png') }}" alt="" srcset="" class="mask mask-half-2 mask-parallelogram h-full w-full object-cover">
+                        <img src="{{ asset('img/shelf-invite-example.png') }}" alt="" srcset="" class="mask mask-half-2 mask-parallelogram h-full w-full object-cover transition-[mask-position] duration-500 ease-in-out hover:[mask-position:50%]">
                     </div>
                     <div class="col-start-1 col-end-5 row-start-1 overflow-hidden">
                         <img src="{{ asset('img/shelf-search-example.png') }}" alt="" srcset="" class="h-full w-full object-cover">
                     </div>
                     <div class="col-start-3 col-end-5 row-start-1 overflow-hidden drop-shadow">
-                        <img src="{{ asset('img/books-list-example.png') }}" alt="" srcset="" class="mask-fade-x mask mask-half-1 mask-triangle h-full w-full object-cover object-left">
+                        <img src="{{ asset('img/books-list-example.png') }}" alt="" srcset="" class="mask mask-half-1 mask-triangle-3 h-full w-full object-cover object-left transition-[mask-position] duration-500 ease-in-out hover:[mask-position:95%]">
                     </div>
                 </div>
 
