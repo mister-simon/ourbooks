@@ -2,10 +2,14 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "ext-intl": "*",
         "aws/aws-sdk-php": "^3.294",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/folio": "^1.1",
