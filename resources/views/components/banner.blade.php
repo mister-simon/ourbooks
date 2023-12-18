@@ -1,7 +1,7 @@
 @props(['style' => session('flash.bannerStyle', 'success'), 'message' => session('flash.banner')])
 
 <div x-data="{{ json_encode(['show' => true, 'style' => $style, 'message' => $message]) }}"
-    :class="{ 'bg-success text-success-content': style == 'success', 'bg-error text-error-content': style == 'danger', 'bg-neutral text-neutral-content': style != 'success' && style != 'danger' }"
+    :class="{ 'bg-success text-success-content': style == 'success', 'bg-warning text-warning-content': style == 'danger', 'bg-neutral text-neutral-content': style != 'success' && style != 'danger' }"
     style="display: none;"
     x-show="show && message"
     x-on:banner-message.window="
@@ -12,7 +12,7 @@
     <div class="container mx-auto px-3 py-2 sm:px-6 lg:px-8">
         <div class="flex flex-wrap items-center justify-between">
             <div class="flex w-0 min-w-0 flex-1 items-center">
-                <span class="flex rounded-lg p-2" :class="{ 'bg-success text-success-content': style == 'success', 'bg-error text-error-content': style == 'danger' }">
+                <span class="flex rounded-lg p-2" :class="{ 'bg-success text-success-content': style == 'success', 'bg-warning text-warning-content': style == 'danger' }">
                     <svg x-show="style == 'success'" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -30,8 +30,8 @@
             <div class="shrink-0 sm:ms-3">
                 <button
                     type="button"
-                    class="btn btn-sm -me-1 sm:-me-2"
-                    :class="{ 'btn-success': style == 'success', 'btn-error': style == 'danger', 'btn-ghost': style != 'success' && style != 'danger' }"
+                    class="btn btn-square btn-sm -me-1 sm:-me-2"
+                    :class="{ 'btn-success': style == 'success', 'btn-warning': style == 'danger', 'btn-ghost': style != 'success' && style != 'danger' }"
                     aria-label="Dismiss"
                     x-on:click="show = false">
                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">

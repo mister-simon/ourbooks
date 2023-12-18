@@ -65,9 +65,9 @@ class BookEdit extends Component
 
         $deleteBook->delete($this->book);
 
-        session()->put('flash', [
+        session()->flash('flash', [
             'bannerStyle' => 'danger',
-            'banner' => "{$this->book->title} was deleted.",
+            'banner' => "\"{$this->book->title}\" was deleted.",
         ]);
 
         return to_route('shelves.show', ['shelf' => $this->shelf]);
