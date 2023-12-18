@@ -5,17 +5,12 @@
     --x: 10;
     --y: 0;
     --z: 0;
-    --scale: 1.2;
+    --scale: 1;
     --xOffset: -25%;
     --xOffsetOpen: -25%;
     --opennessLeft: 10deg;
     --opennessRight: 0deg;
-
-    @screen md {
-        --scale: 0.9;
-        --xOffset: -25%;
-        --xOffsetOpen: 0%;
-    }
+    --openness: 0%;
 
     @apply w-[150%];
     @apply md:w-full;
@@ -34,25 +29,27 @@
         @apply transition-transform duration-1000;
         grid-area: 1 / 1;
         transform-style: preserve-3d;
-        backface-visibility: hidden;
     }
 
     .front-cover {
         @apply col-start-2 origin-left pointer-events-none;
-        transform: rotateY(calc(var(--opennessLeft) * -1)) scaleX(0.94);
+        transform: rotateY(calc(var(--opennessLeft) * -1));
     }
     .inner-left {
-        @apply col-start-1 origin-right;
-        transform: rotateY(calc((var(--opennessLeft) + 180deg) * -1))
-            scaleX(0.94);
+        /* Small screen positioning */
+        @apply col-start-2 row-start-1 origin-top-left;
+        transform: rotateY(calc(var(--opennessRight) * -1));
     }
     .inner-right {
-        @apply col-start-2 origin-left;
-        transform: rotateY(calc(var(--opennessRight) * -1));
+        @apply col-start-2 row-start-2 origin-top-left;
+        transform: rotateY(calc(var(--opennessRight) * -1))
+            rotateX(calc((var(--opennessLeft) - 180deg) * -1));
+        backface-visibility: hidden;
     }
 
     &.active,
     &:focus-within {
+        --openness: 100%;
         --opennessLeft: 170deg;
         --opennessRight: 5deg;
         --xOffset: var(--xOffsetOpen);
@@ -60,5 +57,31 @@
 
     &:not(.active, :focus-within) a {
         @apply pointer-events-none;
+    }
+
+    /* Medium+ screen positioning */
+    @screen md {
+        --scale: 0.9;
+        --xOffset: -25%;
+        --xOffsetOpen: 0%;
+
+        & > * {
+            backface-visibility: hidden;
+        }
+
+        .front-cover {
+            transform: rotateY(calc(var(--opennessLeft) * -1)) scaleX(0.94);
+        }
+
+        .inner-left {
+            @apply col-start-1 row-start-1 origin-right;
+            transform: rotateY(calc((var(--opennessLeft) - 180deg) * -1))
+                scaleX(0.94);
+        }
+
+        .inner-right {
+            @apply col-start-2 row-start-1 origin-left;
+            transform: rotateY(calc(var(--opennessRight) * -1));
+        }
     }
 }

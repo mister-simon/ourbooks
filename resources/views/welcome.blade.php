@@ -1,7 +1,7 @@
 <x-guest-layout>
     @livewire('navigation-menu')
 
-    <div class="flex grow flex-col items-center overflow-hidden bg-gray-100 pt-6 sm:justify-center sm:pt-0">
+    <div class="flex grow flex-col items-center overflow-hidden bg-gray-100 py-6 md:justify-center">
         <div
             class="welcome-book my-auto"
             :class="{ 'active': open }"
@@ -22,8 +22,8 @@
                 <div class="prose">
                     <p class="text-center"><strong>Once upon a time...</strong></p>
                     <p>I made a giant spreadsheet of all my books. That was a good day.</p>
-                    <p>However, over time all was not well; It was cumbersome to add books on my phone. Conditional formatting became janky and unmanageable. It was difficult to search and sort to find what I wanted.</p>
-                    <p>So, after many hours and rounds of prototyping from fresh, here we are! Welcome!</p>
+                    <p>However, over time all was not well; It was cumbersome to add books on mobile, conditional formatting became janky and unmanageable, and it was difficult to search and sort to find what I wanted.</p>
+                    <p>So, after many hours of work and rounds of prototyping from fresh, here we are, ready to share OurBookstop with you!</p>
                 </div>
             </div>
             <div class="inner-right p-4">
