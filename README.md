@@ -18,24 +18,18 @@ Personal Goals:
 
 Todo:
 
-- [x] Create new shelf
-- [x] Edit shelf
+- [ ] Fix profile photos / s3 on live
 - [x] Add users to shelf
   - [x] Shelf invites list / notifications
   - [ ] User privacy options?
 - [x] Make livewire shelf show
   - [x] Add search
   - [ ] Add filter controls
-- [x] Delete shelf
-- [x] Create book view
-- [x] Edit book view
-- [x] Navigation Breadcrumbs
 - [ ] Show book view
   - [x] User ratings
   - [x] User comments
   - [ ] Who added the book / when
   - [ ] Other books from this author
-- [x] Delete book button w/ confirmation
 - [ ] Fix database session driver causing csrf issues
 - [ ] Sharable invite links
 - [ ] Refactor book rate, read, comments, etc into separate models?
