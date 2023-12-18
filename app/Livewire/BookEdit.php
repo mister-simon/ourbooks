@@ -9,14 +9,11 @@ use App\Models\Book;
 use App\Models\Shelf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Laravel\Jetstream\InteractsWithBanner;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class BookEdit extends Component
 {
-    use InteractsWithBanner;
-
     public Shelf $shelf;
 
     public Book $book;

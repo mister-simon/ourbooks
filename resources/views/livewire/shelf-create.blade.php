@@ -1,6 +1,15 @@
 <div class="flex grow flex-col">
     <x-page-header>
         {{ $title ?? __('Create Shelf') }}
+
+        <x-slot name="actions">
+            @if ($shelf->exists)
+                <x-danger-button wire:click="confirmShelfDeletion" wire:loading.attr="disabled">
+                    {{ __('Delete Shelf') }}
+                </x-danger-button>
+            @endif
+        </x-slot>
+
         <x-slot name="breadcrumbs">
             <ol>
                 <li><a href="{{ url('/') }}">{{ __('Home') }}</a></li>
@@ -54,4 +63,26 @@
             </x-slot>
         </x-form-section>
     </x-page-card>
+
+    <x-dialog-modal wire:model.live="confirmingShelfDeletion">
+        <x-slot name="title">
+            {{ __('Delete Shelf') }}
+        </x-slot>
+
+        <x-slot name="content">
+            {{ __('Are you sure you want to delete this shelf? This is a permanent action that will delete all associated books their associated ratings, read statuses, and comments for all present users.') }}
+
+            {{ $shelf->title }}
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="$toggle('confirmingShelfDeletion')" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+
+            <x-danger-button class="ms-3" wire:click="deleteShelf" wire:loading.attr="disabled">
+                {{ __('Delete Shelf') }}
+            </x-danger-button>
+        </x-slot>
+    </x-dialog-modal>
 </div>

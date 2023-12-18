@@ -26,6 +26,7 @@ Todo:
 - [x] Make livewire shelf show
   - [x] Add search
   - [ ] Add filter controls
+- [x] Delete shelf
 - [x] Create book view
 - [x] Edit book view
 - [x] Navigation Breadcrumbs
@@ -34,7 +35,7 @@ Todo:
   - [x] User comments
   - [ ] Who added the book / when
   - [ ] Other books from this author
-- [ ] Delete book button w/ confirmation
+- [x] Delete book button w/ confirmation
 - [ ] Fix database session driver causing csrf issues
 - [ ] Sharable invite links
 - [ ] Refactor book rate, read, comments, etc into separate models?
