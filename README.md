@@ -30,8 +30,8 @@ Todo:
 - [x] Edit book view
 - [x] Navigation Breadcrumbs
 - [ ] Show book view
-  - [ ] User ratings
-  - [ ] User comments
+  - [x] User ratings
+  - [x] User comments
   - [ ] Who added the book / when
   - [ ] Other books from this author
 - [ ] Delete book button w/ confirmation

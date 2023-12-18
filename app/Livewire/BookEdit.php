@@ -2,19 +2,25 @@
 
 namespace App\Livewire;
 
+use App\Actions\Shelf\DeleteBook;
 use App\Actions\Shelf\UpdateBook;
 use App\Models\Book;
 use App\Models\Shelf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Jetstream\InteractsWithBanner;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class BookEdit extends Component
 {
+    use InteractsWithBanner;
+
     public Shelf $shelf;
 
     public Book $book;
+
+    public $confirmingBookDeletion = false;
 
     public $state = [
         'author_forename' => '',
@@ -46,6 +52,25 @@ class BookEdit extends Component
         );
 
         $this->dispatch('saved');
+    }
+
+    public function confirmBookDeletion()
+    {
+        $this->confirmingBookDeletion = true;
+    }
+
+    public function deleteBook(DeleteBook $deleteBook)
+    {
+        Gate::authorize('delete', [$this->shelf, $this->book]);
+
+        $deleteBook->delete($this->book);
+
+        session()->put('flash', [
+            'bannerStyle' => 'danger',
+            'banner' => "{$this->book->title} was deleted.",
+        ]);
+
+        return to_route('shelves.show', ['shelf' => $this->shelf]);
     }
 
     public function resetState()

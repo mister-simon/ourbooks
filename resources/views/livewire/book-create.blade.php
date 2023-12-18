@@ -2,6 +2,14 @@
     <x-page-header>
         {{ $title ?? $shelf->title . ' - ' . __('Create Book') }}
 
+        <x-slot name="actions">
+            @if ($book->exists)
+                <x-danger-button wire:click="confirmBookDeletion" wire:loading.attr="disabled">
+                    {{ __('Delete Book') }}
+                </x-danger-button>
+            @endif
+        </x-slot>
+
         <x-slot name="breadcrumbs">
             <ol>
                 <li><a href="{{ url('/') }}">{{ __('Home') }}</a></li>
@@ -189,4 +197,26 @@
             </x-slot>
         </x-form-section>
     </x-page-card>
+
+    <x-dialog-modal wire:model.live="confirmingBookDeletion">
+        <x-slot name="title">
+            {{ __('Delete Book') }}
+        </x-slot>
+
+        <x-slot name="content">
+            {{ __('Are you sure you want to delete this book? This is a permanent action that will delete all users\' associated ratings, read statuses, and comments.') }}
+
+            {{ $book->title }}
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="$toggle('confirmingBookDeletion')" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+
+            <x-danger-button class="ms-3" wire:click="deleteBook" wire:loading.attr="disabled">
+                {{ __('Delete Book') }}
+            </x-danger-button>
+        </x-slot>
+    </x-dialog-modal>
 </div>
