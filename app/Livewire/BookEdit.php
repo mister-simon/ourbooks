@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Actions\Shelf\DeleteBook;
 use App\Actions\Shelf\UpdateBook;
+use App\Helpers\Flash;
 use App\Models\Book;
 use App\Models\Shelf;
 use Illuminate\Support\Facades\Auth;
@@ -59,16 +60,13 @@ class BookEdit extends Component
         $this->confirmingBookDeletion = true;
     }
 
-    public function deleteBook(DeleteBook $deleteBook)
+    public function deleteBook(DeleteBook $deleteBook, Flash $flash)
     {
         Gate::authorize('delete', [$this->shelf, $this->book]);
 
         $deleteBook->delete($this->book);
 
-        session()->flash('flash', [
-            'bannerStyle' => 'danger',
-            'banner' => "\"{$this->book->title}\" was deleted.",
-        ]);
+        $flash->danger("\"{$this->book->title}\" was deleted.");
 
         return to_route('shelves.show', ['shelf' => $this->shelf]);
     }
