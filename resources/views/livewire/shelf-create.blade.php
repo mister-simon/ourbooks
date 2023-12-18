@@ -1,32 +1,88 @@
-<?php
+<div class="flex grow flex-col">
+    <x-page-header>
+        {{ $title ?? __('Create Shelf') }}
 
-use App\Models\Shelf;
-use function Livewire\Volt\{state, rules};
+        <x-slot name="actions">
+            @if ($shelf->exists)
+                <x-danger-button wire:click="confirmShelfDeletion" wire:loading.attr="disabled">
+                    {{ __('Delete Shelf') }}
+                </x-danger-button>
+            @endif
+        </x-slot>
 
-state(['user' => fn() => Auth::user()])->locked();
-state(['title']);
-rules(['title' => ['required', 'string']]);
+        <x-slot name="breadcrumbs">
+            <ol>
+                <li><a href="{{ url('/') }}">{{ __('Home') }}</a></li>
+                @if ($shelf ?? false)
+                    <li><a href="{{ route('shelves.show', ['shelf' => $shelf]) }}">{{ str($shelf->title)->limit(15) }}</a></li>
+                @endif
+                <li><a href="#" aria-current="page">{{ str($subtitle ?? __('New Shelf'))->limit(25) }}</a></li>
+            </ol>
+        </x-slot>
+    </x-page-header>
 
-$create = function () {
-    $data = $this->validate();
+    <x-page-card>
+        <x-form-section submit="create">
+            <x-slot name="title">
+                {{ $subtitle ?? __('New Shelf') }}
+            </x-slot>
 
-    $this->authorize('create', Shelf::class);
+            <x-slot name="description">
+                <p>{{ __('What\'s this shelf for?') }}</p>
+                <ul class="list-inside list-disc text-sm">
+                    <li>{{ __('A personal shelf') }}</li>
+                    <li>{{ __('A shared shelf with friends?') }}</li>
+                    <li>{{ __('A family bookshelf?') }}</li>
+                    <li>{{ __('Do you organise comics/graphic novels separately from your main collection?') }}</li>
+                </ul>
+            </x-slot>
 
-    $shelf = Shelf::create($data);
-    $shelf->users()->syncWithoutDetaching([$this->user->id]);
+            <x-slot name="form">
+                <div class="col-span-6 sm:col-span-4">
+                    <x-label
+                        for="title"
+                        value="{{ __('Title') }}" />
+                    <x-input
+                        id="title"
+                        class="mt-1 block w-full"
+                        wire:model="state.title" />
+                    <x-input-error
+                        for="title"
+                        class="mt-2" />
+                </div>
+            </x-slot>
 
-    return $this->redirect(route('shelf', ['shelf' => $shelf]));
-};
+            <x-slot name="actions">
+                <x-action-message class="me-3" on="saved">
+                    {{ __('Saved.') }}
+                </x-action-message>
 
-?>
+                <x-button>
+                    {{ __('Save') }}
+                </x-button>
+            </x-slot>
+        </x-form-section>
+    </x-page-card>
 
-<div>
-    <form wire:submit="create">
-        <x-text-input
-            wire:model="title"
-            name="title"
-            label="Shelf Title" />
+    <x-dialog-modal wire:model.live="confirmingShelfDeletion">
+        <x-slot name="title">
+            {{ __('Delete Shelf') }}
+        </x-slot>
 
-        <x-button type="submit">Build a New Shelf</x-button>
-    </form>
+        <x-slot name="content">
+            {{ __('Are you sure you want to delete this shelf? This is a permanent action that will delete all associated books their associated ratings, read statuses, and comments for all present users.') }}
+
+            {{ $shelf->title }}
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="$toggle('confirmingShelfDeletion')" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+
+            <x-danger-button class="ms-3" wire:click="deleteShelf" wire:loading.attr="disabled">
+                {{ __('Delete Shelf') }}
+            </x-danger-button>
+        </x-slot>
+    </x-dialog-modal>
 </div>

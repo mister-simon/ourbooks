@@ -4,16 +4,23 @@ namespace App\Policies;
 
 use App\Models\Shelf;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class ShelfPolicy
 {
+    /**
+     * Determine whether the user can view any models.
+     */
+    public function viewAny(User $user): bool
+    {
+        return $user->exists;
+    }
+
     /**
      * Determine whether the user can view the model.
      */
     public function view(User $user, Shelf $shelf): bool
     {
-        return $shelf->users->contains($user) && $user->hasVerifiedEmail();
+        return $shelf->users->contains($user);
     }
 
     /**
@@ -21,7 +28,7 @@ class ShelfPolicy
      */
     public function create(User $user): bool
     {
-        return $user->is(Auth::user()) && $user->hasVerifiedEmail();
+        return $user->exists;
     }
 
     /**
@@ -29,7 +36,7 @@ class ShelfPolicy
      */
     public function update(User $user, Shelf $shelf): bool
     {
-        //
+        return $shelf->users->contains($user);
     }
 
     /**
@@ -37,22 +44,21 @@ class ShelfPolicy
      */
     public function delete(User $user, Shelf $shelf): bool
     {
-        //
+        return $shelf->users->contains($user);
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Shelf $shelf): bool
+    public function rateBooks(User $user, Shelf $shelf): bool
     {
-        //
+        return $shelf->users->contains($user);
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Shelf $shelf): bool
+    public function readBooks(User $user, Shelf $shelf): bool
     {
-        //
+        return $shelf->users->contains($user);
+    }
+
+    public function commentBooks(User $user, Shelf $shelf): bool
+    {
+        return $shelf->users->contains($user);
     }
 }

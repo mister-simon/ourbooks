@@ -1,6 +1,7 @@
 <div
     {{ $attributes->merge([
-        'class' => 'flex flex-row items-center justify-center gap-2 bg-slate-200/5 p-2 text-center backdrop-blur',
+        'class' => 'alert indicator w-auto',
     ]) }}>
-    @svg('heroicon-o-arrow-path', 'w-4 h-4 animate-spin') {{ $slot->isEmpty() ? 'Loading' : $slot }}
+    <x-loading-indicator class="indicator-center border-4 text-base-300" />
+    {{ $slot->isEmpty() ? 'Loading' : $slot }}
 </div>

@@ -1,34 +1,24 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
-const defaultColors = require('tailwindcss/colors');
+import typography from '@tailwindcss/typography';
 
-module.exports = {
-    variants: {
-        extend: {
-            backgroundColor: ['active'],
-        },
-    },
+/** @type {import('tailwindcss').Config} */
+export default {
+    content: [
+        // './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+        // './vendor/laravel/jetstream/**/*.blade.php',
+        './storage/framework/views/*.php',
+        './resources/views/**/*.blade.php',
+    ],
+
     theme: {
         extend: {
-            backgroundImage: {
-                'gradient-radial': 'radial-gradient(circle farthest-corner at center, var(--tw-gradient-stops))',
-            }
-        }
+        },
     },
-    content: [
-        './app/**/*.php',
-        './resources/**/*.html',
-        './resources/**/*.js',
-        './resources/**/*.jsx',
-        './resources/**/*.ts',
-        './resources/**/*.tsx',
-        './resources/**/*.php',
-        './resources/**/*.vue',
-        './resources/**/*.twig',
-        "./vendor/robsontenorio/mary/src/View/Components/**/*.php"
-    ],
+    daisyui: {
+        themes: ["emerald"],
+    },
+
     plugins: [
-        // require('@tailwindcss/forms'),
-        require('@tailwindcss/typography'),
+        typography,
         require("daisyui")
     ],
-}
+};

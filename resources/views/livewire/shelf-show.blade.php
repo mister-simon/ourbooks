@@ -1,45 +1,54 @@
-<div class="w-full space-y-4">
+<div class="flex grow flex-col">
+    <x-page-header>
+        {{ $shelf->title }}
 
-    <x-app-card class="card-bordered relative z-10 mx-5 -mt-2 translate-y-2 dark:bg-neutral dark:text-neutral-content sm:-mt-8 sm:translate-y-8 md:mx-auto md:max-w-screen-md">
-        <x-title>{{ $shelf->title }}</x-title>
+        <x-slot name="subtitle">
+            <h3 class="sr-only">{{ __('Users') }}</h3>
+            <ul class="flex flex-row gap-2">
+                @foreach ($shelf->users as $user)
+                    <x-avatar-badge :user="$user" />
+                @endforeach
+                <li>
+                    <a
+                        href="{{ route('shelves.user.create', ['shelf' => $shelf]) }}"
+                        class="btn btn-secondary btn-xs rounded-badge">+ {{ __('Invite User') }}</a>
+                </li>
+            </ul>
+        </x-slot>
 
-        <p class="pb-4">This shelf belongs to {{ $shelf->userListString() }}</p>
+        <x-slot name="actions">
+            <a
+                href="{{ route('shelves.edit', ['shelf' => $shelf]) }}"
+                class="btn btn-primary ml-auto">{{ __('Edit Shelf') }}</a>
+            <a
+                href="{{ route('shelves.book.create', ['shelf' => $shelf]) }}"
+                class="btn btn-primary">{{ __('Add Book') }}</a>
+        </x-slot>
 
-        <livewire:shelf-user-add :shelf="$this->shelf" />
-    </x-app-card>
+        <x-slot name="breadcrumbs">
+            <ol>
+                <li><a href="{{ url('/') }}">{{ __('Home') }}</a></li>
+                <li><a href="#" aria-current="page">{{ str($shelf->title)->limit(15) }}</a></li>
+            </ol>
+        </x-slot>
+    </x-page-header>
 
-    <x-app-card>
-        <div>
-            <div class="overflow-hidden">
-                <x-button
-                    wire:click="$set('state', 'create')"
-                    class="{{ $this->state !== 'create' ? 'opacity-70' : '' }} rounded-b-none">
-                    Create
-                </x-button>
-                <x-button
-                    wire:click="$set('state', 'filter')"
-                    class="{{ $this->state !== 'filter' ? 'opacity-70' : '' }} rounded-b-none">
-                    Filter
-                </x-button>
-            </div>
-
-            <x-hr class="border-primary-500 mt-0 border-t-4" />
-
-            @if ($this->state === 'create')
-                <livewire:book-create :shelf="$this->shelf" />
-            @endif
-
-            @if ($this->state === 'filter')
-                <livewire:book-search wire:model="search" />
-            @endif
-        </div>
-
-        {{ $this->search }}
-
-        <x-hr />
-
-        <livewire:book-list
-            :shelf="$this->shelf"
-            :search="$this->search" />
-    </x-app-card>
+    <x-page-card-wide
+        class="card-compact relative w-full"
+        x-data="{
+            shelfId: '{{ $shelf->id }}',
+            selected: {},
+            rating: 5,
+            read: '{{ App\Enums\ReadStatus::YES->value }}',
+            get onlySelected() {
+                return Object.entries(this.selected)
+                    .filter(([, v]) => v)
+                    .map(([k]) => k);
+            }
+        }">
+        <x-slot name="container" class="!block"></x-slot>
+        <x-shelf-search />
+        <x-shelf-bulk-actions />
+        <x-shelf-table :shelf="$shelf" />
+    </x-page-card-wide>
 </div>

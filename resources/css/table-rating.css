@@ -1,0 +1,11 @@
+.bg-rating {
+    @apply bg-gradient-to-r from-error via-warning to-success;
+}
+
+.table-rating {
+    @apply px-2 py-1;
+    @apply bg-rating to-[90%];
+    @apply bg-[length:1000%_2em] bg-repeat-y;
+
+    background-position: var(--rating-pos, 0%) center;
+}

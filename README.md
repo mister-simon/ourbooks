@@ -1,25 +1,42 @@
-# OurBooks?
+# OurBookstop
 
-Not sure about the name yet.
+Welcome to my little project!
 
-## What is this?
+User Facing Goals:
 
-- Laravel project with TALL stack.
-- Testing out Volt and Folio (both are in beta currently)
-- Sign up and log in with email only
-- Add books to bookshelves, add friends by email to collaborate with
+- Track basic information about books
+- Collaborate on book lists with multiple users
+- Track and share personal ratings / reviews on shared books
+- Some level of real-time / interactivity
 
-## Some other things we're using
+Personal Goals:
 
-- https://heroicons.com/
-- [https://tailwind-elements.com/ - Fully FOSS UI Library](https://tailwind-elements.com/)
+- Create a fully functional / featured project
+- Create an organised project
+- Use modern tooling
+- Experiment with new systems / framework features  
 
-## TODO
+Todo:
 
-- [ ] Add some book API to look up additional book details / thumbnails?
-  - [ ] Open Library API enhancements? `https://openlibrary.org/search/authors.json?q=jasper+fforde`
-- [ ] `ourtome.cloud`, `shelves.cloud` ? Some other domain name?
-- [ ] Add read / rating system
-- [ ] Computed "Anyone read?"
-- [ ] [https://tailwind-elements.com/ - Fully FOSS UI Library](https://tailwind-elements.com/)
-- [x] The button animations are broken... Probably just go without for now.
+- [x] Create new shelf
+- [x] Edit shelf
+- [x] Add users to shelf
+  - [x] Shelf invites list / notifications
+  - [ ] User privacy options?
+- [x] Make livewire shelf show
+  - [x] Add search
+  - [ ] Add filter controls
+- [x] Delete shelf
+- [x] Create book view
+- [x] Edit book view
+- [x] Navigation Breadcrumbs
+- [ ] Show book view
+  - [x] User ratings
+  - [x] User comments
+  - [ ] Who added the book / when
+  - [ ] Other books from this author
+- [x] Delete book button w/ confirmation
+- [ ] Fix database session driver causing csrf issues
+- [ ] Sharable invite links
+- [ ] Refactor book rate, read, comments, etc into separate models?
+- [ ] Add owned by / currently with (maybe with history?) for book clubs/people with unreliable friends, etc

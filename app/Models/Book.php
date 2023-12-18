@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ReadStatus;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -64,12 +65,12 @@ class Book extends Model
 
     public function getSeriesTextAttribute()
     {
-        return implode(' ', $this->only('series', 'series_index'));
+        return trim(implode(' ', $this->only('series', 'series_index')));
     }
 
     public function getAuthorNameAttribute()
     {
-        return implode(' ', $this->only('author_forename', 'author_surname'));
+        return trim(implode(' ', $this->only('author_forename', 'author_surname')));
     }
 
     public function getAuthorSurnameCharAttribute()
@@ -88,13 +89,35 @@ class Book extends Model
     public function getWasReadAttribute()
     {
         return $this->bookUsers
+            ->whereNotNull('read')
             ->pluck('read')
-            ->dd();
+            ->keyBy(fn (ReadStatus $status) => $status->rank())
+            ->sortKeysDesc()
+            ->first(default: ReadStatus::UNKNOWN);
     }
 
     public function getBookUserAvgRatingAttribute()
     {
-        return $this->bookUsers
-            ->avg('rating');
+        return $this->bookUsers->avg('rating');
+    }
+
+    public function getBookUsersWithMissingAttribute()
+    {
+        $users = $this->shelf->users;
+
+        return $users->map(
+            function ($user) {
+                $bookUser = $this->bookUsers
+                    ->firstWhere('user_id', $user->id);
+
+                if ($bookUser === null) {
+                    $bookUser = new BookUser();
+                    $bookUser->user()->associate($user);
+                    $bookUser->book()->associate($this);
+                }
+
+                return $bookUser;
+            }
+        );
     }
 }

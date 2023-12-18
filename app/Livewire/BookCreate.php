@@ -2,102 +2,117 @@
 
 namespace App\Livewire;
 
+use App\Actions\Shelf\CreateBook;
 use App\Models\Book;
 use App\Models\Shelf;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\Locked;
-use Livewire\Attributes\Rule;
 use Livewire\Component;
 
 class BookCreate extends Component
 {
-    protected array $searchOnUpdate = [
-        'series',
-        'author_surname',
-        'author_forename',
-        'title',
-        'co_author',
-    ];
-
-    #[Locked]
     public Shelf $shelf;
 
-    #[Rule(['required', 'string'])]
-    public ?string $title = null;
+    public $state = [
+        'author_forename' => '',
+        'author_surname' => '',
+        'co_author' => '',
+        'title' => '',
+        'series' => '',
+        'series_index' => '',
+        'genre' => '',
+        'edition' => '',
+    ];
 
-    #[Rule(['nullable', 'string'])]
-    public ?string $series = null;
-
-    #[Rule(['nullable', 'integer', 'min:0'])]
-    public ?int $series_index = null;
-
-    #[Rule(['nullable', 'string'])]
-    public ?string $author_surname = null;
-
-    #[Rule(['nullable', 'string'])]
-    public ?string $author_forename = null;
-
-    #[Rule(['nullable', 'string'])]
-    public ?string $genre = null;
-
-    #[Rule(['nullable', 'string'])]
-    public ?string $edition = null;
-
-    #[Rule(['nullable', 'string'])]
-    public ?string $co_author = null;
-
-    #[Computed]
-    public function users()
+    public function create(CreateBook $createBook, $addAnother = false)
     {
-        return $this->shelf
-            ->users
-            ->keyBy('id');
-    }
+        Gate::authorize('create', [Book::class, $this->shelf]);
 
-    public function updated($property)
-    {
-        if (in_array($property, $this->searchOnUpdate) === false) {
+        $this->resetErrorBag();
+
+        $createBook->create(
+            Auth::user(),
+            $this->shelf,
+            $this->state
+        );
+
+        $this->dispatch('saved');
+
+        if ($addAnother) {
+            $this->state['title'] = '';
+            $this->resetErrorBag();
+
             return;
         }
 
-        $this->search();
+        return to_route('shelves.show', ['shelf' => $this->shelf]);
     }
 
+    public function resetState()
+    {
+        $this->reset('state');
+        $this->resetErrorBag();
+    }
+
+    public function fillBook(Book $book)
+    {
+        $this->state = $book->only(array_keys($this->state));
+    }
+
+    #[Computed]
+    public function searchableState()
+    {
+        return collect($this->state)
+            ->except('series_index', 'edition', 'genre')
+            ->filter(fn ($attr) => trim($attr) !== '')
+            ->unique();
+    }
+
+    #[Computed]
     public function search()
     {
-        $data = $this->only([
-            'series',
-            'author_surname',
-            'author_forename',
-            'title',
-            'co_author',
-        ]);
-
-        $this->dispatch(
-            'book-search',
-            search: Arr::join(array_filter($data), ' or ')
-        );
+        return $this->searchableState->join(', ', __(', or '));
     }
 
-    public function create()
+    #[Computed]
+    public function filterIds()
     {
-        $this->authorize('create', [Book::class, $this->shelf]);
+        if ($this->search === '') {
+            return [];
+        }
 
-        $data = $this->validate();
-        $data = Arr::map(
-            $data,
-            fn ($value) => $value === ''
-                ? null
-                : $value
-        );
+        return $this->searchableState
+            ->map(
+                fn ($searchPart) => Book::search($searchPart)
+                    ->where('shelf_id', $this->shelf->id)
+                    ->keys(),
+            )
+            ->flatten()
+            ->unique();
+    }
 
-        $book = $this->shelf
+    #[Computed]
+    protected function similarBooks()
+    {
+        return $this
+            ->shelf
             ->books()
-            ->create($data);
+            ->orderBy('author_surname')
+            ->orderBy('author_forename')
+            ->orderBy('series')
+            ->orderBy('series_index')
+            ->orderBy('title')
+            ->when($this->filterIds !== null, fn ($query) => $query->whereIn('id', $this->filterIds))
+            ->limit(10)
+            ->get();
+    }
 
-        $this->dispatch('book-created', book: $book->id);
-
-        $this->reset();
+    public function render()
+    {
+        return view('livewire.book-create')
+            ->layout('layouts.app', [
+                'title' => $this->shelf->title.' - '.__('Create Book'),
+            ]);
     }
 }

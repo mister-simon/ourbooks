@@ -1,0 +1,11 @@
+{
+    "readstatus.yes-short": "Y",
+    "readstatus.no-short": "N",
+    "readstatus.partial-short": "P",
+    "readstatus.unknown-short": "?",
+
+    "readstatus.yes": "Yes",
+    "readstatus.no": "No",
+    "readstatus.partial": "Partial",
+    "readstatus.unknown": "Unknown"
+}

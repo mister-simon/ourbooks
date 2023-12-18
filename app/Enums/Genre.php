@@ -42,11 +42,12 @@ enum Genre: string
     case YaDystopia = 'YA Dystopia';
     case YaFiction = 'YA Fiction';
 
-    public static function select()
+    public static function select($mergeOptions = [])
     {
         return collect(self::cases())
             ->keyBy('value')
             ->map(fn (Genre $genre) => __($genre->value))
+            ->merge($mergeOptions)
             ->sort();
     }
 }

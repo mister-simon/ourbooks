@@ -3,24 +3,31 @@
 namespace App\Models;
 
 use App\Enums\ReadStatus;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class BookUser extends Pivot
 {
-    use HasFactory;
+    use HasFactory, HasUlids;
 
     protected $fillable = [
         'book_id',
         'user_id',
         'read',
         'rating',
+        'comments',
     ];
 
     protected $casts = [
         'read' => ReadStatus::class,
     ];
+
+    public function getReadOrUnknownAttribute()
+    {
+        return $this->read ?? ReadStatus::UNKNOWN;
+    }
 
     public function book(): BelongsTo
     {
@@ -30,5 +37,19 @@ class BookUser extends Pivot
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getCommentsMarkdownAttribute()
+    {
+        $comments = str($this->comments)->trim();
+
+        if ($comments->isEmpty()) {
+            return '';
+        }
+
+        return $comments->markdown([
+            'html_input' => 'strip',
+            'allow_unsafe_links' => false,
+        ]);
     }
 }

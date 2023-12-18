@@ -1,0 +1,7 @@
+[x-cloak] {
+    display: none;
+}
+
+.clip-b-gradient-50 {
+    mask-image: linear-gradient(rgba(0, 0, 0, 1) 50%, transparent);
+}
