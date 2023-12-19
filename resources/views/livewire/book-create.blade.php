@@ -3,7 +3,7 @@
         {{ $title ?? $shelf->title . ' - ' . __('Create Book') }}
 
         <x-slot name="actions">
-            @if ($book->exists)
+            @if ($book ?? null)
                 <x-danger-button wire:click="confirmBookDeletion" wire:loading.attr="disabled">
                     {{ __('Delete Book') }}
                 </x-danger-button>

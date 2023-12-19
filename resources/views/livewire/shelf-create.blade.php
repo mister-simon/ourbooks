@@ -3,7 +3,7 @@
         {{ $title ?? __('Create Shelf') }}
 
         <x-slot name="actions">
-            @if ($shelf->exists)
+            @if ($shelf ?? null)
                 <x-danger-button wire:click="confirmShelfDeletion" wire:loading.attr="disabled">
                     {{ __('Delete Shelf') }}
                 </x-danger-button>
@@ -13,7 +13,7 @@
         <x-slot name="breadcrumbs">
             <ol>
                 <li><a href="{{ url('/') }}">{{ __('Home') }}</a></li>
-                @if ($shelf ?? false)
+                @if ($shelf ?? null)
                     <li><a href="{{ route('shelves.show', ['shelf' => $shelf]) }}">{{ str($shelf->title)->limit(15) }}</a></li>
                 @endif
                 <li><a href="#" aria-current="page">{{ str($subtitle ?? __('New Shelf'))->limit(25) }}</a></li>
