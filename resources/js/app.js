@@ -3,8 +3,6 @@ function clamp(min, max, val) {
 }
 
 function mouseListener(e) {
-    console.log(e);
-
     // Element details
     const { width, height } = this.$el.getBoundingClientRect();
     const t = this.$el.offsetTop;
@@ -37,7 +35,7 @@ document.addEventListener('alpine:init', () => {
         bindings: {
             ['@mousemove.window']: mouseListener,
             ['@click']() {
-                this.open = !this.open;
+                this.open = true;
                 clearTimeout(this.timeout);
             },
             'draggable': "false"

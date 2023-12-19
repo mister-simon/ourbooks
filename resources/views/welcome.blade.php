@@ -26,13 +26,13 @@
             <div class="inner-right p-4">
                 <div class="prose">
                     {!! str(__('welcome.outline'))->attributeMarkdown() !!}
-                    <a
-                        wire:navigate
-                        href="{{ route('login') }}"
-                        class="btn btn-primary mx-auto flex">
-                        {{ __('Login') }}
-                    </a>
                 </div>
+                <a
+                    wire:navigate
+                    href="{{ route('login') }}"
+                    class="btn btn-primary flex w-full max-w-prose">
+                    {{ __('Login') }}
+                </a>
             </div>
         </div>
     </div>

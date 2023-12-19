@@ -37,11 +37,11 @@
     }
     .inner-left {
         /* Small screen positioning */
-        @apply col-start-2 row-start-1 origin-top-left;
+        @apply col-start-2 row-start-1 origin-top-left shadow-lg;
         transform: rotateY(calc(var(--opennessRight) * -1));
     }
     .inner-right {
-        @apply col-start-2 row-start-2 origin-top-left;
+        @apply col-start-2 row-start-2 origin-top-left shadow-lg;
         transform: rotateY(calc(var(--opennessRight) * -1))
             rotateX(calc((var(--opennessLeft) - 180deg) * -1));
         backface-visibility: hidden;
