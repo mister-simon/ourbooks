@@ -12,7 +12,7 @@
     --opennessRight: 0deg;
     --openness: 0%;
 
-    @apply w-[150%];
+    @apply w-[175%];
     @apply md:w-full;
 
     @apply grid grid-cols-2 aspect-[16/5] origin-center;
