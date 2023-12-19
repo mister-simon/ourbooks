@@ -32,7 +32,7 @@
     }
 
     .front-cover {
-        @apply col-start-2 origin-left pointer-events-none;
+        @apply col-start-2 origin-left pointer-events-none shadow-lg;
         transform: rotateY(calc(var(--opennessLeft) * -1));
     }
     .inner-left {
@@ -82,6 +82,23 @@
         .inner-right {
             @apply col-start-2 row-start-1 origin-left;
             transform: rotateY(calc(var(--opennessRight) * -1));
+        }
+    }
+
+    @media (prefers-reduced-motion) {
+        --openness: 100%;
+        --opennessLeft: 170deg;
+        --opennessRight: 5deg;
+        --xOffset: var(--xOffsetOpen);
+
+        transform: scale(var(--scale)) translateX(var(--xOffset));
+
+        & > * {
+            @apply duration-75;
+        }
+
+        &:not(.active, :focus-within) a {
+            @apply pointer-events-auto;
         }
     }
 }

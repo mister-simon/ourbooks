@@ -11,10 +11,9 @@ return [
     MD,
     'outline' => <<<MD
     {.text-center}**What can OurBookstop do for you?**\n
-    - Track your books
-    - Easily search and filter your books
+    - Collaboratively track, rate, and review your books
     - Share your list with friends and family
-    - Collaboratively rate and review your books
+    - Easily search and filter your books
     - This is an open work in progress, and you can have your say in it's development
     MD
 ];
