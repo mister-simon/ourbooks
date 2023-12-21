@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use App\Helpers\Concerns\ImportReporter;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Helper\ProgressBar;
+use Illuminate\Support\Str;
 
 final class ConsoleImportReporter implements ImportReporter
 {
@@ -18,18 +18,17 @@ final class ConsoleImportReporter implements ImportReporter
     public function setCount(int $count)
     {
 
-        ProgressBar::setFormatDefinition('custom', " %current%/%max% -- %message%\n [%bar%]\n ");
-
         $this->bar = $this->command
             ->getOutput()
             ->createProgressBar($count);
 
-        $this->bar->setFormat('custom');
+        $this->bar->setBarWidth(53);
+        $this->bar->setFormat(" %message%\n [%bar%]\n %current%/%max% %percent:3s%% %elapsed:16s%/%estimated:-16s% %memory:6s%\n");
     }
 
     public function increment(string $message)
     {
-        $this->bar->setMessage($message);
+        $this->bar->setMessage(Str::limit($message, 50));
         $this->bar->advance();
     }
 

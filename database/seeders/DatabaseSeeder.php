@@ -34,8 +34,6 @@ class DatabaseSeeder extends Seeder
         $importCsv = database_path('seeders/import.csv');
 
         if (File::exists($importCsv)) {
-            $this->command->info('Importing from csv');
-
             User::factory()
                 ->create([
                     'email' => 'simon@example.com',
