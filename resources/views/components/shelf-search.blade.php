@@ -1,9 +1,10 @@
 <div class="indicator w-auto">
-    <x-loading-indicator
-        class="border-1 badge-success badge-outline indicator-center bg-base-100"
+    <div
         wire:loading.delay
-        wire:loading.flex
-        wire:target="search" />
+        wire:target="search">
+        <x-loading-indicator
+            class="border-1 badge-success badge-outline indicator-center bg-base-100" />
+    </div>
 
     <label class="form-control w-full">
         <div class="label sr-only">

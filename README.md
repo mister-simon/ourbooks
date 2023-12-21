@@ -18,8 +18,6 @@ Personal Goals:
 
 Todo:
 
-- [x] Fix bug with filtering + resetting filtered list
-- [x] Fix shelf loading icon
 - [ ] Fix profile photos / s3 on live
 - [ ] User privacy options?
 - Improve shelf users
