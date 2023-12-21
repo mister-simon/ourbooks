@@ -2,6 +2,7 @@
     <x-loading-indicator
         class="border-1 badge-success badge-outline indicator-center bg-base-100"
         wire:loading.delay
+        wire:loading.flex
         wire:target="search" />
 
     <label class="form-control w-full">
