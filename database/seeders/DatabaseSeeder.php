@@ -58,7 +58,9 @@ class DatabaseSeeder extends Seeder
                 path: $importCsv,
                 shelf: Shelf::factory()
                     ->create(['title' => 'Our Books - 100'])
-            ))->import(count: 100);
+            ))
+                ->setReporter(new ConsoleImportReporter($this->command))
+                ->import(count: 100);
         }
     }
 }

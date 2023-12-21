@@ -5,10 +5,11 @@ namespace App\Helpers;
 use App\Helpers\Concerns\ImportReporter;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 final class ConsoleImportReporter implements ImportReporter
 {
-    protected $bar;
+    protected ?ProgressBar $bar;
 
     public function __construct(
         protected Command $command
@@ -39,6 +40,7 @@ final class ConsoleImportReporter implements ImportReporter
 
     public function done(string $message)
     {
+        $this->bar->finish();
         $this->command->comment($message);
     }
 }

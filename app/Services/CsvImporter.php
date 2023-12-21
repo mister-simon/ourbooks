@@ -61,12 +61,16 @@ final class CsvImporter
 
         $this->shelf = $this->addUsersToShelf();
 
-        $this->reporter?->report("Importing '{$this->reader->count()}' into '{$this->shelf->title}'...");
-        $this->reporter?->setCount($this->reader->count());
+        $bailCount = $count === INF
+            ? $this->reader->count()
+            : $count;
+
+        $this->reporter?->report("Importing {$bailCount} items into '{$this->shelf->title}'...");
+        $this->reporter?->setCount($bailCount);
 
         foreach ($this->reader->getRecords() as $i => $record) {
             if ($i > $count) {
-                $this->reporter?->report("Limit of {$count} reached. Bailing.");
+                $this->reporter?->done("Limit of {$count} reached. Bailing.");
                 break;
             }
 

@@ -37,8 +37,6 @@ Todo:
   - [ ] Sort by my rating
   - [ ] Sort by average rating
 - [ ] Show book view
-  - [x] User ratings
-  - [x] User comments
   - [ ] Who added the book / when
   - [ ] Other books from this author
 - [ ] Fix database session driver causing csrf issues
