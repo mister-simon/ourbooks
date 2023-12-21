@@ -49,6 +49,6 @@
         <x-slot name="container" class="!block"></x-slot>
         <x-shelf-search />
         <x-shelf-bulk-actions />
-        <x-shelf-table :shelf="$shelf" />
+        <x-shelf-table :shelf="$shelf" wire:key="{{ md5($this->search) }}" />
     </x-page-card-wide>
 </div>

@@ -77,7 +77,8 @@ class ShelfShow extends Component
     #[Computed]
     public function filteredBooksByAuthor()
     {
-        return $this->filteredBooks->groupBy('author_surname_char');
+        return $this->filteredBooks
+            ->groupBy('author_surname_char');
     }
 
     #[Computed]
