@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\Concerns\ImportReporter;
 use App\Models\Book;
 use App\Models\Shelf;
 use App\Models\User;
@@ -28,6 +29,8 @@ final class CsvImporter
 
     protected $users;
 
+    protected $reporter;
+
     public function __construct(
         string $path,
         protected ?Shelf $shelf = null
@@ -41,27 +44,43 @@ final class CsvImporter
         $this->users = $this->getUsers();
     }
 
+    public function setReporter(ImportReporter $reporter)
+    {
+        $this->reporter = $reporter;
+
+        return $this;
+    }
+
     public function import($count = INF)
     {
         if ($this->users->isEmpty()) {
+            $this->reporter?->report('No users to import. Bailing.');
+
             return;
         }
 
         $this->shelf = $this->addUsersToShelf();
 
+        $this->reporter?->report("Importing '{$this->reader->count()}' into '{$this->shelf->title}'...");
+        $this->reporter?->setCount($this->reader->count());
+
         foreach ($this->reader->getRecords() as $i => $record) {
             if ($i > $count) {
+                $this->reporter?->report("Limit of {$count} reached. Bailing.");
                 break;
             }
 
             $data = $this->normaliseRecord($record);
 
             $book = $this->addBook($data);
+            $this->reporter?->increment("Added '{$book->title}'");
 
             foreach ($this->users as $user) {
                 $this->addBookUser($user, $book, $data);
             }
         }
+
+        $this->reporter?->done('Done.');
     }
 
     protected function getHeaders()

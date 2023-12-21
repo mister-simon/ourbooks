@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Helpers\ConsoleImportReporter;
 use App\Models\Book;
 use App\Models\Shelf;
 use App\Models\User;
@@ -50,7 +52,9 @@ class DatabaseSeeder extends Seeder
                 path: $importCsv,
                 shelf: Shelf::factory()
                     ->create(['title' => 'Our Books'])
-            ))->import();
+            ))
+                ->setReporter(new ConsoleImportReporter($this->command))
+                ->import();
 
             (new CsvImporter(
                 path: $importCsv,
