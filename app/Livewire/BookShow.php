@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Actions\BookUser\UpdateBookUser;
 use App\Enums\ReadStatus;
+use App\Helpers\PrepareInput;
 use App\Models\Book;
 use App\Models\BookUser;
 use App\Models\Shelf;
@@ -65,7 +66,7 @@ class BookShow extends Component
             Auth::user(),
             $this->shelf,
             $this->bookUser,
-            $this->state
+            PrepareInput::process($this->state)
         );
 
         $this->dispatch('saved');

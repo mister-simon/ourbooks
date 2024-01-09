@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Actions\Book\CreateBook;
+use App\Helpers\PrepareInput;
 use App\Models\Book;
 use App\Models\Shelf;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +35,7 @@ class BookCreate extends Component
         $createBook->create(
             Auth::user(),
             $this->shelf,
-            $this->state
+            PrepareInput::process($this->state)
         );
 
         $this->dispatch('saved');

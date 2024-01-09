@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Actions\Shelf\CreateShelfInvite;
+use App\Helpers\PrepareInput;
 use App\Models\Shelf;
 use App\Models\ShelfInvite;
 use Illuminate\Support\Facades\Auth;
@@ -50,7 +51,7 @@ class ShelfInviteCreate extends Component
         $createShelfInvite->invite(
             Auth::user(),
             $this->shelf,
-            $this->state
+            PrepareInput::process($this->state)
         );
 
         $this->dispatch('saved');

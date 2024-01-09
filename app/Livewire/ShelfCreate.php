@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Actions\Shelf\CreateShelf;
+use App\Helpers\PrepareInput;
 use App\Models\Shelf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -22,7 +23,7 @@ class ShelfCreate extends Component
 
         $shelf = $createShelf->create(
             Auth::user(),
-            $this->state
+            PrepareInput::process($this->state)
         );
 
         $this->dispatch('saved');

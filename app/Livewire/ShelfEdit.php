@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Actions\Shelf\DeleteShelf;
 use App\Actions\Shelf\UpdateShelf;
 use App\Helpers\Flash;
+use App\Helpers\PrepareInput;
 use App\Models\Shelf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -34,7 +35,7 @@ class ShelfEdit extends Component
         $updateShelf->update(
             Auth::user(),
             $this->shelf,
-            $this->state
+            PrepareInput::process($this->state)
         );
 
         $this->dispatch('saved');

@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Actions\Book\DeleteBook;
 use App\Actions\Book\UpdateBook;
 use App\Helpers\Flash;
+use App\Helpers\PrepareInput;
 use App\Models\Book;
 use App\Models\Shelf;
 use Illuminate\Support\Facades\Auth;
@@ -46,7 +47,7 @@ class BookEdit extends Component
             Auth::user(),
             $this->shelf,
             $this->book,
-            $this->state
+            PrepareInput::process($this->state)
         );
 
         $this->dispatch('saved');
