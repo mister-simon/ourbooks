@@ -2,8 +2,6 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Traits\ForwardsCalls;
-
 /**
  * @method \App\Helpers\Flash danger()
  * @method \App\Helpers\Flash success()
@@ -14,8 +12,6 @@ use Illuminate\Support\Traits\ForwardsCalls;
  */
 final class Flash
 {
-    use ForwardsCalls;
-
     public function flash($style, string $message)
     {
         session()->flash('flash', [
