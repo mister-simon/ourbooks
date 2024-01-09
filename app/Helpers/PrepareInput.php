@@ -2,10 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Http\Middleware\TrimStrings;
-use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
-use Illuminate\Http\Request;
-
 final class PrepareInput
 {
     /**
@@ -13,43 +9,42 @@ final class PrepareInput
      */
     public function prepareInput(array $input): array
     {
-        $request = new Request;
-        $request->merge($input);
-
-        $output = $this->trimStrings($request);
-
-        dd($output);
+        return collect($input)
+            ->map(
+                fn ($item) => is_array($item)
+                    ? $this->prepareInput($item)
+                    : $this->prepareItem($item)
+            )
+            ->all();
     }
 
-    protected function trimStrings(Request $request)
+    protected function prepareItem($item)
     {
-        return tap(
-            new TrimStrings,
-            fn (TrimStrings $trim) => $trim->flushState()
-        )->handle(
-            $request,
-            fn (Request $request) => $this->convertEmptyStringsToNull($request)
-        );
+        $item = $this->trimStrings($item);
+        $item = $this->nullEmpty($item);
+
+        return $item;
     }
 
-    protected function convertEmptyStringsToNull(Request $request)
+    /** @see \Illuminate\Foundation\Http\Middleware\TrimStrings */
+    protected function trimStrings($value)
     {
-        return tap(
-            new ConvertEmptyStringsToNull,
-            fn (ConvertEmptyStringsToNull $nullify) => $nullify->flushState()
-        )->handle(
-            $request,
-            fn (Request $request) => $this->preparedInput($request)
-        );
+        if (! is_string($value)) {
+            return $value;
+        }
+
+        return preg_replace('~^[\s\x{FEFF}\x{200B}]+|[\s\x{FEFF}\x{200B}]+$~u', '', $value) ?? trim($value);
     }
 
-    protected function preparedInput(Request $request)
+    /** @see \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull */
+    protected function nullEmpty($value)
     {
-        return $request->all();
+        return $value === '' ? null : $value;
     }
 
-    public static function make()
+    public static function process(array $input)
     {
-        return new self();
+        return (new self())
+            ->prepareInput($input);
     }
 }
