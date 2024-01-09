@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Actions\Shelf\BulkBookActions;
+use App\Actions\BookUser\BulkBookActions;
 use App\Models\Book;
 use App\Models\Shelf;
 use Illuminate\Support\Facades\Auth;

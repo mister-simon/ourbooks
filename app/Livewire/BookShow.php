@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Actions\Shelf\UpdateBookUser;
+use App\Actions\BookUser\UpdateBookUser;
 use App\Enums\ReadStatus;
 use App\Models\Book;
 use App\Models\BookUser;

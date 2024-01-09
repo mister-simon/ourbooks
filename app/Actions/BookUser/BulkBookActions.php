@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Shelf;
+namespace App\Actions\BookUser;
 
 use App\Enums\ReadStatus;
 use App\Models\Book;

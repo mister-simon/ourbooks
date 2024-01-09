@@ -2,8 +2,8 @@
 
 namespace App\Livewire;
 
-use App\Actions\Shelf\DeleteBook;
-use App\Actions\Shelf\UpdateBook;
+use App\Actions\Book\DeleteBook;
+use App\Actions\Book\UpdateBook;
 use App\Helpers\Flash;
 use App\Models\Book;
 use App\Models\Shelf;

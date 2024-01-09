@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\Shelf;
+namespace App\Actions\Book;
 
 use App\Models\Shelf;
 use App\Models\User;

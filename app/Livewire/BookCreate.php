@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Actions\Shelf\CreateBook;
+use App\Actions\Book\CreateBook;
 use App\Models\Book;
 use App\Models\Shelf;
 use Illuminate\Support\Facades\Auth;
