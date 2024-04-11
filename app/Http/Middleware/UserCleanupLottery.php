@@ -19,6 +19,7 @@ class UserCleanupLottery
      */
     public function handle(Request $request, Closure $next): Response
     {
+        Cache::add($this->getCacheKey().'-handled', 0);
         Cache::increment($this->getCacheKey().'-handled');
 
         return $next($request);
@@ -29,6 +30,7 @@ class UserCleanupLottery
      */
     public function terminate(Request $request, Response $response): void
     {
+        Cache::add($this->getCacheKey().'-lotteries', 0);
         Cache::increment($this->getCacheKey().'-lotteries');
 
         $lottery = Lottery::odds(1, 50)

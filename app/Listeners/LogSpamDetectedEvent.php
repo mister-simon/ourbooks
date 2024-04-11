@@ -12,6 +12,7 @@ class LogSpamDetectedEvent
         $request = $event->request;
 
         // Log the number of infractions
+        Cache::add(static::class.'-'.$request->fingerprint().'-count', 0);
         Cache::increment(static::class.'-'.$request->fingerprint().'-count');
 
         // Log the latest infraction's info
