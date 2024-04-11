@@ -19,8 +19,7 @@ class UserCleanupLottery
      */
     public function handle(Request $request, Closure $next): Response
     {
-        Cache::add($this->getCacheKey().'-handled', 0);
-        Cache::increment($this->getCacheKey().'-handled');
+        $this->incrementCount('handle');
 
         return $next($request);
     }
@@ -30,25 +29,42 @@ class UserCleanupLottery
      */
     public function terminate(Request $request, Response $response): void
     {
-        Cache::add($this->getCacheKey().'-lotteries', 0);
-        Cache::increment($this->getCacheKey().'-lotteries');
+        if ($this->isLotteryWinner() === false || $this->wasCheckedRecently()) {
+            $this->incrementCount('terminated');
 
-        $lottery = Lottery::odds(1, 50)
-            ->choose();
-
-        $cacheKey = $this->getCacheKey();
-
-        if ($lottery === false || Cache::get($cacheKey)) {
             return;
         }
 
-        Cache::put($cacheKey, true, now()->addHour());
+        $this->wasCheckedRecently(true);
+        $this->incrementCount('cleaned');
 
         Artisan::call(UserCleanup::class);
     }
 
-    protected function getCacheKey(): string
+    protected function isLotteryWinner(): bool
     {
-        return static::class;
+        return Lottery::odds(1, 50)->choose();
+    }
+
+    protected function wasCheckedRecently($set = null): bool
+    {
+        $key = $this->getCacheKey('was-checked-recently');
+
+        if ($set === null) {
+            return (bool) Cache::get($key, false);
+        }
+
+        return Cache::put($key, true, now()->addHour());
+    }
+
+    protected function incrementCount(string $key)
+    {
+        Cache::add($this->getCacheKey($key), 0);
+        Cache::increment($this->getCacheKey($key));
+    }
+
+    protected function getCacheKey(string $key): string
+    {
+        return implode('-', [static::class, $key]);
     }
 }
