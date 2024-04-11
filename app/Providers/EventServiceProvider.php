@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use App\Listeners\AttachShelfInvitesToVerifiedEmail;
+use App\Listeners\LogSpamDetectedEvent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Spatie\Honeypot\Events\SpamDetectedEvent;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         Verified::class => [
             AttachShelfInvitesToVerifiedEmail::class,
+        ],
+        SpamDetectedEvent::class => [
+            LogSpamDetectedEvent::class,
         ],
     ];
 

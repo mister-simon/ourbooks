@@ -3,7 +3,10 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
+use Illuminate\Http\Request;
+use Spatie\Honeypot\Events\SpamDetectedEvent;
+use Spatie\Honeypot\Exceptions\SpamException;
+use Spatie\Honeypot\SpamResponder\SpamResponder;
 
 class Handler extends ExceptionHandler
 {
@@ -23,8 +26,11 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (SpamException $e, Request $request) {
+            event(new SpamDetectedEvent($request));
+
+            return app(SpamResponder::class)
+                ->respond($request, fn () => null);
         });
     }
 }
