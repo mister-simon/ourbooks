@@ -43,3 +43,4 @@ Todo:
 - [ ] Sharable invite links?
 - [ ] Refactor book rate, read, comments, etc into separate models?
 - [ ] Add owned by / currently with (maybe with history?) for book clubs/people with unreliable friends, etc
+- [x] Improve spam situation
