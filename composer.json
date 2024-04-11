@@ -1,12 +1,13 @@
 {
-    "name": "laravel/laravel",
+    "name": "mister-simon/ourbookstop",
+    "version": "1.0.0",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "A TALL stack app to collaboratively track books.",
     "keywords": [
         "laravel",
         "framework"
     ],
-    "license": "MIT",
+    "license": "GPL-3.0-or-later",
     "require": {
         "php": "^8.1",
         "ext-intl": "*",
