@@ -9,6 +9,10 @@ class LogSpamDetectedEvent
 {
     public function handle(SpamDetectedEvent $event): void
     {
+        if (config('spam-prevension.log-spam-events') === false) {
+            return;
+        }
+
         $request = $event->request;
 
         // Log the number of infractions
