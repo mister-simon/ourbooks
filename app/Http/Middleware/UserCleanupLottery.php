@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Console\Commands\CacheCleanup;
 use App\Console\Commands\UserCleanup;
 use Closure;
 use Illuminate\Http\Request;
@@ -39,6 +40,7 @@ class UserCleanupLottery
         $this->incrementCount('cleaned');
 
         Artisan::call(UserCleanup::class);
+        Artisan::call(CacheCleanup::class);
     }
 
     protected function isLotteryWinner(): bool
